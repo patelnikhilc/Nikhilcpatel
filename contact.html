@@ -3,103 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Nikhil Patel</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+    <title>Contact — Nikhil Patel | AI Platform Product Leader</title>
+    <meta name="description" content="Hiring for an AI PM, Agentic PM, or AI Platform PM role? Let's talk. 18 years shipping enterprise platforms across Microsoft, Oracle, Citi, and NextGen.">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #0a1128;
+            color: #e0e0e0;
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3 { font-family: 'DM Serif Display', serif; color: #ffffff; line-height: 1.2; }
+        a { color: inherit; text-decoration: none; }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(10, 17, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(76, 201, 164, 0.1);
+        }
+        .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: #ffffff; letter-spacing: -1px; }
+        .nav-links { display: flex; gap: 3rem; align-items: center; list-style: none; }
+        .nav-links a { color: #e0e0e0; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: #4CC9A4; }
+        .nav-cta { background: #4CC9A4; color: #0a1128 !important; padding: 0.75rem 1.5rem; border-radius: 4px; font-weight: 600; font-size: 0.9rem; }
+        .nav-cta:hover { background: #F5C878; transform: translateY(-2px); }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 6px; }
+        .hamburger span { width: 25px; height: 2.5px; background: #e0e0e0; border-radius: 2px; transition: all 0.3s ease; }
+
+        /* Header */
+        .page-header {
+            padding: 10rem 3rem 4rem;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .eyebrow {
+            display: inline-block;
+            color: #4CC9A4;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+        .page-header h1 {
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .page-header .lede {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        /* Contact grid */
+        .contact-section {
+            padding: 3rem 3rem 5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .contact-card {
+            background: rgba(20, 30, 60, 0.6);
+            border: 1px solid rgba(76, 201, 164, 0.15);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .contact-card:hover {
+            border-color: rgba(76, 201, 164, 0.4);
+            transform: translateY(-4px);
+        }
+        .contact-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: rgba(76, 201, 164, 0.1);
+            color: #4CC9A4;
+            margin-bottom: 1.25rem;
+        }
+        .contact-icon svg { width: 26px; height: 26px; stroke-width: 1.75; }
+        .contact-card h3 {
+            font-size: 1.05rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            color: #F5C878;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+        .contact-card .value {
+            font-size: 1.1rem;
+            color: #ffffff;
+            font-weight: 500;
+            word-break: break-word;
+        }
+        .contact-card .value a:hover { color: #4CC9A4; }
+        .contact-card .sub {
+            color: #8a93a8;
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+        }
+
+        /* Value prop band */
+        .value-band {
+            background: #0d1635;
+            padding: 5rem 3rem;
+        }
+        .value-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .value-left .eyebrow { text-align: left; }
+        .value-left h2 {
+            font-size: 2.25rem;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.01em;
+        }
+        .value-left p {
+            color: #b0b7c6;
+            font-size: 1.05rem;
+            margin-bottom: 1.25rem;
+        }
+        .value-left p strong { color: #ffffff; }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+        .stat {
+            background: rgba(20, 30, 60, 0.6);
+            border: 1px solid rgba(245, 200, 120, 0.2);
+            border-radius: 10px;
+            padding: 1.75rem 1.5rem;
+            text-align: left;
+        }
+        .stat .num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.25rem;
+            color: #F5C878;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
+        }
+        .stat .label {
+            color: #b0b7c6;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        /* Links row */
+        .links-section {
+            padding: 5rem 3rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .links-section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        .links-section p {
+            color: #9aa3b8;
+            margin-bottom: 2.5rem;
+        }
+        .link-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 1.75rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .link-btn:hover {
+            border-color: #4CC9A4;
+            color: #4CC9A4;
+            transform: translateY(-2px);
+        }
+        .link-btn.primary {
+            background: #4CC9A4;
+            color: #0a1128;
+            border-color: #4CC9A4;
+        }
+        .link-btn.primary:hover {
+            background: #F5C878;
+            border-color: #F5C878;
+            color: #0a1128;
+        }
+        .link-btn svg { width: 18px; height: 18px; }
+
+        /* CTA banner */
+        .cta-banner {
+            padding: 6rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(76, 201, 164, 0.08) 0%, rgba(245, 200, 120, 0.04) 100%);
+        }
+        .cta-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+        .cta-banner p {
+            color: #b0b7c6;
+            font-size: 1.1rem;
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem;
+            background: #070d1f;
+            border-top: 1px solid rgba(76, 201, 164, 0.1);
+            text-align: center;
+        }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-name { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: #ffffff; margin-bottom: 1.5rem; }
+        .footer-links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: #b0b0b0; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-links a:hover { color: #4CC9A4; }
+        .footer-copyright { color: #666; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; position: fixed; top: 70px; left: 0; right: 0; background: rgba(10, 17, 40, 0.98); flex-direction: column; padding: 2rem; gap: 1.5rem; }
+            .nav-links.active { display: flex; }
+            .hamburger { display: flex; }
+            .page-header { padding: 7rem 1.5rem 2rem; }
+            .contact-section, .value-band, .links-section, .cta-banner { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .value-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .page-header h1 { font-size: 2.25rem; }
+            .cta-banner h2, .value-left h2 { font-size: 1.85rem; }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="nav-brand">
-                    <a href="index.html">Nikhil Patel</a>
-                </div>
-                <button class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="index.html#projects">Projects</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="Nikhil_Resume.pdf" class="cta-button">Download Resume</a></li>
-                </ul>
-            </div>
-        </div>
+
+    <nav>
+        <div class="nav-logo"><a href="index.html">Nikhil Patel</a></div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#competencies">Expertise</a></li>
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf" class="nav-cta">Resume</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </nav>
 
-    <!-- Page Header -->
     <header class="page-header">
-        <div class="container">
-            <div class="header-content">
-                <p class="eyebrow">CONTACT</p>
-                <h1>Let's Build Something Together</h1>
-                <p class="description">Whether you're hiring for an AI PM role or want to discuss platform strategy, I'd love to connect.</p>
-            </div>
-        </div>
+        <div class="eyebrow">Contact</div>
+        <h1>Let's Build Something That Ships.</h1>
+        <p class="lede">If you're hiring for an AI PM, Agentic PM, or AI Platform PM role — or just want to compare notes on platform strategy — I'd love to talk.</p>
     </header>
 
-    <!-- Contact Info Grid -->
-    <section class="contact-info">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Email</h3>
-                    <p><a href="mailto:patel.nikhil.c@gmail.com">patel.nikhil.c@gmail.com</a></p>
+    <section class="contact-section">
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
                 </div>
-                <div class="contact-card">
-                    <h3>Phone</h3>
-                    <p>(972) 983-9570</p>
+                <h3>Email</h3>
+                <div class="value"><a href="mailto:patel.nikhil.c@gmail.com">patel.nikhil.c@gmail.com</a></div>
+                <div class="sub">Fastest way to reach me</div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                 </div>
-                <div class="contact-card">
-                    <h3>Location</h3>
-                    <p>Frisco, Texas</p>
+                <h3>Phone</h3>
+                <div class="value"><a href="tel:+19729839570">(972) 983-9570</a></div>
+                <div class="sub">Calls &amp; text, Central Time</div>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                 </div>
+                <h3>Location</h3>
+                <div class="value">Frisco, Texas</div>
+                <div class="sub">Open to remote &amp; relocation</div>
             </div>
         </div>
     </section>
 
-    <!-- Links Section -->
-    <section class="contact-links">
-        <div class="container">
-            <h2>Connect With Me</h2>
-            <div class="links-group">
-                <a href="https://linkedin.com/in/nikhilcpatel" target="_blank" class="link-item">LinkedIn</a>
-                <a href="Nikhil_Resume.pdf" class="link-item">Download Resume</a>
+    <div class="value-band">
+        <div class="value-inner">
+            <div class="value-left">
+                <div class="eyebrow">Why Hire Nikhil</div>
+                <h2>The Short Version.</h2>
+                <p>I bring <strong>18 years of enterprise product leadership</strong>, a Kellogg MBA in Strategy &amp; Finance, and hands-on AI/ML experience from shipping agentic platforms in production — not just whiteboard demos.</p>
+                <p>I've been the PM that turned a zero-to-one platform into <strong>$65M of year-one revenue</strong> at Microsoft, stood up Oracle's National Security Region from scratch, and re-architected Citi's mortgage origination system into $200M of annual savings. Today I'm the founding PM on an agentic AI product with an 11.7–38.4× ROI model.</p>
+                <p>If that is the shape of PM your team needs, the fastest next step is <a href="mailto:patel.nikhil.c@gmail.com" style="color: #4CC9A4; font-weight: 600;">an email</a> or a 30-minute call.</p>
             </div>
+            <div class="stat-grid">
+                <div class="stat">
+                    <div class="num">$65M</div>
+                    <div class="label">Azure Y1 revenue, VM Applications &amp; Compute Extensions</div>
+                </div>
+                <div class="stat">
+                    <div class="num">$200M</div>
+                    <div class="label">Annual savings delivered at Citi Mortgage</div>
+                </div>
+                <div class="stat">
+                    <div class="num">$100M+</div>
+                    <div class="label">Oracle National Security Region revenue, 90% POC conversion</div>
+                </div>
+                <div class="stat">
+                    <div class="num">18 yrs</div>
+                    <div class="label">Enterprise product &amp; engineering leadership</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="links-section">
+        <div class="eyebrow">Elsewhere</div>
+        <h2>Find Me Online</h2>
+        <p>LinkedIn for my full career history, and my resume for the one-page version.</p>
+        <div class="link-row">
+            <a href="https://linkedin.com/in/nikhilcpatel" target="_blank" rel="noopener" class="link-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+            </a>
+            <a href="Nikhil_Resume.pdf" class="link-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Resume
+            </a>
+            <a href="index.html#projects" class="link-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                See the Work
+            </a>
         </div>
     </section>
 
-    <!-- CTA Banner -->
     <section class="cta-banner">
-        <div class="container">
-            <div class="banner-content">
-                <h2>Ready to hire an AI PM who delivers?</h2>
-                <p>I bring 18+ years of enterprise product leadership, a Kellogg MBA, and hands-on AI/ML experience to every role.</p>
-                <a href="mailto:patel.nikhil.c@gmail.com" class="cta-button">Get in Touch</a>
-            </div>
-        </div>
+        <div class="eyebrow">Ready When You Are</div>
+        <h2>Let's Talk.</h2>
+        <p>If you're building the next generation of AI platforms and need a product leader who can hold the architecture, the financials, and the customer story at the same time — I'm ready.</p>
+        <a href="mailto:patel.nikhil.c@gmail.com" class="link-btn primary">Email Me Now</a>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Nikhil Patel. All rights reserved.</p>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-name">Nikhil Patel</div>
+            <div class="footer-links">
+                <a href="index.html#competencies">Expertise</a>
+                <a href="index.html#projects">Projects</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="Nikhil_Resume.pdf">Resume</a>
+            </div>
+            <div class="footer-copyright">© 2026 Nikhil Patel. All rights reserved.</div>
         </div>
     </footer>
 
     <script>
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
-
         hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
         });
-
-        // Close menu when a link is clicked
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
