@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
-            --bg-primary: #08090d;
-            --bg-secondary: #131419;
+            --bg-primary: #0a1128;
+            --bg-secondary: #0d1635;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
             --accent: #00d9ff;
@@ -1372,6 +1372,52 @@
     </section>
 
     <!-- Value Proposition -->
+    <section class="section">
+        <h2>Competitive Positioning</h2>
+        <p>Every senior living executive I spoke with asked the same three questions: How is this different from CarePredict? Why not just turn on the fall-risk module PointClickCare already ships? And what happens when Epic decides to do this themselves? Here is how EVA lines up against every credible alternative in the market today.</p>
+
+        <div style="overflow-x:auto; margin: 2rem 0;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.92rem; background:var(--bg-secondary); border:1px solid var(--border);">
+            <thead>
+                <tr style="background:rgba(0,217,255,0.08);">
+                    <th style="padding:0.9rem 1rem; text-align:left; border-bottom:1px solid var(--border); color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; font-size:0.78rem;">Competitor</th>
+                    <th style="padding:0.9rem 1rem; text-align:left; border-bottom:1px solid var(--border); color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; font-size:0.78rem;">Approach</th>
+                    <th style="padding:0.9rem 1rem; text-align:left; border-bottom:1px solid var(--border); color:var(--accent); text-transform:uppercase; letter-spacing:0.05em; font-size:0.78rem;">Why EVA Wins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; font-weight:600;">CarePredict</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-secondary);">Wrist-worn sensor with behavior analytics. Proprietary hardware, closed data model.</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;">Hardware lock-in forces a single vendor story. EVA runs on any BLE/Zigbee sensor and integrates directly into the 95+ EHRs caregivers already document in — no parallel dashboard.</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; font-weight:600;">SafelyYou</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-secondary);">Camera-based fall detection in memory care rooms. Reactive — fires after the fall.</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;">Detection is table stakes. EVA is predictive: XGBoost identifies the 90% of residents whose gait, sleep, and medication signals are trending toward a fall 24–72 hours before it happens.</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; font-weight:600;">PointClickCare (native modules)</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-secondary);">Risk scoring rules inside the EHR — rule-based, updated on release cycles, 40% market share in skilled nursing.</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;">EVA runs on top of PointClickCare via FHIR R4, not against it. Operators get agentic reasoning (LangGraph + BioClinicalBERT) without ripping out their system of record. PointClickCare becomes a distribution channel.</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; font-weight:600;">Epic (Cognitive Computing)</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-secondary);">Hospital-grade predictive models. Deep clinical validation, 18–36 month deployment cycles, hospital-first roadmap.</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;">Epic is optimized for acute care, not the senior living operating model (shift-based staff, non-clinical caregivers, plain-language family portals). EVA ships the last-mile UX Epic will not build for this segment.</td>
+                </tr>
+                <tr>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; font-weight:600;">Sage / in-house data science teams</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-secondary);">Internal data teams building bespoke fall models on top of existing EHR exports.</td>
+                    <td style="padding:0.9rem 1rem; border-bottom:1px solid var(--border); vertical-align:top;">Most in-house efforts stall at data plumbing. EVA ships Kafka + Delta Lake + pgvector (471 QPS, p95 &lt; 120 ms) + HIPAA controls on day one. Operators skip the 18-month MLOps build.</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <p><strong>The defensible wedge:</strong> EVA is the only platform that combines predictive fall modeling (XGBoost, AUC 0.846), clinical NLP (BioClinicalBERT), multi-agent orchestration (LangGraph + CrewAI), and FHIR-native EHR write-back in a single system purpose-built for senior living — not repackaged from acute care. That is a product, a distribution strategy, and a moat.</p>
+    </section>
+
     <section class="section">
         <h2>Value Proposition</h2>
         <p>EVA creates measurable value across the entire senior living ecosystem:</p>

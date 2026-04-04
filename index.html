@@ -14,7 +14,7 @@
 
         body {
             font-family: 'DM Sans', sans-serif;
-            background-color: #08090d;
+            background-color: #0a1128;
             color: #e0e0e0;
             line-height: 1.6;
             overflow-x: hidden;
@@ -26,7 +26,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(8, 9, 13, 0.98);
+            background: rgba(10, 17, 40, 0.95);
             backdrop-filter: blur(10px);
             padding: 1.5rem 3rem;
             display: flex;
@@ -65,7 +65,7 @@
 
         .nav-cta {
             background: #4CC9A4;
-            color: #08090d;
+            color: #0a1128;
             padding: 0.75rem 1.5rem;
             border-radius: 4px;
             font-weight: 600;
@@ -76,7 +76,7 @@
         }
 
         .nav-cta:hover {
-            background: #E8B86D;
+            background: #F5C878;
             transform: translateY(-2px);
         }
 
@@ -109,13 +109,14 @@
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
-            padding: 8rem 3rem 4rem;
-            background: linear-gradient(135deg, rgba(76, 201, 164, 0.05) 0%, rgba(232, 184, 109, 0.03) 100%);
+            padding: 9rem 3rem 6rem;
+            background: linear-gradient(135deg, rgba(76, 201, 164, 0.05) 0%, rgba(245, 200, 120, 0.03) 100%);
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .hero-left {
@@ -180,14 +181,14 @@
         }
 
         .stat-card {
-            background: rgba(30, 35, 45, 0.6);
+            background: rgba(20, 30, 60, 0.7);
             padding: 1.5rem;
             border-radius: 6px;
             border-left: 3px solid #4CC9A4;
         }
 
         .stat-card:nth-child(2) {
-            border-left-color: #E8B86D;
+            border-left-color: #F5C878;
         }
 
         .stat-card:nth-child(3) {
@@ -195,13 +196,13 @@
         }
 
         .stat-card:nth-child(4) {
-            border-left-color: #E8B86D;
+            border-left-color: #F5C878;
         }
 
         .stat-value {
             font-family: 'DM Serif Display', serif;
             font-size: 1.5rem;
-            color: #E8B86D;
+            color: #F5C878;
             font-weight: 700;
             margin-bottom: 0.3rem;
         }
@@ -216,7 +217,7 @@
         /* Competencies Section */
         .competencies-section {
             padding: 6rem 3rem;
-            background: #0f1116;
+            background: #0d1635;
         }
 
         .section-label {
@@ -250,7 +251,7 @@
         }
 
         .competency-card {
-            background: rgba(30, 35, 45, 0.8);
+            background: rgba(20, 30, 60, 0.7);
             padding: 2rem;
             border-radius: 6px;
             border-left: 4px solid #4CC9A4;
@@ -261,7 +262,7 @@
         }
 
         .competency-card:nth-child(2) {
-            border-left-color: #E8B86D;
+            border-left-color: #F5C878;
         }
 
         .competency-card:nth-child(3) {
@@ -273,7 +274,7 @@
         }
 
         .competency-card:nth-child(5) {
-            border-left-color: #E8B86D;
+            border-left-color: #F5C878;
         }
 
         .competency-card:nth-child(6) {
@@ -286,10 +287,16 @@
         }
 
         .card-icon {
-            font-size: 2rem;
             height: 3rem;
             display: flex;
             align-items: center;
+            color: #4CC9A4;
+            margin-bottom: 0.5rem;
+        }
+        .card-icon svg {
+            width: 2.25rem;
+            height: 2.25rem;
+            stroke-width: 1.5;
         }
 
         .competency-card h3 {
@@ -310,7 +317,8 @@
         /* Projects Section */
         .projects-section {
             padding: 6rem 3rem;
-            background: #08090d;
+            background: #0a1128;
+            background-image: radial-gradient(circle at 20% 20%, rgba(76, 201, 164, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(245, 200, 120, 0.04) 0%, transparent 50%);
         }
 
         .projects-subtitle {
@@ -327,7 +335,7 @@
         }
 
         .project-card {
-            background: rgba(30, 35, 45, 0.8);
+            background: rgba(20, 30, 60, 0.7);
             border: 1px solid rgba(76, 201, 164, 0.15);
             border-radius: 6px;
             overflow: hidden;
@@ -398,7 +406,7 @@
         .metric-value {
             font-family: 'DM Serif Display', serif;
             font-size: 1.2rem;
-            color: #E8B86D;
+            color: #F5C878;
             font-weight: 700;
         }
 
@@ -425,7 +433,7 @@
         /* CTA Banner */
         .cta-banner {
             padding: 4rem 3rem;
-            background: linear-gradient(135deg, rgba(76, 201, 164, 0.1) 0%, rgba(232, 184, 109, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(76, 201, 164, 0.1) 0%, rgba(245, 200, 120, 0.05) 100%);
             border-top: 1px solid rgba(76, 201, 164, 0.2);
             border-bottom: 1px solid rgba(76, 201, 164, 0.2);
             text-align: center;
@@ -470,7 +478,7 @@
 
         .btn-primary {
             background: #4CC9A4;
-            color: #08090d;
+            color: #0a1128;
         }
 
         .btn-primary:hover {
@@ -480,20 +488,20 @@
         }
 
         .btn-secondary {
-            border: 2px solid #E8B86D;
-            color: #E8B86D;
+            border: 2px solid #F5C878;
+            color: #F5C878;
             background: transparent;
         }
 
         .btn-secondary:hover {
-            background: rgba(232, 184, 109, 0.1);
+            background: rgba(245, 200, 120, 0.1);
             transform: translateY(-3px);
         }
 
         /* Footer */
         footer {
             padding: 3rem;
-            background: #0a0b10;
+            background: #070d1f;
             border-top: 1px solid rgba(76, 201, 164, 0.1);
             text-align: center;
         }
@@ -573,7 +581,7 @@
                 flex-direction: column;
                 gap: 1rem;
                 padding: 2rem;
-                background: rgba(8, 9, 13, 0.99);
+                background: rgba(10, 17, 40, 0.99);
                 border-bottom: 1px solid rgba(76, 201, 164, 0.1);
             }
 
@@ -757,37 +765,37 @@
 
         <div class="cards-container">
             <div class="competency-card">
-                <div class="card-icon">🏗️</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg></div>
                 <h3>Technical Architecture</h3>
                 <p>I design distributed systems, ML pipelines, and agentic AI frameworks. I speak fluent Kubernetes, LangGraph, RAG, and vector databases — not just the buzzwords, the implementation details.</p>
             </div>
 
             <div class="competency-card">
-                <div class="card-icon">📊</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16V9"/><path d="M12 16v-5"/><path d="M17 16V6"/></svg></div>
                 <h3>Business Strategy</h3>
                 <p>I build financial models, define pricing strategies, and drive GTM. The $65M Azure Y1 revenue wasn't luck — it was a deliberate platform-as-a-product strategy with built-in network effects.</p>
             </div>
 
             <div class="competency-card">
-                <div class="card-icon">⚙️</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2"/><path d="M15 2v2"/><path d="M9 20v2"/><path d="M15 20v2"/><path d="M2 9h2"/><path d="M2 15h2"/><path d="M20 9h2"/><path d="M20 15h2"/></svg></div>
                 <h3>AI/ML Engineering</h3>
                 <p>XGBoost, BioClinicalBERT, RAG pipelines, multi-agent orchestration with LangGraph. I understand model selection, serving infrastructure, and the trade-offs between accuracy and latency.</p>
             </div>
 
             <div class="competency-card">
-                <div class="card-icon">👥</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
                 <h3>Leadership & Execution</h3>
                 <p>60+ person teams, $45M+ budgets, 24/7 production support. I build organizations that ship — from hiring to sprint planning to executive alignment at board level.</p>
             </div>
 
             <div class="competency-card">
-                <div class="card-icon">💰</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
                 <h3>Financial Acumen</h3>
                 <p>Kellogg MBA in Strategy & Finance. I build cost-benefit analyses, ROI models, and unit economics that convince CFOs, not just CTOs. I speak their language.</p>
             </div>
 
             <div class="competency-card">
-                <div class="card-icon">🔐</div>
+                <div class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
                 <h3>Regulatory & Compliance</h3>
                 <p>HIPAA, FedRAMP High, SOX, PCI-DSS, CFPB. I've built products in the most regulated industries — healthcare, government, and financial services.</p>
             </div>

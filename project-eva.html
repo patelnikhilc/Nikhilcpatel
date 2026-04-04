@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
-            --bg-primary: #08090d;
-            --bg-secondary: #131419;
+            --bg-primary: #0a1128;
+            --bg-secondary: #0d1635;
             --text-primary: #ffffff;
             --text-secondary: #a0a0a0;
             --accent: #00d9ff;
@@ -674,20 +674,20 @@
     <!-- Metrics Grid -->
     <section class="metrics-grid">
         <div class="metric-card">
-            <div class="metric-value">5</div>
-            <div class="metric-label">Communities Piloted</div>
+            <div class="metric-value">90%</div>
+            <div class="metric-label">Fall Prediction Sensitivity</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value">30%</div>
-            <div class="metric-label">Faster Response</div>
+            <div class="metric-value">471</div>
+            <div class="metric-label">QPS on pgvector (p95 &lt; 120ms)</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value">70%</div>
-            <div class="metric-label">Early Detection</div>
+            <div class="metric-value">11.7–38.4×</div>
+            <div class="metric-label">Annual ROI (Year 1)</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value">45%</div>
-            <div class="metric-label">Less Reporting Time</div>
+            <div class="metric-value">10–31</div>
+            <div class="metric-label">Day Payback Period</div>
         </div>
     </section>
 
@@ -803,23 +803,34 @@
 
         <div class="two-col">
             <div class="two-col-left">
-                <p>Deploying EVA into five senior living communities revealed the real economics of prediction. A medium-size facility (250 residents) can prevent falls, reduce incident reporting overhead, and increase staff satisfaction.</p>
-                <p>The math is compelling: each prevented fall saves a facility roughly $600–$1,200 in incident response, medical intervention, and liability. One prediction a month pays for the entire system.</p>
+                <p>When I built the financial model for EVA, I didn't want another slideware ROI number. I wanted a bottom-up calculation every CFO in senior living could trace back to their own P&L: cost of a single avoided fall, cost of a single nurse hour saved, cost of a single preventable ER transfer.</p>
+                <p>Against a $400B senior care TAM — and a market where 40% of communities run on PointClickCare — the numbers are defensible. A 250-resident community clears payback in roughly three weeks. A 1,000-resident operator clears it in ten days. Every month after that is margin.</p>
+                <p>This is the case I'd walk into any hospital CFO's office with: one avoided fall per month pays for the system. Everything beyond that — reduced liability, staff retention, family satisfaction — is upside they don't have to underwrite.</p>
             </div>
             <div class="two-col-right">
                 <div class="impact-numbers">
                     <div class="impact-box">
-                        <div class="label">Cost Per Resident/Month</div>
-                        <div class="value">$50</div>
-                        <div class="desc">All-in operational cost</div>
+                        <div class="label">Annual ROI</div>
+                        <div class="value">11.7–38.4×</div>
+                        <div class="desc">Year-one return on investment</div>
                     </div>
                     <div class="impact-box">
-                        <div class="label">Savings Per Facility/Year</div>
-                        <div class="value">$150K–$400K</div>
-                        <div class="desc">Based on facility size</div>
+                        <div class="label">Payback Period</div>
+                        <div class="value">10–31 days</div>
+                        <div class="desc">Depending on facility size</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">5-Year Net Value</div>
+                        <div class="value">$1.94M–$4.63M</div>
+                        <div class="desc">Per community, risk-adjusted</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">Addressable Market</div>
+                        <div class="value">$400B</div>
+                        <div class="desc">U.S. senior care TAM</div>
                     </div>
                 </div>
-                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">ROI: 3–5x Year One</p>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">Integrates with PointClickCare, Epic, MatrixCare + 95 EHRs via Redox</p>
             </div>
         </div>
     </section>
