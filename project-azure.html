@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Compute Extensions — Nikhil Patel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+    <style>
+        .interactive-arch {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        .arch-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .arch-row-label { font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; min-width: 110px; flex-shrink: 0; }
+        .arch-node { padding: 0.7rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease; user-select: none; }
+        .arch-node:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(76,201,164,0.15); }
+        .arch-node.active { border-color: var(--accent); color: var(--accent); background: rgba(76,201,164,0.08); box-shadow: 0 0 20px rgba(76,201,164,0.2); }
+        .arch-flow { text-align: center; color: var(--text-muted); font-size: 1rem; margin: 0.4rem 0; opacity: 0.5; }
+        .arch-hint { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 1.5rem; font-style: italic; }
+        .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease; background: var(--bg-card); border: 1px solid transparent; border-radius: 8px; margin-top: 0; }
+        .detail-panel.open { max-height: 800px; padding: 2rem; margin-top: 1.5rem; border-color: var(--accent); }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .detail-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--accent); }
+        .detail-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .detail-close:hover { border-color: var(--accent); color: var(--accent); }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .detail-item { padding: 1rem; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border); }
+        .detail-item-label { font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .detail-item p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+        @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } .arch-row { flex-direction: column; align-items: flex-start; } .arch-row-label { min-width: auto; margin-bottom: 0.5rem; } }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+    <a href="index.html" class="nav-name">Nikhil <span>Patel</span></a>
+    <button class="nav-hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+    </ul>
+</nav>
+
+<!-- ============================================
+     PAGE HEADER
+     ============================================ -->
+<header class="page-header container">
+    <div class="page-header-eyebrow">CASE STUDY — MICROSOFT AZURE</div>
+    <h1>Azure Compute Extensions: How Do You Build a Platform That Runs on Millions of VMs?</h1>
+    <p class="page-header-desc">
+        The challenge of scaling VM extensibility across 60+ regions while keeping it simple for enterprise customers.
+    </p>
+</header>
+
+<!-- ============================================
+     METRICS GRID
+     ============================================ -->
+<section class="section container metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">$65M</div>
+        <div class="metric-label">Y1 Revenue</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">100+</div>
+        <div class="metric-label">Enterprise Customers</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">10%</div>
+        <div class="metric-label">MoM Growth</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">60+</div>
+        <div class="metric-label">Azure Regions</div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE PROBLEM
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Problem</h2>
+    <p>
+        Azure customers couldn't extend VMs after deployment. Want to install a monitoring agent? Manual SSH into each VM. Need to push a security compliance tool? Write brittle scripts that fail silently on a few machines. Forget about it scaling—at 100K VMs, you're blind to which ones actually got the configuration applied.
+    </p>
+    <p>
+        Microsoft's internal teams were suffering too. Security was building their own agent infrastructure. Monitoring was building theirs. Compliance was building theirs. Each team's solution was redundant, incompatible, and fragmented. There was no unified way to extend a VM at scale.
+    </p>
+    <p>
+        The opportunity was clear: a unified extensibility platform with network effects. More publishers bring more extensions. More extensions attract more customers. More customers attract more publishers. But networks only thrive when you solve the hard problem: governance. Without it, quality collapses, trust erodes, and the platform dies.
+    </p>
+</section>
+
+<!-- ============================================
+     THE INSIGHT
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Insight</h2>
+    <p>
+        "The platform isn't the product—the ecosystem is."
+    </p>
+    <p>
+        I approached this as a network effects play from day one. The control plane, the API, the security model—all had to be designed around a central insight: the platform's value came from the network of publishers and customers, not from any single technical feature. A slick UI or clever algorithm means nothing if publishers don't want to participate or customers don't trust what they're deploying.
+    </p>
+    <p>
+        That meant building governance into the DNA. Early on, we onboarded a few low-quality publishers to hit adoption metrics faster. It backfired. Customers started avoiding the marketplace. We reversed course, implemented certification, raised quality bars ruthlessly, and adoption reaccelerated. The lesson: governance is your competitive moat. It's what separates a valuable platform from a dumping ground.
+    </p>
+</section>
+
+<!-- ============================================
+     HOW IT WORKS
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>How It Works</h2>
+    <p>
+        Imagine a simple flow: A publisher builds an extension (a compliance scanner, monitoring agent, whatever). They submit it to the Compute Gallery. Azure certifies it. An enterprise customer says "I want this extension on all my VMs in all regions." One API call. The platform handles the rest: downloading the extension to each VM via a lightweight agent, installing it, ensuring it's running, reporting health back to the customer, rolling back if something goes wrong.
+    </p>
+    <p>
+        The simple version is: Publishers → Control Plane → Orchestration → Target VMs → Observability. The control plane holds the manifest. The orchestration engine ensures every VM matches desired state. Observability tells you what's actually happening.
+    </p>
+
+    <div class="interactive-arch" id="archDiagram">
+        <div class="arch-row">
+            <div class="arch-row-label">Publishers</div>
+            <div class="arch-node" data-id="isv">ISV Partners</div>
+            <div class="arch-node" data-id="firstparty">Microsoft 1P Teams</div>
+            <div class="arch-node" data-id="enterprise-it">Enterprise IT</div>
+            <div class="arch-node" data-id="oss">Open Source</div>
+        </div>
+        <div class="arch-flow">↓ Extension SDK + Packaging ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Control Plane</div>
+            <div class="arch-node" data-id="arm">Azure Resource Manager</div>
+            <div class="arch-node" data-id="gallery">Compute Gallery</div>
+            <div class="arch-node" data-id="versioning">Version Management</div>
+            <div class="arch-node" data-id="policy">Azure Policy + RBAC</div>
+        </div>
+        <div class="arch-flow">↓ Desired State Push ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Orchestration</div>
+            <div class="arch-node" data-id="vm-agent">VM Agent Runtime</div>
+            <div class="arch-node" data-id="handler">Extension Handler</div>
+            <div class="arch-node" data-id="run-command">Run Command v2</div>
+            <div class="arch-node" data-id="goal-state">Goal State Engine</div>
+        </div>
+        <div class="arch-flow">↓ Deploy + Reconcile ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Targets</div>
+            <div class="arch-node" data-id="vms">Azure VMs</div>
+            <div class="arch-node" data-id="vmss">VM Scale Sets</div>
+            <div class="arch-node" data-id="arc">Azure Arc Servers</div>
+            <div class="arch-node" data-id="stack-hci">Azure Stack HCI</div>
+        </div>
+        <div class="arch-flow">↓ Health + Telemetry ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Observability</div>
+            <div class="arch-node" data-id="monitor">Azure Monitor</div>
+            <div class="arch-node" data-id="geneva">Geneva Pipeline</div>
+            <div class="arch-node" data-id="kusto">Kusto Analytics</div>
+            <div class="arch-node" data-id="health">Extension Health</div>
+        </div>
+        <p class="arch-hint">Click any component to explore its role, connections, and why it was chosen</p>
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-header">
+                <div class="detail-title" id="detailTitle"></div>
+                <button class="detail-close" id="detailClose">&times;</button>
+            </div>
+            <div class="detail-grid" id="detailGrid"></div>
+        </div>
+    </div>
+
+    <p style="margin-top: 32px; padding: 20px; background: var(--bg-light); border-left: 4px solid var(--accent-primary); font-style: italic;">
+        <strong>Want the deep technical details?</strong> The full 6-layer architecture covers publishers, control plane, orchestration, targets, observability, and security. <a href="project-azure-deep-dive.html" style="text-decoration: underline; color: var(--accent-primary);">Explore the full technical architecture →</a>
+    </p>
+</section>
+
+<!-- ============================================
+     THE HARD CHOICES
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Hard Choices</h2>
+    <p style="margin-bottom: 32px; color: var(--text-muted);">
+        Every platform decision shaped adoption. Here are the four choices that defined the platform.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 32px;">
+        <div class="card card-accent">
+            <h3 style="margin-top: 0; color: var(--accent-primary);">Declarative, Not Imperative</h3>
+            <p>
+                At 100K VMs, scripts fail silently. You don't know which machines got the update. Desired-state reconciliation ensures consistency: "all VMs should have extension X version 1.2.0." If it fails on VM 47, the system retries. You always know the actual state.
+            </p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+                <a href="project-azure-deep-dive.html" style="color: var(--accent-primary); text-decoration: none;">Read the architecture →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-top: 0; color: var(--accent-primary);">Curated, Not Open Marketplace</h3>
+            <p>
+                We could have allowed any publisher to submit extensions. We tried it. Customers flooded us with complaints about low-quality extensions. We flipped the model: certification required. Quality over quantity. Trust rebuilt adoption.
+            </p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+                <a href="project-azure-deep-dive.html" style="color: var(--accent-primary); text-decoration: none;">Read the architecture →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-top: 0; color: var(--accent-primary);">Bundled Pricing, Not Per-Extension</h3>
+            <p>
+                Per-extension fees create friction. Customers hesitate to pilot. Bundled pricing (included with compute) removes barriers. Pilot at zero cost. See value. Scale. This GTM decision probably accelerated adoption by 3-4x.
+            </p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+                <a href="project-azure-deep-dive.html" style="color: var(--accent-primary); text-decoration: none;">Read the architecture →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-top: 0; color: var(--accent-primary);">Cross-Cloud via Arc</h3>
+            <p>
+                Enterprise customers run hybrid: Azure, on-prem, AWS, GCP. One control plane for all of them. Azure Arc (outbound-only connections) made it possible. Same API, multiple clouds. This unblocked a multi-billion-dollar TAM.
+            </p>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 0;">
+                <a href="project-azure-deep-dive.html" style="color: var(--accent-primary); text-decoration: none;">Read the architecture →</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     IMPACT
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Impact</h2>
+    <p>
+        <strong>Revenue:</strong> $65M in Year One. Extensions became a key lever for Azure compute consumption and stickiness.
+    </p>
+    <p>
+        <strong>Strategic:</strong> Competitive moat vs. AWS Systems Manager. Network effects meant the longer the platform ran, the harder it was to compete against.
+    </p>
+    <p>
+        <strong>Customer:</strong> Configuration that used to take hours (manual per-VM) now takes minutes. Visibility replaced blindness. Compliance teams could enforce policies at scale.
+    </p>
+    <p>
+        <strong>Ecosystem:</strong> Enabled 100+ ISV partners to distribute to millions of VMs without building GTM. Created jobs. Built a thriving marketplace.
+    </p>
+</section>
+
+<!-- ============================================
+     LESSONS FOR INTERVIEWS
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>What I'd Tell an Interviewer</h2>
+    <p style="margin-bottom: 32px; color: var(--text-muted); font-size: 15px;">
+        These are the lessons I'd walk into your office and talk through over coffee.
+    </p>
+
+    <div style="margin-top: 32px;">
+        <h3>Governance Is Your Competitive Advantage</h3>
+        <p>
+            Most teams think governance is overhead. It's the opposite. In a network effects platform, governance prevents a tragedy of the commons. Low-quality publishers destroy trust faster than quality ones build it. Invest in certification, enforcement, and community norms. It's the moat.
+        </p>
+    </div>
+
+    <div style="margin-top: 32px;">
+        <h3>Pricing Shapes Everything</h3>
+        <p>
+            Pricing isn't a revenue lever—it's a product decision. Per-feature pricing makes customers estimate ROI before adopting. Bundled pricing removes friction. Tiering signals which customers you're chasing. We tripled adoption when we shifted our pricing model. Pricing shapes adoption velocity as much as product quality does.
+        </p>
+    </div>
+
+    <div style="margin-top: 32px;">
+        <h3>Backward Compatibility Is a Moat</h3>
+        <p>
+            At scale, you have dozens of extension versions live in 60+ regions on different VM agent versions. Breaking compatibility kills trust. Strict semantic versioning, compatibility matrices, and auto-upgrade paths gave customers confidence. That confidence drove adoption. This lesson applies everywhere: if your customers can't upgrade safely, they won't.
+        </p>
+    </div>
+
+    <div style="margin-top: 32px;">
+        <h3>Data Drives GTM Strategy</h3>
+        <p>
+            Which extensions have highest adoption? Which verticals are fastest-growing? Which customer segments need support? That data shaped everything: which ISVs to recruit, which features to build, which customers to prioritize. Every go-to-market decision was informed by telemetry. Instinct fails at scale. Data doesn't.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+     ============================================ -->
+<section class="cta-banner container-narrow">
+    <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; align-items: center;">
+        <a href="project-azure-deep-dive.html" class="btn btn-primary">Full Technical Architecture</a>
+        <a href="index.html#projects" class="btn" style="background: transparent; border: 2px solid var(--text-secondary); color: var(--text-secondary);">Back to All Projects</a>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer container-narrow">
+    <div class="footer-name">Nikhil Patel</div>
+    <nav class="footer-links">
+        <a href="index.html#projects">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="Nikhil_Resume.pdf">Resume</a>
+    </nav>
+    <p class="footer-copy">© 2026 Nikhil Patel. All rights reserved.</p>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+     ============================================ -->
+<script>
+const componentData = {
+    'isv': { title: 'ISV Partners', whatItIs: 'Independent Software Vendors who build and publish extensions for Azure customers. Examples: Datadog (monitoring), CrowdStrike (security), Chef (configuration management).', howItOperates: 'ISVs package extensions using the Extension SDK (C#/.NET, Go, or Python). Package includes manifest.json, handler scripts (install, enable, disable, uninstall lifecycle hooks), and the extension binary. Submitted to Compute Gallery for certification.', connections: 'Publishes to Compute Gallery via Publishing API. Extensions distributed to VMs via VM Agent. Revenue share model through Azure Marketplace. ISV onboarding program: 6-8 weeks from zero to production.', whyChosen: 'ISV ecosystem creates network effects. Every new ISV extension makes the platform more valuable for customers. We built a curated marketplace (not open) because enterprise trust requires quality certification.' },
+    'firstparty': { title: 'Microsoft First-Party Teams', whatItIs: 'Internal Microsoft teams that build extensions: Azure Monitor agent, Microsoft Defender for Cloud, Azure Automation, Windows Admin Center. These were the platform\'s first customers.', howItOperates: 'Use the same SDK and publishing pipeline as external ISVs. No special privileges — dogfooding ensures the platform works for everyone. 1P extensions go through the same certification, testing, and rollout process.', connections: 'Publishes to Compute Gallery. Uses the same VM Agent channel. Benefits from shared infrastructure (monitoring, health reporting, rollback). Reduced duplication — before the platform, each team maintained its own agent infrastructure.', whyChosen: '1P teams were building redundant agent infrastructure. Consolidation onto one platform saved engineering resources and gave customers one management experience instead of five different agent installation methods.' },
+    'enterprise-it': { title: 'Enterprise IT Teams', whatItIs: 'Large enterprise customers who build custom, private extensions for their own internal use — compliance scanners, configuration enforcers, custom monitoring agents specific to their environment.', howItOperates: 'Use the same Extension SDK but publish to a private Compute Gallery (not public marketplace). Extensions visible only within their tenant. Enables enterprise-specific automation without exposing proprietary tools to the public.', connections: 'Publishes to private Compute Gallery. Deployed to their own VMs/VMSS via ARM templates or Azure Policy. Can be mandated across all VMs using Azure Policy ("all VMs must have our compliance scanner").', whyChosen: 'Private Gallery enables enterprises to use the platform infrastructure without sharing IP. This drove enterprise stickiness — once they build custom extensions, switching to AWS Systems Manager means rebuilding everything.' },
+    'oss': { title: 'Open Source Community', whatItIs: 'Open-source extension publishers contributing community-maintained extensions. Examples: custom Linux configuration tools, Prometheus exporters, open-source security scanners.', howItOperates: 'Same SDK, same publishing pipeline. Community extensions go through automated testing + manual review for security. Lower certification bar than ISV (no SLA requirements) but still quality-gated.', connections: 'Publishes to public Compute Gallery. Community maintains and updates. Azure provides the distribution infrastructure. Attracts developers who later become ISV partners or bring their organizations to Azure.', whyChosen: 'Open source extensions expand the long tail of the marketplace. Enterprise customers often adopt OSS tools first, then upgrade to ISV equivalents. The community also identifies gaps in the platform that guide our roadmap.' },
+    'arm': { title: 'Azure Resource Manager (ARM)', whatItIs: 'Azure\'s central control plane for all resource operations. Extensions are registered as ARM resource types, making them first-class Azure citizens managed through the same APIs, templates, and policies as VMs themselves.', howItOperates: 'Extension CRUD operations (PUT/GET/DELETE) go through ARM REST API. ARM validates RBAC permissions, applies Azure Policy, and routes to the Extension Resource Provider (RP). Infrastructure-as-Code support via ARM templates, Terraform, and Bicep.', connections: 'Receives requests from Azure Portal, CLI, PowerShell, Terraform. Routes to Extension RP for processing. Policy engine evaluates compliance rules. Audit logs every operation to Activity Log. Integrates with Azure Lighthouse for cross-tenant management.', whyChosen: 'ARM integration means extensions work with every Azure management tool automatically — Portal, CLI, PowerShell, Terraform, Policy, Lighthouse. Building outside ARM would mean building all these integrations from scratch.' },
+    'gallery': { title: 'Compute Gallery', whatItIs: 'Central repository for extension packages, VM images, and application packages. Think of it as an enterprise app store for VM software — with versioning, replication, and access control.', howItOperates: 'Stores extension packages in Azure Blob Storage, replicated across Azure regions via CDN. Semantic versioning (major.minor.patch). Access control: public gallery for marketplace, private galleries per tenant for enterprise. Certification pipeline validates packages before listing.', connections: 'Receives packages from publishers (ISV, 1P, Enterprise, OSS). Distributes to VM Agents worldwide via CDN. Integrated with Azure Marketplace for discovery. Azure Policy can mandate gallery versions across all VMs in a subscription.', whyChosen: 'Centralized gallery with CDN distribution solves the "how do you get software to millions of VMs across 60+ regions" problem. Pull-based distribution (VM Agent pulls package) is more reliable than push — the VM controls timing and retries on failure.' },
+    'versioning': { title: 'Semantic Version Management', whatItIs: 'Strict semantic versioning system (major.minor.patch) with a compatibility matrix mapping extension versions to VM Agent versions. Ensures customers can confidently auto-upgrade.', howItOperates: 'Major version bump triggers extended validation (new test suites, canary rollout). Minor version = new features, backward compatible. Patch = bug fixes. Compatibility matrix published as API endpoint. Auto-upgrade policies configurable per customer (latest minor, pin major, etc.).', connections: 'Compute Gallery stores all versions. VM Agent checks compatibility before install. Azure Policy can enforce minimum versions. Telemetry tracks version distribution across fleet to identify fragmentation.', whyChosen: 'Backward compatibility is a competitive moat. Dozens of extension versions in the wild, 50+ regions, different VM Agent versions. Without strict versioning, customers lose confidence in upgrades. That confidence drives adoption of new extensions.' },
+    'policy': { title: 'Azure Policy + RBAC Integration', whatItIs: 'Governance layer that lets enterprises enforce extension requirements across their entire Azure estate. "All VMs must have antimalware extension" is a policy, not a manual checklist.', howItOperates: 'Azure Policy evaluates VM compliance: does this VM have the required extensions at the required versions? Non-compliant VMs are flagged (audit mode) or auto-remediated (enforce mode). RBAC controls who can install/remove extensions. Managed Identity provides secure auth for extensions.', connections: 'Evaluates against ARM resource state. Remediation tasks trigger extension installation via VM Agent. Compliance reports feed into Azure Security Center. Audit logs to Activity Log for SOC/compliance teams.', whyChosen: 'Enterprise customers manage 100K+ VMs. Manual extension management is impossible. Policy-driven governance turns extension management from an ops task into a compliance-as-code practice. This was the #1 feature request from enterprise customers.' },
+    'vm-agent': { title: 'VM Agent Runtime', whatItIs: 'Lightweight daemon running on every Azure VM (WaAgent on Linux, WindowsAzureGuestAgent on Windows). The "hands" of the platform — it\'s what actually installs, runs, and monitors extensions on each machine.', howItOperates: 'Auto-installed during VM provisioning. Memory footprint < 50MB. Auto-updating with staged rollout. Crash-resilient with watchdog process. Polls control plane for desired state every 5 minutes. Reports extension health (heartbeat) back to monitoring.', connections: 'Receives desired state from Goal State Engine. Downloads extension packages from Compute Gallery (CDN). Manages extension lifecycle (install/enable/disable/uninstall). Reports health to Azure Monitor and Geneva pipeline.', whyChosen: 'Single lightweight agent vs. per-extension agents. Every extension shares the VM Agent channel — customers install one agent, get unlimited extensions. Why not containerized? Must work on Windows Server 2012 through latest Linux. Smallest common denominator = process-level agent.' },
+    'handler': { title: 'Extension Handler Framework', whatItIs: 'The protocol layer between VM Agent and individual extensions. Manages the lifecycle of each extension: download, install, enable, configure, health check, update, disable, uninstall.', howItOperates: 'JSON-based handshake: VM Agent writes configuration to extension\'s settings directory. Extension writes status to status directory (file-based IPC). Handler monitors extension process health. Timeout enforcement — if install exceeds 15 minutes, marked as failed.', connections: 'VM Agent invokes handler for lifecycle operations. Extension reads config from handler, writes status back. Handler reports to VM Agent, which reports to control plane. Dead extension processes are restarted by watchdog.', whyChosen: 'File-based IPC over named pipes/sockets because it\'s the simplest mechanism that works across every OS version. Windows Server 2012, RHEL 7, Ubuntu 16.04 — files work everywhere. No network listener needed, reducing attack surface.' },
+    'run-command': { title: 'Run Command v2', whatItIs: 'Execute scripts on VMs without SSH or RDP access. The "break glass" capability for ops teams. Supports PowerShell, Bash, and Python scripts run within the VM Agent context.', howItOperates: 'Customer sends script via ARM API. ARM routes to VM Agent. Agent executes in an isolated context. Supports long-running operations with async polling (status check every 30s). Output captured and returned via ARM. Timeout: configurable up to 90 minutes.', connections: 'Invoked via ARM API (Portal, CLI, PowerShell, Terraform). Executed by VM Agent. Output returned to caller via ARM. Audit logged. Integrates with Azure Automation for scheduled script execution.', whyChosen: 'Run Command v2 solves the "I need to fix something on a VM but don\'t have SSH access" problem. Essential for locked-down enterprise environments with no inbound network access. Outbound-only communication via VM Agent channel.' },
+    'goal-state': { title: 'Goal State Engine', whatItIs: 'The reconciliation loop that ensures every VM matches its desired state. Inspired by Kubernetes\' controller pattern: declare what you want, the engine makes it happen and keeps it that way.', howItOperates: 'ARM pushes desired state (which extensions, which versions, which config). VM Agent polls for latest goal state. Compares current state vs. desired state. Diffs trigger actions (install missing, update outdated, remove unexpected). Runs continuously — self-healing.', connections: 'Receives desired state from ARM/Extension RP. Compares against actual state on VM (reported by Handler). Triggers Handler actions for reconciliation. Reports convergence status to monitoring. Retry logic with exponential backoff for transient failures.', whyChosen: 'Declarative reconciliation over imperative commands because at scale (millions of VMs), you need eventual consistency. Imperative "install extension X on VM Y" fails silently. Declarative "all VMs should have extension X" self-heals. Directly inspired by Kubernetes reconciliation loops.' },
+    'vms': { title: 'Azure Virtual Machines', whatItIs: 'Primary deployment target. Linux and Windows VMs of all sizes — from B1s (dev/test) to M-series (memory-intensive enterprise). Every Azure VM can run extensions via the pre-installed VM Agent.', howItOperates: 'VM Agent auto-installed during provisioning. Extensions deployed via ARM API. Health reported via heartbeat. Extensions survive VM restart (persistent installation). Support for custom images with pre-installed extensions.', connections: 'VM Agent communicates with control plane. Extensions pull packages from CDN. Health reports to Azure Monitor. Managed Identity provides auth tokens via IMDS (Instance Metadata Service at 169.254.169.254).', whyChosen: 'VMs are the foundation — millions running globally. Extension support on every VM creates the largest addressable surface for publishers. Universal agent installation means zero friction for extension adoption.' },
+    'vmss': { title: 'VM Scale Sets (VMSS)', whatItIs: 'Auto-scaling groups of identical VMs. Extensions on VMSS must work at scale: rolling upgrades, health-aware deployment, and consistent configuration across hundreds of instances.', howItOperates: 'Extensions defined in VMSS model — every new instance automatically gets the extension. Rolling upgrade policy: upgrade 20% of instances at a time, health-gate between batches. If extension health degrades, rollback triggers automatically.', connections: 'VMSS orchestrator coordinates with VM Agent on each instance. Rolling upgrade integrates with load balancer health probes. Extension health feeds into VMSS health model. Auto-scale events trigger extension provisioning on new instances.', whyChosen: 'VMSS is the primary deployment model for enterprise workloads (web tiers, microservices). Extension support on VMSS was the #1 enterprise feature request — they needed consistent configuration across auto-scaling fleets.' },
+    'arc': { title: 'Azure Arc-Enabled Servers', whatItIs: 'Extends Azure management to servers running anywhere — on-premises, AWS, GCP. The Arc agent connects non-Azure machines to the Azure control plane, enabling the same extension model across hybrid infrastructure.', howItOperates: 'Arc Connected Machine agent installed on non-Azure server. Agent initiates outbound HTTPS connection to Azure (no inbound ports needed). Once connected, server appears as an ARM resource. Same extension deployment API works — install Defender, monitoring, compliance tools on any server.', connections: 'Arc agent communicates with Azure control plane via outbound HTTPS. Extension packages pulled from CDN. Health reported to Azure Monitor. Same Policy, RBAC, and Gallery apply. Customer manages all servers (Azure + non-Azure) from one pane.', whyChosen: 'Enterprise runs hybrid — not everything is in Azure. Arc extends our platform reach to every server anywhere. Outbound-only connection works through corporate firewalls (no inbound rules needed). This expanded TAM by 3-4x beyond Azure-only VMs.' },
+    'stack-hci': { title: 'Azure Stack HCI', whatItIs: 'Microsoft\'s hyperconverged infrastructure solution for on-premises Azure services. Extensions on Stack HCI bring cloud management to data center workloads.', howItOperates: 'Stack HCI runs Azure services on customer premises. VMs on Stack HCI have the same VM Agent. Extension deployment via the same ARM API. Enables customers to use Azure management tools for on-prem VMs without moving workloads to cloud.', connections: 'Connected to Azure control plane via Azure Arc. Same VM Agent, same extension handler, same Gallery. Customer manages both cloud and on-prem VMs with identical tools and policies.', whyChosen: 'Stack HCI targets enterprises that can\'t move all workloads to cloud (data gravity, latency, regulation). Extension support ensures they don\'t need separate management tools for cloud vs. on-prem — reducing operational complexity.' },
+    'monitor': { title: 'Azure Monitor Integration', whatItIs: 'Native integration with Azure\'s monitoring platform. Extension health, installation status, and operational metrics flow into Azure Monitor for unified observability.', howItOperates: 'VM Agent reports extension status metrics to Azure Monitor agent. Custom metrics: installation time, health heartbeat, failure rate, version distribution. Alerts configurable: "notify me if any VM in subscription loses extension health." Dashboards in Azure Portal.', connections: 'Receives metrics from VM Agent on every VM. Feeds Azure Monitor Alerts. Data available in Log Analytics workspace for KQL queries. Integrated with Azure Workbooks for visualization. Action groups trigger automated remediation.', whyChosen: 'Azure Monitor over third-party because it\'s zero-configuration for customers. Extension metrics appear automatically in the same dashboard where they monitor VM performance. No additional agents, no separate login, no extra cost.' },
+    'geneva': { title: 'Geneva Monitoring Pipeline', whatItIs: 'Microsoft\'s internal monitoring infrastructure (not customer-facing). Captures platform-level telemetry for the engineering team: API latency, error rates, regional health, deployment status.', howItOperates: 'Geneva agents on platform infrastructure collect metrics, logs, and traces. Data flows to Geneva hot storage for real-time alerting and Kusto for analytics. ICM (Incident Communication Manager) integration for automated incident creation when SLIs breach thresholds.', connections: 'Collects from all platform components: ARM RP, Gallery service, CDN, regional stamps. Feeds ICM for incident management. Kusto for deep analytics. Powers the internal engineering dashboard that monitors platform health 24/7.', whyChosen: 'Geneva is the Microsoft-standard internal monitoring — battle-tested across all Azure services. Using the same infrastructure means our on-call engineers use the same tools and alerting patterns as the rest of Azure. Consistency reduces incident response time.' },
+    'kusto': { title: 'Kusto (Azure Data Explorer) Analytics', whatItIs: 'Time-series analytics engine for deep-dive analysis of platform data. Powers adoption analytics, failure pattern detection, customer impact scoring, and go-to-market decisions.', howItOperates: 'Ingests telemetry from Geneva pipeline. KQL (Kusto Query Language) for ad-hoc analysis. Pre-built dashboards: extension adoption by region, publisher growth, failure rate trends, customer deployment patterns. Data retention: 90 days hot, 2 years cold.', connections: 'Receives data from Geneva. Powers internal dashboards and reports. Feeds data to product management for roadmap decisions. Customer-facing metrics exposed through ARM API (extension health status).', whyChosen: 'Kusto handles billions of telemetry events. We needed to answer questions like "which extension has the highest failure rate in Southeast Asia?" across millions of VMs. Traditional SQL databases can\'t handle this query pattern at this volume.' },
+    'health': { title: 'Extension Health Reporting', whatItIs: 'Standardized health reporting framework. Every extension reports its status (healthy, warning, error) via a consistent protocol, enabling unified health dashboards for customers.', howItOperates: 'Extensions write health status to status file every 5 minutes (heartbeat). VM Agent collects and reports to control plane. Health model: Healthy (running normally), Warning (degraded but functional), Error (failed), Unknown (no heartbeat for 15+ minutes). Aggregated at subscription and resource group level.', connections: 'Extension writes status → VM Agent collects → Control plane aggregates → Azure Monitor displays → Alerts trigger → Remediation executes. Full closed-loop health management.', whyChosen: 'Standardized health reporting enables portfolio-level visibility. Before the platform, each extension had its own health model. Customers had to check 5 different dashboards. Now: one health view for all extensions on all VMs.' }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+
+            // Animate hamburger
+            const spans = hamburgerBtn.querySelectorAll('span');
+            if (navLinks.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(8px, 8px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close menu on link click
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                const spans = hamburgerBtn.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+    }
+
+    // Interactive architecture diagram handler
+    const archNodes = document.querySelectorAll('.arch-node');
+    const detailPanel = document.getElementById('detailPanel');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailGrid = document.getElementById('detailGrid');
+    const detailClose = document.getElementById('detailClose');
+
+    archNodes.forEach(node => {
+        node.addEventListener('click', function() {
+            const componentId = this.getAttribute('data-id');
+            const data = componentData[componentId];
+
+            if (data) {
+                // Update active state
+                archNodes.forEach(n => n.classList.remove('active'));
+                this.classList.add('active');
+
+                // Populate detail panel
+                detailTitle.textContent = data.title;
+                detailGrid.innerHTML = `
+                    <div class="detail-item">
+                        <div class="detail-item-label">What It Is</div>
+                        <p>${data.whatItIs}</p>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">How It Operates</div>
+                        <p>${data.howItOperates}</p>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Connections</div>
+                        <p>${data.connections}</p>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Why It Was Chosen</div>
+                        <p>${data.whyChosen}</p>
+                    </div>
+                `;
+
+                // Open panel
+                detailPanel.classList.add('open');
+
+                // Scroll into view
+                detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
+
+    // Close detail panel
+    if (detailClose) {
+        detailClose.addEventListener('click', function(e) {
+            e.stopPropagation();
+            detailPanel.classList.remove('open');
+            archNodes.forEach(n => n.classList.remove('active'));
+        });
+    }
+});
+</script>
+
+</body>
+</html>

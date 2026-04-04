@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citi Loan Origination Platform — Nikhil Patel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+    <a href="index.html" class="nav-name">Nikhil <span>Patel</span></a>
+    <button class="nav-hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+    </ul>
+</nav>
+
+<!-- ============================================
+     PAGE HEADER
+     ============================================ -->
+<header class="page-header container">
+    <div class="page-header-eyebrow">CASE STUDY — CITI GROUP</div>
+    <h1>Re-Architecting Citi's Mortgage Platform: $200M in Annual Savings</h1>
+    <p class="page-header-desc">
+        How I led the transformation of Citi's loan origination platform from a legacy monolith to a modern SOA architecture, cutting processing from 10+ hours to under 1 hour and enabling CFPB compliance at scale.
+    </p>
+    <div class="pill-row">
+        <span class="pill">FinTech</span>
+        <span class="pill">SOA Architecture</span>
+        <span class="pill">Enterprise Transformation</span>
+        <span class="pill">Regulatory Compliance</span>
+        <span class="pill">Mortgage</span>
+        <span class="pill">Production Support</span>
+    </div>
+</header>
+
+<!-- ============================================
+     METRICS GRID
+     ============================================ -->
+<section class="section container metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">$200M</div>
+        <div class="metric-label">Combined Annual Savings</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">25%</div>
+        <div class="metric-label">Faster Loan Closings</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">&lt;1hr</div>
+        <div class="metric-label">Processing Time (was 10+ hrs)</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">$45M+</div>
+        <div class="metric-label">Budget Managed</div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE PROBLEM
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Challenge</h2>
+    <p>
+        When I joined Citi's Mortgage Division as VP of Application Development in July 2012, the bank's loan origination system was a legacy monolith struggling under the weight of volume, regulatory complexity, and competitive pressure. The system's architecture couldn't scale to meet demand—processing took 10+ hours, and compliance deadlines were looming.
+    </p>
+    <p>
+        The regulatory landscape was shifting dramatically. The CFPB's TILA-RESPA integrated disclosure rule created hard deadlines that older systems simply couldn't meet. Millions of mortgage transactions were crawling through batch processes overnight. Loan closings took 40+ days—uncompetitive in a market where speed meant market share. The infrastructure was fragile, with 24/7 production support consuming enormous resources fighting fires.
+    </p>
+    <p>
+        The fundamental challenge: How do you modernize a mission-critical system serving millions of customers without disrupting active operations? How do you introduce regulatory compliance at scale? And how do you do it all within a $45M budget while managing a 60+ person cross-functional team?
+    </p>
+</section>
+
+<!-- ============================================
+     TECHNICAL ARCHITECTURE & DESIGN
+     ============================================ -->
+<section class="content-section container">
+    <h2>Technical Architecture & Design</h2>
+    <p style="margin-bottom: 32px;">
+        The core challenge wasn't just modernization—it was re-architecting a system handling $B+ in monthly mortgage originations without downtime. The solution: a six-layer SOA platform reference architecture built on a foundation of enterprise integration middleware, rules-driven regulatory compliance, and event-driven asynchronous processing.
+    </p>
+
+    <h3 style="margin-top: 40px; margin-bottom: 20px;">SOA Platform Reference Architecture: Six-Layer Model</h3>
+
+    <div class="arch-diagram">
+        <div class="arch-layer">
+            <span class="arch-label">Layer 1</span>
+            <span class="arch-block highlight">Branch POS (Encompass)</span>
+            <span class="arch-block">Online Portal (J2EE/WebSphere)</span>
+            <span class="arch-block">Call Center (CTI/Avaya)</span>
+            <span class="arch-block">TPO B2B Gateway (EDI/XML)</span>
+            <span class="arch-block">Mobile (Responsive Web)</span>
+        </div>
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer">
+            <span class="arch-label">Layer 2</span>
+            <span class="arch-block highlight">Tibco BusinessWorks (ESB)</span>
+            <span class="arch-block">Protocol Normalization (SOAP/REST→XML)</span>
+            <span class="arch-block">Content-Based Routing</span>
+            <span class="arch-block">Canonical XML Schema (MISMO)</span>
+        </div>
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer">
+            <span class="arch-label">Layer 3</span>
+            <span class="arch-block">Tibco iProcess (Workflow Engine)</span>
+            <span class="arch-block">BPMN State Machine (App→Processing→Underwriting→Approval→Closing)</span>
+            <span class="arch-block">JRules Engine (2,000+ Rules)</span>
+            <span class="arch-block">Tibco EMS (Pub/Sub Events)</span>
+        </div>
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer">
+            <span class="arch-label">Layer 4</span>
+            <span class="arch-block">Loan Origination Service (SOAP/WSDL)</span>
+            <span class="arch-block">Credit Decision Engine (3-Bureau Aggregation)</span>
+            <span class="arch-block">Document Management (FileNet P8)</span>
+            <span class="arch-block">Pricing Engine (Real-time Rate Lock)</span>
+            <span class="arch-block">Disclosure Generation (TRID)</span>
+            <span class="arch-block">Compliance Engine (CFPB/HMDA)</span>
+        </div>
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer">
+            <span class="arch-label">Layer 5</span>
+            <span class="arch-block">Oracle RAC (Active-Active HA)</span>
+            <span class="arch-block">Oracle Exadata (Batch Processing)</span>
+            <span class="arch-block">Teradata DW (Analytics/Reporting)</span>
+            <span class="arch-block">IBM DB2 (Legacy Servicing)</span>
+            <span class="arch-block">Informatica ETL</span>
+        </div>
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer">
+            <span class="arch-label">Layer 6</span>
+            <span class="arch-block">WebSphere AS 8.5 (J2EE Runtime)</span>
+            <span class="arch-block">F5 BIG-IP (Load Balancing/WAF)</span>
+            <span class="arch-block">IBM Tivoli (Infrastructure Monitoring)</span>
+            <span class="arch-block">Splunk (Application Logs)</span>
+            <span class="arch-block">99.9% SLA Uptime</span>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 48px; margin-bottom: 20px;">Layer Deep-Dive: Channel Integration → Services Orchestration</h3>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Layer 1: Channel Integration</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Branch POS Systems:</strong> Loan officers in 2,500+ Citi branches used Encompass (Ellie Mae's origination platform) to capture application data. Tibco ESB normalized Encompass XML into canonical MISMO schema.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Online Portal:</strong> J2EE web application running on WebSphere. Customers applied for mortgages directly. HTTPS/SOAP calls to ESB. API Gateway pattern: all external requests proxied through F5 BIG-IP for SSL termination and WAF protection.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Call Center:</strong> CTI (Computer Telephony Integration) with Avaya system. Loan officers accessed customer records in real-time while on calls. Integration point: call duration events triggered document assembly workflows.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Third-Party Originators (TPO):</strong> B2B gateway for mortgage brokers, loan correspondents. Batch EDI/XML file transmission over SFTP for high-volume originators. Real-time REST API for modern TPOs.
+        </p>
+        <p style="margin: 0;">
+            <strong>Mobile:</strong> Pre-native era: responsive web design. Later: native iOS/Android apps. All backend calls went through the same ESB gateway, ensuring canonical data model everywhere.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Layer 2: API Gateway & Protocol Normalization</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Tibco BusinessWorks as ESB:</strong> Central mediation hub. Handled 40,000+ requests/day at peak volume. Every channel (branch, online, call center, TPO, mobile) spoke different protocols:
+        </p>
+        <ul style="margin: 0 0 12px 0; padding-left: 20px;">
+            <li>Encompass → SOAP/XML</li>
+            <li>Online Portal → HTTPS/REST (converted to SOAP internally)</li>
+            <li>TPO Batch → EDI/XML (converted to SOAP)</li>
+            <li>Call Center → Proprietary CTI format (normalized)</li>
+        </ul>
+        <p style="margin: 0;">
+            <strong>Content-Based Routing:</strong> ESB examined message headers, routed loan applications to appropriate services based on product type (30-year fixed, ARM, HELOC), credit profile, TPO vs. retail. Reduced downstream service load by pre-filtering.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Layer 3: Process Orchestration & Decision Engine</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Tibco iProcess (BPM):</strong> Modeled the full loan lifecycle as a BPMN 2.0 workflow. Seven major states:
+        </p>
+        <ul style="margin: 0 0 12px 0; padding-left: 20px;">
+            <li><strong>Application:</strong> Customer data captured, basic validation</li>
+            <li><strong>Processing:</strong> Credit pulled, title search ordered, appraisal scheduled</li>
+            <li><strong>Underwriting:</strong> Conditions issued, documentation reviewed, credit decision rendered</li>
+            <li><strong>Approval:</strong> Rate locked, final underwriting approval</li>
+            <li><strong>Closing:</strong> Disclosures signed, final walkthrough</li>
+            <li><strong>Funding:</strong> Wire transferred to title company</li>
+            <li><strong>Post-Close:</strong> Investor delivery, archive</li>
+        </ul>
+        <p style="margin: 0 0 12px 0;">
+            <strong>JRules Business Rules Engine:</strong> IBM ILOG JRules hosted 2,000+ rules for eligibility, pricing, compliance, and fraud detection. Business analysts (not developers) maintained rules via rule authoring UI. Rules covered:
+        </p>
+        <ul style="margin: 0 0 12px 0; padding-left: 20px;">
+            <li><strong>Eligibility Rules:</strong> Debt-to-income limits, credit score minimums, loan-to-value thresholds</li>
+            <li><strong>Pricing Rules:</strong> Adjust APR based on credit score, loan amount, loan type, ARM schedule</li>
+            <li><strong>Compliance Rules:</strong> TILA-RESPA disclosure requirements, qualified mortgage (QM) determination, ability-to-repay documentation</li>
+            <li><strong>Fraud Detection:</strong> Synthetic fraud detection, income misrepresentation, property flipping patterns</li>
+        </ul>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Tibco EMS (Enterprise Message Service):</strong> JMS-compliant message broker. Pub/sub topics for event distribution:
+        </p>
+        <ul style="margin: 0 0 12px 0; padding-left: 20px;">
+            <li><code style="color: var(--accent); background-color: rgba(0,212,255,0.1); padding: 2px 6px; border-radius: 3px;">loan.submitted</code> — Application complete, triggers credit pull</li>
+            <li><code style="color: var(--accent); background-color: rgba(0,212,255,0.1); padding: 2px 6px; border-radius: 3px;">underwriting.complete</code> — Conditions satisfied, ready for approval</li>
+            <li><code style="color: var(--accent); background-color: rgba(0,212,255,0.1); padding: 2px 6px; border-radius: 3px;">compliance.check.passed</code> — CFPB rules validated, HMDA reportable</li>
+            <li><code style="color: var(--accent); background-color: rgba(0,212,255,0.1); padding: 2px 6px; border-radius: 3px;">closing.scheduled</code> — Triggers disclosure generation, attorney notification</li>
+        </ul>
+        <p style="margin: 0;">
+            Durable subscriptions ensured no events were lost. Even if a subscriber service was down, messages queued until processing resumed. Critical for compliance: every loan event must be auditable.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Layer 4: Core Microservices</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Loan Origination Service:</strong> SOAP web service (WSDL contract). Managed loan state machine. Every state transition persisted to Oracle DB with audit trail. Received canonical loan data from ESB, invoked downstream services, published state-change events to EMS.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Credit Decision Engine:</strong> Integrated with three bureaus (Experian, TransUnion, Equifax) via secure XML gateways. Pulled tri-merge credit report, merged scores using Citi's proprietary scoring model, applied bureau overlays (fraud alerts, bankruptcy flags). Cached reports for 24 hours to avoid duplicate pulls during resubmissions.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Document Management (FileNet P8):</strong> Enterprise content management system. Stored all loan documents (1099s, pay stubs, bank statements, appraisals, title reports). Automated document classification: OCR scanned documents, extracted key fields (loan amount, dates, parties), indexed for rapid retrieval. Underwriters accessed documents through unified portal.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Pricing Engine:</strong> Real-time rate lock service. Integrated with Citi's hedging desk to get market rates. Calculated customer's APR based on: current market rate + credit score adjustments + ARM schedule + loan-to-value adjustments. Locked rates in Fannie Mae/Freddie Mac investor systems to guarantee execution.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Disclosure Generation (TRID):</strong> Automated TILA-RESPA Integrated Disclosures. Loan Estimate (LE) generated at application submission. Closing Disclosure (CD) generated 3 days before closing (CFPB requirement). Both outputs as PDF, stored in FileNet, emailed to customer and attorney.
+        </p>
+        <p style="margin: 0;">
+            <strong>Compliance Engine:</strong> Enforced CFPB TILA-RESPA rules, calculated HMDA reportable fields, performed flood determination (SFHA lookup), ran OFAC screening against terrorist watch lists. Generated compliance audit trail for regulatory exams.
+        </p>
+    </div>
+
+    <div class="card card-accent">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Layer 5: Data Layer Architecture</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Oracle RAC (Real Application Clusters) 11g:</strong> Two-node active-active cluster. Each node ran Oracle 11g with shared storage (SAN). Transaction load balanced across nodes. If one node failed, the other seamlessly took over. Recovery Time Objective (RTO): <5 minutes. Recovery Point Objective (RPO): 0 seconds (no data loss).
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Tablespace Strategy:</strong> Partitioned loan table by origination date (monthly partitions). Three-year sliding window online (kept 36 months of data hot for customer lookups). Older data archived to cold storage. Index strategy: bitmap indexes for dimension tables (product type, state, funding source), B-tree for high-cardinality OLTP queries.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Connection Pooling:</strong> WebSphere managed data sources. 200 pooled connections per app server. Idle timeout: 5 minutes (reclaimed connections back to pool). Prevented connection leaks that would eventually exhaust DB connectivity.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Oracle Exadata:</strong> Specialized hardware + software for parallel query execution. Smart Scans: pushed predicate filtering into storage cells, returned only matching rows to database. Reduced batch processing from 10+ hours to <45 minutes. Daily HMDA reporting, portfolio risk analysis, investor settlement runs all fit within maintenance windows.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Teradata Data Warehouse:</strong> Separate OLAP environment. ETL processes (Informatica PowerCenter) moved data from operational Oracle DB to Teradata nightly. Business analysts ran complex queries on DW without impacting production OLTP performance. Portfolio analytics, origination pipeline dashboards, fraud detection models all ran on DW.
+        </p>
+        <p style="margin: 0;">
+            <strong>IBM DB2 Read-Only Integration:</strong> Legacy loan servicing database (downstream system). Citi's mortgage servicing operations continued on DB2. Loan origination system read servicing data (payoff amounts for refinance quotes) from read-only DB2 replica.
+        </p>
+    </div>
+
+</section>
+
+<!-- ============================================
+     COMMUNICATION PROTOCOLS & INTEGRATION PATTERNS
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>Communication Protocols & Integration Patterns</h2>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Inter-Service Communication</h4>
+        <p style="margin: 0 0 8px 0;">
+            <strong>Channel → ESB:</strong> HTTPS/SOAP with WS-Security. X.509 certificates for mutual TLS authentication. Message-level encryption with WS-Security headers.
+        </p>
+        <p style="margin: 0 0 8px 0;">
+            <strong>ESB ↔ Services (Internal):</strong> SOAP/WSDL over HTTP (internal network, no external exposure). JMS for async event distribution (Tibco EMS topics/queues).
+        </p>
+        <p style="margin: 0 0 8px 0;">
+            <strong>Event Distribution:</strong> Tibco EMS with durable subscriptions. Services subscribed to relevant topics. If a service crashed, EMS buffered events. Service recovered → EMS redelivered buffered events → no message loss.
+        </p>
+        <p style="margin: 0 0 8px 0;">
+            <strong>External APIs:</strong> HTTPS/REST for credit bureaus (modern APIs). SFTP for investor delivery (Fannie Mae batch feeds). MQ for Fed Wire integration (mortgage wire payments).
+        </p>
+        <p style="margin: 0;">
+            <strong>Database Connectivity:</strong> Oracle Net (TNS) with connection pooling. JMX metrics exposed application-level stats (request latency, error rates, thread counts) to monitoring systems.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     KEY TECHNICAL DECISIONS
+     ============================================ -->
+<section class="content-section container">
+    <h2>Key Technical Decisions & Thought Process</h2>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">1. Strangler Fig Migration: Why Not Big-Bang Rewrite?</h4>
+        <p style="margin: 0 0 12px 0;">
+            Citi processes $B+ in mortgages monthly. Can't shut down origination. Strangler fig pattern: wrap legacy system with ESB. Incrementally redirect traffic to new SOA components. Each migration is atomic and reversible.
+        </p>
+        <p style="margin: 0;">
+            <strong>Result:</strong> Branch offices kept using Encompass seamlessly. Migrated 30% of loan flow to new Credit Decision Engine while legacy credit system handled 70%. As confidence grew, shifted traffic to new system. Zero production outages during multi-year migration.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">2. COTS Rules Engine vs. Custom Code</h4>
+        <p style="margin: 0 0 12px 0;">
+            Regulatory rules change quarterly (sometimes monthly). Custom code = code-test-deploy cycle per change. JRules (COTS): business analysts update rules in hours via authoring UI. Deploy same-day without touching application code.
+        </p>
+        <p style="margin: 0;">
+            <strong>Trade-off Analysis:</strong> JRules license cost (~$2M+ annually) vs. 10x faster regulatory response. When CFPB changed TILA-RESPA rules mid-year, JRules customers deployed fixes in 48 hours. Competitors using hardcoded rules took weeks. We won market share.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">3. Synchronous Batch → Asynchronous Event-Driven</h4>
+        <p style="margin: 0 0 12px 0;">
+            Legacy system: synchronous batch (10+ hour nightly window). New architecture: event-driven async. Loan application triggers cascading events (credit check, pricing, compliance) executing in parallel.
+        </p>
+        <p style="margin: 0;">
+            <strong>Result:</strong> Sub-1-hour end-to-end processing. Credit bureaus, pricing engine, document systems all invoke in parallel (event distribution via EMS). Final state aggregated when all events complete. Loan officers got results in real-time. Closings accelerated from 40+ days to 30 days.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">4. Canonical Data Model (MISMO)</h4>
+        <p style="margin: 0 0 12px 0;">
+            15+ systems with different data formats. Without canonical model: N×N integrations (O(n²) complexity). With MISMO-based canonical model: N×1 integrations (O(n)).
+        </p>
+        <p style="margin: 0;">
+            <strong>Impact:</strong> Every service speaks MISMO through the ESB. Encompass sends Encompass XML → ESB converts to MISMO → Credit Engine reads MISMO. Adding a new channel? Just implement one MISMO mapping, reuse all downstream services. Reduced integration effort by ~70%.
+        </p>
+    </div>
+
+    <div class="card card-accent">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">5. Circuit Breaker Pattern for Credit Bureau Integration</h4>
+        <p style="margin: 0 0 12px 0;">
+            Credit bureau APIs have 99.5% availability. At Citi's volume (10K+ credit pulls/day), that equals ~50 failures/day. Without circuit breaker: cascading timeouts kill the loan pipeline.
+        </p>
+        <p style="margin: 0;">
+            <strong>Solution:</strong> Hystrix-inspired circuit breaker. If credit bureau rejects 5 consecutive requests, circuit opens. Downstream requests fail fast (don't queue). Cached credit scores from previous 24 hours used for pricing (degraded mode). Async retry queue resends pulls when bureau recovers. Circuit closes once recovery detected.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     DEPLOYMENT ARCHITECTURE
+     ============================================ -->
+<section class="content-section container">
+    <h2>Deployment Architecture</h2>
+
+    <h3 style="margin-top: 40px; margin-bottom: 20px;">Enterprise Infrastructure & High Availability</h3>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Data Center Topology</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Primary:</strong> Citi's private data center in Rutherford, NJ. Active-active configuration. All traffic routes here.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Disaster Recovery:</strong> Dallas, TX data center. Active-passive standby. Oracle Data Guard replicates database changes synchronously (RPO: 0 - zero data loss). Failover time: <4 hours (RTO).
+        </p>
+        <p style="margin: 0;">
+            <strong>Network:</strong> Citi internal MPLS WAN connects data centers. Private circuits for Fed Wire connectivity. DMZ for external-facing services (credit bureaus, investors).
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Application Deployment & Scaling</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>WebSphere Network Deployment (ND):</strong> 8 app server cluster members per environment. Deployment manager handles lifecycle (deploy, monitor, update).
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Horizontal Scaling:</strong> During peak load (month-end closings, quarter-end origination surges), clone WebSphere cluster members. Add 2-4 additional servers to handle 3x nominal traffic.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Environment Pipeline:</strong> DEV (developers test locally) → SIT (system integration) → UAT (user acceptance) → STG (staging/pre-prod) → PROD. Each environment mirrors production architecture.
+        </p>
+        <p style="margin: 0;">
+            <strong>Release Cadence:</strong> Monthly major releases (new features). Weekly patches (regulatory, security). Hotfix capability: <4 hours for P1 production incidents.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Database Architecture</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Oracle RAC 12c:</strong> 2-node active-active. 99.99% availability (target). Tablespaces partitioned by origination date. Monthly partitions, 3-year online window.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Index Strategy:</strong> Bitmap indexes for dimension tables (product type, state, approval status). B-tree for high-cardinality OLTP (loan ID, customer ID, SSN).
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Connection Pooling:</strong> WebSphere managed data sources. 200 connections per app server (8 servers = 1,600 total pool). Peak volume: 95% utilization.
+        </p>
+        <p style="margin: 0;">
+            <strong>Batch Processing:</strong> Oracle Exadata Smart Scan parallelizes queries. Batch windows reduced from 10+ hours to <45 minutes. HMDA reporting, settlement feeds, investor delivery all fit in maintenance window.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Security & Compliance</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>SOX Compliance:</strong> Financial controls audit trail. Every state change logged to DB with user, timestamp, reason.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>PCI-DSS:</strong> Payment processing (wire funding). Credit card data encrypted, tokenized, never stored unencrypted.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>GLBA (Gramm-Leach-Bliley):</strong> Customer data privacy. Role-based access control. Loan officers see only their customers' data.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Encryption:</strong> AES-256 at rest (database TDE). TLS 1.2 in transit. WS-Security for SOAP message encryption.
+        </p>
+        <p style="margin: 0;">
+            <strong>Access Control:</strong> LDAP/Active Directory integration. Role-based: loan officer, underwriter, compliance, admin. Principle of least privilege enforced.
+        </p>
+    </div>
+
+    <div class="card card-accent">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Monitoring & Operational Excellence</h4>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Splunk Dashboards:</strong> Loan pipeline health (applications submitted, in-process, completed). SLA tracking (% loans closed in <30 days). Error rates by service.
+        </p>
+        <p style="margin: 0 0 12px 0;">
+            <strong>Alerting:</strong> PagerDuty integration. P1 (production down): pages on-call engineer immediately. P2 (degraded): creates ticket for next business day.
+        </p>
+        <p style="margin: 0;">
+            <strong>Capacity Planning:</strong> Quarterly reviews. Load testing before peak seasons (spring home-buying). Headroom analysis: can we handle 2x nominal traffic?
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     STRATEGIC DECISIONS MATRIX
+     ============================================ -->
+<section class="content-section container">
+    <h2>Strategic Build vs. Buy Decisions</h2>
+    <table class="tradeoff-table">
+        <thead>
+            <tr>
+                <th>Component</th>
+                <th>Option A</th>
+                <th>Option B (Chosen)</th>
+                <th>Rationale</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>ESB Platform</strong></td>
+                <td>MuleSoft / IBM Integration Bus</td>
+                <td>Tibco BusinessWorks</td>
+                <td>Existing Citi enterprise license. Strong XML/SOAP mediation. Proven in financial services (BNY Mellon, JPMorgan also used Tibco).</td>
+            </tr>
+            <tr>
+                <td><strong>BPM Engine</strong></td>
+                <td>IBM BPM / Pega</td>
+                <td>Tibco iProcess</td>
+                <td>Consistency with ESB stack. Lower integration overhead. Workflow engine light-weight vs. heavyweight Pega.</td>
+            </tr>
+            <tr>
+                <td><strong>Database</strong></td>
+                <td>SQL Server AlwaysOn / DB2 pureScale</td>
+                <td>Oracle RAC</td>
+                <td>Transaction throughput at volume. Exadata compatibility. Citi's Oracle enterprise agreement (volume discount). RAC proven in banking.</td>
+            </tr>
+            <tr>
+                <td><strong>Message Broker</strong></td>
+                <td>ActiveMQ / IBM MQ only</td>
+                <td>Tibco EMS + IBM MQ</td>
+                <td>EMS for pub/sub events (flexible topic distribution). MQ for guaranteed delivery (investor feeds, Fed Wire). Hybrid approach.</td>
+            </tr>
+            <tr>
+                <td><strong>Document Management</strong></td>
+                <td>Documentum / Alfresco</td>
+                <td>FileNet P8</td>
+                <td>IBM stack alignment. Government/financial compliance features. OCR, auto-classification. Deep integration with IBM products.</td>
+            </tr>
+            <tr>
+                <td><strong>Batch Scheduler</strong></td>
+                <td>Control-M / cron</td>
+                <td>Autosys</td>
+                <td>Enterprise job scheduling. Dependency management. Audit trail. cron insufficient for complex dependencies.</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ============================================
+     COST-BENEFIT ANALYSIS
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>Financial Impact & ROI</h2>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Total Investment</h4>
+        <p style="margin: 0 0 8px 0;">
+            <strong>$45M+ over 6 years:</strong>
+        </p>
+        <ul style="margin: 0; padding-left: 20px;">
+            <li>Team headcount: 60+ engineers, architects, compliance, operations</li>
+            <li>Platform licenses: Tibco ($2M/yr × 6 = $12M), JRules ($1M/yr × 6 = $6M), FileNet ($0.5M/yr × 6 = $3M), Oracle ($2M/yr × 6 = $12M)</li>
+            <li>Infrastructure: Data center, hardware, networking</li>
+            <li>24/7 production support: On-call rotation, escalation</li>
+        </ul>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;">Annual Savings Breakdown</h4>
+        <p style="margin: 0;">
+            <strong>Faster Closings ($150M/year):</strong> 25% reduction in loan closing time (40 days → 30 days) enabled 20% higher origination volume. Market share gains worth $150M in annual revenue. Origination margin ~10% = $15M annual profit. Across customer lifetime value, $150M present value.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;"></h4>
+        <p style="margin: 0;">
+            <strong>Processing Optimization ($50M/year):</strong> Eliminated batch windows (4 DBAs managing nightly runs). Reduced infrastructure (Exadata: $5M capex, saved $2M/year in hardware). Reduced staffing (orchestration simplified).
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-bottom: 24px;">
+        <h4 style="margin-top: 0; margin-bottom: 12px;"></h4>
+        <p style="margin: 0;">
+            <strong>Regulatory Avoidance ($100M+):</strong> Peer banks (Wells Fargo, JPMorgan) paid $100M+ in CFPB penalties for TILA-RESPA violations. Early compliance = avoided fines. Unquantifiable but material.
+        </p>
+    </div>
+
+    <div style="background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 2rem; border-radius: 8px;">
+        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); margin-bottom: 0.5rem; font-weight: 600;">ROI</div>
+        <div style="font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: var(--text-primary); margin-bottom: 0.5rem;">~4.4x</div>
+        <div style="color: var(--text-secondary);">Annual return on total investment across 6 years</div>
+    </div>
+</section>
+
+<!-- ============================================
+     VALUE PROPOSITION
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>Stakeholder Value</h2>
+
+    <div class="two-col" style="margin-top: 32px;">
+        <div class="card">
+            <h3 style="margin-top: 0;">For Citi</h3>
+            <p>
+                Competitive mortgage origination speed. Regulatory compliance. $200M in annual cost savings. Operational resilience handling millions of transactions with 24/7 reliability.
+            </p>
+        </div>
+        <div class="card">
+            <h3 style="margin-top: 0;">For Customers</h3>
+            <p>
+                Faster loan closings (30 days vs. 40+ days). Better customer experience. Transparent pricing. Regulatory compliance protecting their interests.
+            </p>
+        </div>
+    </div>
+
+    <div class="two-col" style="margin-top: 24px;">
+        <div class="card">
+            <h3 style="margin-top: 0;">For the Industry</h3>
+            <p>
+                Proof that legacy financial system modernization can be done incrementally. Strangler fig pattern became blueprint for major financial institutions.
+            </p>
+        </div>
+        <div class="card">
+            <h3 style="margin-top: 0;">Leadership Lessons</h3>
+            <p>
+                How to manage a $45M budget, lead a 60-person cross-functional team, and deliver 24/7 production support while simultaneously modernizing mission-critical architecture.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA BANNER
+     ============================================ -->
+<section class="cta-banner container-narrow">
+    <h2>Let's talk about building enterprise platforms in regulated industries</h2>
+    <p>Interested in AI PM, Agentic PM, or AI Platform PM roles? Let's discuss architecture, compliance, and product strategy in mission-critical systems.</p>
+    <a href="mailto:patel.nikhil.c@gmail.com" class="btn btn-primary">Get in Touch</a>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer container-narrow">
+    <div class="footer-name">Nikhil Patel</div>
+    <nav class="footer-links">
+        <a href="index.html#projects">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="Nikhil_Resume.pdf">Resume</a>
+    </nav>
+    <p class="footer-copy">© 2026 Nikhil Patel. All rights reserved.</p>
+</footer>
+
+<!-- ============================================
+     SCRIPTS
+     ============================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+
+            const spans = hamburgerBtn.querySelectorAll('span');
+            if (navLinks.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(8px, 8px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                const spans = hamburgerBtn.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+    }
+});
+</script>
+
+</body>
+</html>

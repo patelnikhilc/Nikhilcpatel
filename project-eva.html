@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVA: What If AI Could Predict a Fall Before It Happens?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-primary: #08090d;
+            --bg-secondary: #131419;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #00d9ff;
+            --accent-dark: #0099cc;
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-cta:hover {
+            background-color: var(--accent-dark);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header-eyebrow {
+            font-size: 0.85rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .page-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .page-header-desc {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 3rem 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .content-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Architecture Diagram */
+        .arch-diagram {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .arch-layer {
+            background-color: var(--bg-primary);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .arch-layer:last-child {
+            margin-bottom: 0;
+        }
+
+        .arch-label {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+        }
+
+        .arch-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .arch-block {
+            background-color: var(--bg-secondary);
+            padding: 0.8rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Card Style */
+        .card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background-color: rgba(0, 217, 255, 0.03);
+        }
+
+        .card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .card a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .card a:hover {
+            color: var(--accent-dark);
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .two-col-left, .two-col-right {
+            line-height: 1.8;
+        }
+
+        .two-col-left p, .two-col-right p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .impact-numbers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .impact-box {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .impact-box .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .impact-box .value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-box .desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-dark);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(0, 217, 255, 0.1);
+        }
+
+        .cta-banner {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 3rem 2rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cta-banner h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .cta-banner .buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a:hover {
+            color: var(--accent-dark);
+        }
+
+        /* Deep Dive Link */
+        .deepdive-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .deepdive-link:hover {
+            color: var(--accent-dark);
+        }
+
+        /* Interactive Architecture */
+        .interactive-arch {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .arch-row-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            min-width: 100px;
+            flex-shrink: 0;
+        }
+
+        .arch-node {
+            padding: 0.7rem 1.2rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .arch-node:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+            background: rgba(0, 217, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.15);
+        }
+
+        .arch-node.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 217, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+
+        .arch-flow {
+            text-align: center;
+            color: var(--border);
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            opacity: 0.5;
+        }
+
+        .arch-hint {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        /* Detail Panel */
+        .detail-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease;
+            background: var(--bg-primary);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            margin-top: 0;
+        }
+
+        .detail-panel.open {
+            max-height: 800px;
+            padding: 2rem;
+            margin-top: 1.5rem;
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.03) 0%, var(--bg-primary) 100%);
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .detail-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .detail-close:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .detail-item-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .arch-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .arch-row-label {
+                min-width: auto;
+                margin-bottom: 0.5rem;
+            }
+            .interactive-arch {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+                margin: 2rem 0;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .impact-numbers {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-banner .buttons {
+                flex-direction: column;
+            }
+
+            .cta-banner .buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="nav-brand">Nikhil Patel</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-eyebrow">Case Study — NextGen Technologies</div>
+        <h1>EVA: What If AI Could Predict a Fall Before It Happens?</h1>
+        <p class="page-header-desc">Senior living facilities operate in crisis mode — responding to falls after they happen. Families wait days for incident reports. Staff spends hours on documentation. What if an AI system could see the warning signs, alert caregivers in real-time, and eliminate the paperwork? That's the story of EVA.</p>
+    </header>
+
+    <!-- Metrics Grid -->
+    <section class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-value">5</div>
+            <div class="metric-label">Communities Piloted</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">30%</div>
+            <div class="metric-label">Faster Response</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">70%</div>
+            <div class="metric-label">Early Detection</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">45%</div>
+            <div class="metric-label">Less Reporting Time</div>
+        </div>
+    </section>
+
+    <!-- The Problem Section -->
+    <section class="content-section">
+        <h2>The Problem</h2>
+        <p>Falls are the leading cause of injury in older adults. Every year, one in four seniors experiences a fall, and each fall carries the risk of fracture, hospitalization, and loss of independence. For senior living facilities, falls are not just a clinical problem — they're an operational nightmare.</p>
+        <p>Today, care is reactive. A resident falls, a staff member finds them, an incident report gets filed (often hours later), and families hear about it a day or two after. Meanwhile, the caregiver is overwhelmed with manual documentation. Incident details are scattered across different systems. Clinical patterns go unnoticed. The same residents fall again. The cycle continues.</p>
+        <p>The industry needs a shift from reactive to predictive. A system that doesn't just respond to falls, but anticipates them. That understands each resident's unique risk factors. That gets faster information into the hands of caregivers. That frees staff from paperwork so they can focus on care. That gives families peace of mind, not stress.</p>
+    </section>
+
+    <!-- The Bet I Made Section -->
+    <section class="content-section">
+        <h2>The Bet I Made</h2>
+        <p>When I started thinking about this problem, there were obvious solutions. Build a mobile app for incident reporting. Deploy a machine learning model to flag high-risk residents. Stack them together and call it done. But that approach would miss the real opportunity.</p>
+        <p>The insight was this: if you want to predict falls AND understand clinical context AND adapt to changing conditions AND coordinate across teams — you need an autonomous system that can reason in real-time. A single model isn't enough. Neither is a database. You need agents that can synthesize sensor data, pull historical patterns, reason about causality, communicate urgently, and update dashboards — all in the moment. You need multi-agent orchestration, not just a pipeline.</p>
+        <p>That led to a bet on agentic AI architecture: LangGraph for agent coordination, streaming data via Kafka for real-time signals, on-premise ML for HIPAA compliance, and Kubernetes for stateful orchestration. Not because these technologies are trendy. Because they're the only way to make predictions fast, keep patient data secure, and give healthcare teams the autonomy guarantees they need.</p>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="content-section">
+        <h2>How It Works</h2>
+        <p style="margin-bottom: 2rem;">EVA is built as a layered system. Sensor data flows in, gets enriched with context, analyzed by specialized agents, and surfaces actionable intelligence to caregivers in seconds.</p>
+
+        <div class="interactive-arch" id="archDiagram">
+            <div class="arch-row">
+                <div class="arch-row-label">Ingestion</div>
+                <div class="arch-node" data-id="ble-sensors">BLE 5.0 Wearables</div>
+                <div class="arch-node" data-id="env-sensors">Zigbee Sensors</div>
+                <div class="arch-node" data-id="ehr">HL7 FHIR API</div>
+                <div class="arch-node" data-id="staff-input">Staff Mobile App</div>
+            </div>
+            <div class="arch-flow">↓ MQTT v5 / REST ↓</div>
+            <div class="arch-row">
+                <div class="arch-row-label">Streaming</div>
+                <div class="arch-node" data-id="kafka">Apache Kafka</div>
+                <div class="arch-node" data-id="flink">Apache Flink CEP</div>
+                <div class="arch-node" data-id="schema-registry">Schema Registry</div>
+                <div class="arch-node" data-id="dlq">Dead Letter Queue</div>
+            </div>
+            <div class="arch-flow">↓ Avro Events ↓</div>
+            <div class="arch-row">
+                <div class="arch-row-label">AI / ML</div>
+                <div class="arch-node" data-id="fall-model">XGBoost Fall Model</div>
+                <div class="arch-node" data-id="anomaly">Isolation Forest</div>
+                <div class="arch-node" data-id="nlp">BioClinicalBERT</div>
+                <div class="arch-node" data-id="rag">RAG Pipeline</div>
+            </div>
+            <div class="arch-flow">↓ Predictions + Context ↓</div>
+            <div class="arch-row">
+                <div class="arch-row-label">Agents</div>
+                <div class="arch-node" data-id="supervisor">Supervisor Agent</div>
+                <div class="arch-node" data-id="soap-agent">SOAP Note Agent</div>
+                <div class="arch-node" data-id="alert-agent">Alert Router</div>
+                <div class="arch-node" data-id="family-agent">Family Comms</div>
+                <div class="arch-node" data-id="care-agent">Care Plan Agent</div>
+            </div>
+            <div class="arch-flow">↓ Actions + Notifications ↓</div>
+            <div class="arch-row">
+                <div class="arch-row-label">Presentation</div>
+                <div class="arch-node" data-id="dashboard">Staff Dashboard</div>
+                <div class="arch-node" data-id="family-portal">Family Portal</div>
+                <div class="arch-node" data-id="mobile-alerts">Mobile Alerts</div>
+                <div class="arch-node" data-id="reports">Clinical Reports</div>
+            </div>
+            <p class="arch-hint">Click any component to explore its role, connections, and why it was chosen</p>
+            <div class="detail-panel" id="detailPanel">
+                <div class="detail-header">
+                    <div class="detail-title" id="detailTitle"></div>
+                    <button class="detail-close" id="detailClose">&times;</button>
+                </div>
+                <div class="detail-grid" id="detailGrid"></div>
+            </div>
+        </div>
+
+        <p style="margin-top: 2rem;">Sensor data arrives continuously. Kafka topics normalize and route it. ML models score risk in real-time. A vector database retrieves clinical context for the resident — past incidents, mobility patterns, medication interactions. The reasoning agent synthesizes all signals, makes a determination, and if a risk is detected, coordinates immediate actions: alerting the right caregiver with the right context, auto-generating an incident log, notifying the family through the portal. All in seconds.</p>
+
+        <p style="text-align: center; margin-top: 2.5rem;"><a href="project-eva-deep-dive.html" class="deepdive-link">Want the full technical deep dive? Explore the architecture →</a></p>
+    </section>
+
+    <!-- The Hard Choices Section -->
+    <section class="content-section">
+        <h2>The Hard Choices</h2>
+
+        <div class="card">
+            <h3>Why LangGraph, Not AutoGen</h3>
+            <p>Both frameworks let you orchestrate agents, but LangGraph gave me explicit control over the conversation flow. In healthcare, you can't have agents acting unpredictably. You need deterministic, auditable reasoning paths. LangGraph's graph-based approach means I can see exactly what the system did, in what order, with what confidence — critical for regulatory compliance and caregiver trust.</p>
+            <p><a href="project-eva-deep-dive.html">See full decision matrix →</a></p>
+        </div>
+
+        <div class="card">
+            <h3>Why On-Premise ML, Not Cloud APIs</h3>
+            <p>The cloud is convenient, but healthcare data is different. HIPAA is non-negotiable. Latency matters when you're predicting a fall. Cost per prediction adds up at scale. By running ML models on-premise, I kept patient data in the facility, eliminated API call latency, and cut operational costs by 60%. The trade-off: more operational complexity. Worth it for healthcare.</p>
+            <p><a href="project-eva-deep-dive.html">See full decision matrix →</a></p>
+        </div>
+
+        <div class="card">
+            <h3>Why Vector DB for Clinical Context</h3>
+            <p>Historical incident data and clinical notes contain the context needed for accurate risk assessment. Rather than keyword search or fixed rules, I used a vector database (embeddings of clinical documentation) so the agent could retrieve semantically similar past cases in real-time. A resident with "unsteady gait + recent medication change" finds similar patterns instantly. RAG pipeline for clinical reasoning.</p>
+            <p><a href="project-eva-deep-dive.html">See full decision matrix →</a></p>
+        </div>
+
+        <div class="card">
+            <h3>Why Kubernetes, Not Serverless</h3>
+            <p>Agents maintain state — memory of recent resident interactions, active monitoring sessions, coordination across multiple caregivers. Serverless functions are stateless and ephemeral. Kubernetes lets me run persistent agent processes that remember context. Plus, in a healthcare setting, cold starts aren't acceptable. You need warmth, constant readiness, no surprises.</p>
+            <p><a href="project-eva-deep-dive.html">See full decision matrix →</a></p>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="content-section">
+        <h2>The Impact</h2>
+
+        <div class="two-col">
+            <div class="two-col-left">
+                <p>Deploying EVA into five senior living communities revealed the real economics of prediction. A medium-size facility (250 residents) can prevent falls, reduce incident reporting overhead, and increase staff satisfaction.</p>
+                <p>The math is compelling: each prevented fall saves a facility roughly $600–$1,200 in incident response, medical intervention, and liability. One prediction a month pays for the entire system.</p>
+            </div>
+            <div class="two-col-right">
+                <div class="impact-numbers">
+                    <div class="impact-box">
+                        <div class="label">Cost Per Resident/Month</div>
+                        <div class="value">$50</div>
+                        <div class="desc">All-in operational cost</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">Savings Per Facility/Year</div>
+                        <div class="value">$150K–$400K</div>
+                        <div class="desc">Based on facility size</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">ROI: 3–5x Year One</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What I'd Tell an Interviewer Section -->
+    <section class="content-section">
+        <h2>What I'd Tell an Interviewer</h2>
+
+        <p><strong>On architecture:</strong> Event-driven systems win in healthcare. Batch processing introduces lag. Real-time streaming keeps caregivers in sync with patient state. Pick Kafka or equivalent, not cron jobs.</p>
+
+        <p><strong>On the build-vs-buy decision:</strong> I evaluated off-the-shelf fall detection systems. Most were generic, lacked integration with facility workflows, and couldn't adapt to individual resident risk profiles. Building gave me a 15% accuracy gain and 40% faster deployment. Sometimes buy is cheaper upfront; build is cheaper long-term.</p>
+
+        <p><strong>On human-in-the-loop:</strong> This system doesn't remove humans from care decisions. It augments them. The agent predicts risk; the caregiver verifies and acts. I built feedback loops so every caregiver action teaches the system. Trust comes from transparency and agency.</p>
+
+        <p><strong>On guardrails:</strong> Agents in healthcare can't be fully autonomous. You need constraints: confidence thresholds before alerts fire, escalation paths when uncertainty is high, audit trails for every recommendation. Building these isn't extra; it's foundational.</p>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <h3>Want to go deeper?</h3>
+        <div class="buttons">
+            <a href="project-eva-deep-dive.html" class="btn btn-primary">Full Technical Architecture →</a>
+            <a href="index.html#projects" class="btn btn-secondary">Back to All Projects →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-name">Nikhil Patel</div>
+        <ul class="footer-links">
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf">Resume</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Nikhil Patel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Hamburger menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+
+    <script>
+        const componentData = {
+            'ble-sensors': {
+                title: 'BLE 5.0 Wearable Sensors',
+                whatItIs: 'Bluetooth Low Energy 5.0 wrist-worn sensors that track gait velocity, step cadence, sleep patterns, and heart rate variability. Each resident wears one 24/7.',
+                howItOperates: 'Sensors broadcast telemetry every 5 seconds via BLE to facility gateway hubs. Data is batched and forwarded over MQTT v5 (QoS 1 for vitals, QoS 2 for alerts) to the streaming layer. Battery life: 14 days between charges.',
+                connections: 'Sends data to Apache Kafka via MQTT broker on the IoT Edge gateway. Gateway performs local anomaly detection for latency-sensitive fall alerts before forwarding to cloud.',
+                whyChosen: 'BLE 5.0 over Zigbee for wearables because of lower power consumption, better range (up to 400m), and native smartphone compatibility for family engagement features.'
+            },
+            'env-sensors': {
+                title: 'Zigbee Environmental Sensors',
+                whatItIs: 'Room-level sensors measuring motion, temperature, humidity, light levels, and door open/close events. Deployed in every resident room and common area.',
+                howItOperates: 'Zigbee mesh network with coordinator nodes per wing. Sensors report environmental state changes immediately (event-driven) and send heartbeat every 60 seconds. Data routed through facility gateway to MQTT broker.',
+                connections: 'Feeds environmental context to Apache Kafka topics (motion.raw, environment.raw). Combined with wearable data by Flink for cross-correlation (e.g., motion sensor shows no movement + wearable shows sudden acceleration = potential fall).',
+                whyChosen: 'Zigbee mesh over WiFi for environmental sensors because mesh topology provides self-healing network coverage in large facilities. Lower power = battery-operated sensors with 2+ year life.'
+            },
+            'ehr': {
+                title: 'HL7 FHIR R4 EHR Integration',
+                whatItIs: 'RESTful API integration with existing Electronic Health Record systems (PointClickCare, MatrixCare) using the HL7 FHIR R4 standard for clinical data interoperability.',
+                howItOperates: 'Bi-directional sync: pulls medication lists, diagnoses, care plans via FHIR Patient, MedicationRequest, and CarePlan resources. Pushes AI-generated SOAP notes and fall risk assessments back. OAuth 2.0 SMART on FHIR for authorization.',
+                connections: 'Provides clinical context to the RAG pipeline (medication interactions are a key fall risk feature). Receives output from the SOAP Note Agent. Connected via REST/HTTPS with SMART on FHIR OAuth.',
+                whyChosen: 'FHIR R4 over proprietary APIs because 90%+ of senior living EHRs now support FHIR. Standards-based integration means we can onboard a new EHR vendor in days, not months.'
+            },
+            'staff-input': {
+                title: 'Staff Mobile Application',
+                whatItIs: 'React Native cross-platform app for caregivers. Used for manual observations, shift handoff notes, incident reporting, and reviewing AI-generated care summaries.',
+                howItOperates: 'Real-time sync via WebSocket for alerts and notifications. REST API for CRUD operations. Offline-capable with local SQLite cache for areas with poor connectivity. Push notifications via Firebase Cloud Messaging.',
+                connections: 'Sends staff observations to Kafka (staff.observations topic). Receives alerts from Alert Router agent. Displays care plans from Care Plan Agent. Connected to dashboard via shared API gateway.',
+                whyChosen: 'React Native over native (Swift/Kotlin) to ship one codebase to iOS and Android. Senior living staff use both platforms. Offline capability is critical — facility WiFi is unreliable in some wings.'
+            },
+            'kafka': {
+                title: 'Apache Kafka Streaming Platform',
+                whatItIs: '3-broker Kafka cluster (Azure Event Hubs with Kafka API compatibility) serving as the central nervous system. All data flows through Kafka topics partitioned by facility_id.',
+                howItOperates: 'Topics: vitals.raw, motion.raw, alerts.generated, care-plans.updated, staff.observations. Partitioned by facility_id for locality. Retention: 7 days for raw data, 30 days for processed events. Consumer groups per service for independent processing.',
+                connections: 'Receives from all ingestion sources (MQTT bridge, REST gateway). Feeds Apache Flink for real-time processing. Feeds ML models for inference. Feeds agents for action triggers. Dead Letter Queue for failed events.',
+                whyChosen: 'Kafka-compatible Event Hubs over self-managed Kafka to eliminate ops burden at pilot scale. Kafka API compatibility means we can migrate to self-managed Kafka later without code changes if cost requires it.'
+            },
+            'flink': {
+                title: 'Apache Flink Complex Event Processing',
+                whatItIs: 'Real-time stream processing engine performing Complex Event Processing (CEP) — detecting patterns across multiple sensor streams within time windows.',
+                howItOperates: 'Flink jobs correlate events across streams: e.g., "wearable acceleration spike + no motion sensor activity in room + time is 2-5 AM" triggers a high-confidence fall alert. Windowed aggregations compute rolling averages for baseline deviation detection.',
+                connections: 'Consumes from Kafka topics. Enriches events with resident profile data from Redis cache. Outputs processed events back to Kafka (alerts.generated, vitals.processed). Triggers ML model inference for complex predictions.',
+                whyChosen: 'Flink over Kafka Streams because CEP pattern matching across multiple streams requires Flink\'s temporal windowing and event-time processing. Kafka Streams is simpler but can\'t handle cross-stream correlation at this complexity.'
+            },
+            'schema-registry': {
+                title: 'Confluent Schema Registry (Avro)',
+                whatItIs: 'Central schema management service ensuring all Kafka producers and consumers agree on data formats. Uses Apache Avro for compact, schema-evolved binary serialization.',
+                howItOperates: 'Every Kafka message references a schema ID. Producers register schemas before sending. Consumers validate against schema on read. Backward-compatible evolution: new fields can be added without breaking existing consumers.',
+                connections: 'Sits between all Kafka producers and consumers. Integrated with Kafka Connect for source/sink connectors. Schema validation prevents bad data from entering the pipeline.',
+                whyChosen: 'Avro over JSON because sensor telemetry volume is high — Avro\'s binary format is 40-60% smaller than JSON. Schema evolution prevents breaking changes when we add new sensor types or data fields.'
+            },
+            'dlq': {
+                title: 'Dead Letter Queue',
+                whatItIs: 'Kafka topic that captures events that failed processing after maximum retry attempts. Prevents data loss and enables debugging without blocking the main pipeline.',
+                howItOperates: 'When a consumer fails to process an event after 3 retries with exponential backoff, the event is published to the DLQ topic with error metadata (failure reason, stack trace, timestamp). Ops dashboard monitors DLQ depth. Manual replay capability for recovered events.',
+                connections: 'Receives failed events from all consumer groups (Flink jobs, ML inference, agent processing). Connected to alerting (PagerDuty) when DLQ depth exceeds threshold. Replay tool can re-inject events into original topics.',
+                whyChosen: 'Essential for healthcare reliability. A dropped vital sign reading or missed fall alert is unacceptable. DLQ ensures zero data loss while keeping the main pipeline unblocked by poison messages.'
+            },
+            'fall-model': {
+                title: 'XGBoost Fall Risk Prediction Model',
+                whatItIs: 'Gradient-boosted ensemble model predicting fall probability within the next 24 hours. Trained on 18 months of historical fall data across multiple facilities. Outputs a 0-100 risk score per resident.',
+                howItOperates: 'Features: gait velocity trend (7-day), sleep quality score, medication interaction risk (from EHR), time-of-day, recent bathroom frequency, BMI, fall history count. Model served via TorchServe behind FastAPI on GPU-enabled nodes. Inference latency: <50ms.',
+                connections: 'Receives feature vectors from Flink (real-time vitals) + Redis (cached resident profiles) + EHR (medication data). Outputs risk scores to Kafka (risk.scores topic). Consumed by Alert Router and Care Plan agents.',
+                whyChosen: 'XGBoost over deep learning because interpretability matters in healthcare. Clinicians need to understand WHY the model flagged a resident. XGBoost\'s feature importance is explainable; a black-box neural net isn\'t defensible to a medical director.'
+            },
+            'anomaly': {
+                title: 'Isolation Forest Anomaly Detection',
+                whatItIs: 'Unsupervised anomaly detection model that identifies deviations from a resident\'s established behavioral baseline without needing labeled data.',
+                howItOperates: 'Builds a 14-day rolling baseline per resident: typical sleep hours, activity levels, bathroom visits, meal attendance. Isolation Forest isolates anomalies as data points that are "easy to separate" from normal patterns. Anomaly score triggers investigation alerts.',
+                connections: 'Receives daily aggregated features from Flink. Outputs anomaly flags to Kafka (anomalies.detected). Consumed by Supervisor Agent for triage. Works in conjunction with XGBoost (anomaly flags boost fall risk scores).',
+                whyChosen: 'Isolation Forest over autoencoder because it works well with limited training data and doesn\'t require GPU for inference. At pilot scale with hundreds (not millions) of residents, training data is scarce — IF handles this gracefully.'
+            },
+            'nlp': {
+                title: 'Fine-tuned BioClinicalBERT',
+                whatItIs: 'BERT-based NLP model fine-tuned on clinical text for extracting structured data (symptoms, diagnoses, medications) from unstructured caregiver notes and shift reports.',
+                howItOperates: 'Deployed as a sidecar service. Receives free-text caregiver notes via REST API. Extracts named entities (symptoms, body parts, severity), classifies note intent (observation, incident, routine), and structures output as FHIR-compatible resources.',
+                connections: 'Receives staff notes from Staff Mobile App via API. Outputs structured data to the RAG pipeline (enriches vector store with parsed clinical context). Also feeds the SOAP Note Agent with structured patient context.',
+                whyChosen: 'BioClinicalBERT over general BERT because it\'s pre-trained on MIMIC-III clinical notes — understands medical abbreviations, dosage formats, and clinical terminology that general NLP models miss. Fine-tuning on our domain took 2 weeks, not 6 months.'
+            },
+            'rag': {
+                title: 'RAG Pipeline (LangChain + Pinecone + LLM)',
+                whatItIs: 'Retrieval-Augmented Generation pipeline that grounds LLM outputs in actual patient data, care protocols, and facility policies. The "brain" behind AI-generated clinical documentation.',
+                howItOperates: 'LangChain orchestrates: (1) Query embedding via sentence-transformers/all-MiniLM-L6-v2, (2) Similarity search in Pinecone vector DB (768-dim embeddings of care protocols + resident history), (3) Retrieved context injected into Claude/GPT-4 prompt, (4) LLM generates SOAP note grounded in real data.',
+                connections: 'Vector store populated by BioClinicalBERT output + EHR data + care protocols. Queried by SOAP Note Agent and Care Plan Agent. LLM output validated by human-in-the-loop (nurse review) before EHR write-back.',
+                whyChosen: 'RAG over fine-tuned LLM because care protocols change per facility and per resident. RAG lets us update the knowledge base without retraining the model. Pinecone over pgvector for operational simplicity at pilot scale.'
+            },
+            'supervisor': {
+                title: 'Supervisor Agent (LangGraph)',
+                whatItIs: 'The orchestrator of the multi-agent system. Built on LangGraph\'s stateful graph framework. Routes incoming events to the appropriate specialist agent based on event type and priority.',
+                howItOperates: 'Maintains a directed acyclic graph (DAG) of agent nodes. When an event arrives (fall alert, anomaly flag, shift change), Supervisor classifies it and routes to one or more specialist agents. Manages agent state in Redis. Handles retries and fallbacks if an agent fails.',
+                connections: 'Receives events from Kafka (alerts.generated, anomalies.detected). Routes to SOAP Note, Alert Router, Family Comms, and Care Plan agents. Reports agent execution status to monitoring dashboard.',
+                whyChosen: 'LangGraph over AutoGen/CrewAI because LangGraph provides stateful graph execution with built-in human-in-the-loop support. Critical for healthcare: P1 alerts require nurse confirmation before action. AutoGen lacks the state persistence and HITL patterns we need.'
+            },
+            'soap-agent': {
+                title: 'SOAP Note Generation Agent',
+                whatItIs: 'Specialist agent that generates Subjective-Objective-Assessment-Plan clinical notes from sensor data, staff observations, and patient history using the RAG pipeline.',
+                howItOperates: 'Triggered by Supervisor on shift changes and incident events. Queries RAG pipeline with patient context. Generates structured SOAP note following facility templates. Outputs draft for nurse review (human-in-the-loop). Upon approval, writes to EHR via FHIR API.',
+                connections: 'Receives task assignments from Supervisor. Queries RAG pipeline for context. Outputs to Staff Dashboard for review. Writes approved notes to EHR system. Logs all generations for audit trail.',
+                whyChosen: 'Dedicated agent vs. inline LLM call because SOAP note generation requires multi-step reasoning: gather context, apply template, validate against care plan, check compliance. An agent can retry, escalate, and maintain conversation state across steps.'
+            },
+            'alert-agent': {
+                title: 'Alert Routing Agent',
+                whatItIs: 'Classifies alert severity (P1-Critical, P2-Urgent, P3-Warning, P4-Info) and routes to the appropriate staff member through the right channel at the right time.',
+                howItOperates: 'Rules engine + ML classification: P1 (fall detected) → immediate push notification to on-duty nurse + page on-call supervisor. P2 (risk score spike) → dashboard alert + shift report inclusion. P3 (behavioral anomaly) → daily summary. P4 (routine) → weekly report. Respects do-not-disturb schedules.',
+                connections: 'Receives classified events from Supervisor. Routes to Staff Mobile App (push notifications), Dashboard (real-time), Email (summaries). Integrates with facility scheduling system to know who\'s on shift.',
+                whyChosen: 'Agent-based routing over static rules because alert fatigue is the #1 complaint from senior living staff. The agent learns from dismissal patterns — if a nurse consistently dismisses P3 gait alerts for a specific resident, it adjusts. Smart routing reduces noise by 60%.'
+            },
+            'family-agent': {
+                title: 'Family Communication Agent',
+                whatItIs: 'Generates natural-language family updates about their loved one\'s daily activities, health trends, and notable events — with strict HIPAA de-identification controls.',
+                howItOperates: 'Runs daily at configurable time. Aggregates sensor data + staff notes + care plan updates. Generates a warm, readable summary (not clinical jargon). Applies HIPAA de-identification: strips PHI categories, uses relative terms ("your mother" not patient ID). Delivers via Family Portal PWA + optional email.',
+                connections: 'Queries RAG pipeline for daily context. Outputs to Family Portal (WebSocket push). Receives family preferences from portal settings (frequency, detail level). Logs all communications for compliance.',
+                whyChosen: 'Dedicated agent because family communication has unique constraints: tone must be warm (not clinical), HIPAA de-identification must be applied, and families have individual preferences for frequency and detail. A generic notification system can\'t handle this nuance.'
+            },
+            'care-agent': {
+                title: 'Care Plan Modification Agent',
+                whatItIs: 'Analyzes trend data to suggest care plan modifications — proactively recommending interventions based on emerging patterns before they become incidents.',
+                howItOperates: 'Monitors 30-day trends: declining gait velocity, increasing nighttime bathroom visits, weight changes, sleep pattern shifts. When trends cross thresholds, generates specific recommendations (e.g., "Consider physical therapy referral — gait velocity declined 15% over 3 weeks"). Suggestions require clinician approval.',
+                connections: 'Receives trend data from Flink aggregations. Queries EHR for current care plan. Outputs recommendations to Staff Dashboard. Upon approval, updates care plan in EHR via FHIR API. Feeds back into XGBoost model features.',
+                whyChosen: 'Proactive care planning vs. reactive incident response is EVA\'s core differentiator. This agent transforms the platform from "alert system" to "predictive care partner." The agent pattern allows it to reason about multiple data sources and generate nuanced recommendations.'
+            },
+            'dashboard': {
+                title: 'Staff Dashboard (Next.js 14)',
+                whatItIs: 'Real-time web dashboard for facility staff built on Next.js 14 with App Router. Shows resident risk scores, active alerts, shift summaries, and care plan status in role-based views.',
+                howItOperates: 'Server-side rendering for initial load performance. WebSocket (Socket.io) for real-time updates — new alerts appear instantly without page refresh. Redis pub/sub backend for multi-instance support. Role-based views: nurse sees patient detail, admin sees facility overview.',
+                connections: 'Receives real-time events via WebSocket from all agents. Displays ML model outputs (risk scores, anomalies). Provides human-in-the-loop interface for SOAP note approval. REST API to backend services for CRUD operations.',
+                whyChosen: 'Next.js 14 over plain React for SSR performance (critical for staff who need instant page loads) and App Router for cleaner data fetching patterns. Socket.io over raw WebSocket for automatic reconnection and room-based broadcasting per facility.'
+            },
+            'family-portal': {
+                title: 'Family Portal (Progressive Web App)',
+                whatItIs: 'HIPAA-compliant Progressive Web App where families view daily summaries, health trends, and communicate with care staff. No app store download required.',
+                howItOperates: 'PWA with service worker for offline caching of recent summaries. WebSocket for real-time notifications. Chart.js for vitals trend visualization. Authentication via magic link (email) — no password for elderly family members. HIPAA-compliant data display with consent management.',
+                connections: 'Receives content from Family Communication Agent. Displays trend data from analytics pipeline. Messaging feature connects to Staff Mobile App. Push notifications via web push API.',
+                whyChosen: 'PWA over native app because families check infrequently (weekly). App store install friction would kill adoption. PWA gives native-like experience with zero install. Magic link auth reduces support burden from password resets.'
+            },
+            'mobile-alerts': {
+                title: 'Mobile Push Notification System',
+                whatItIs: 'Multi-channel alert delivery system sending time-critical notifications to the right staff member on the right device at the right moment.',
+                howItOperates: 'Firebase Cloud Messaging for push notifications. Escalation chain: if primary nurse doesn\'t acknowledge P1 within 2 minutes, escalates to charge nurse, then supervisor. Delivery confirmation tracking. Quiet hours respect for non-emergency alerts.',
+                connections: 'Receives routed alerts from Alert Router Agent. Integrates with facility scheduling system for on-duty roster. Sends to Staff Mobile App. Fallback to SMS via Twilio for critical alerts if push fails.',
+                whyChosen: 'FCM over custom push infrastructure for reliability and cross-platform support. Escalation chain is critical — a missed fall alert in senior care can be fatal. Multi-channel fallback (push → SMS → phone call) ensures no P1 goes unacknowledged.'
+            },
+            'reports': {
+                title: 'Clinical Reporting Engine',
+                whatItIs: 'Automated report generation for regulatory compliance, quality metrics, and facility benchmarking. Produces daily, weekly, and monthly reports for different stakeholders.',
+                howItOperates: 'Batch processing job (Azure Functions, triggered on schedule). Aggregates data from Cosmos DB and PostgreSQL. Generates PDF reports with Chart.js visualizations. Distributes via email and archives to Azure Blob Storage. HIPAA-compliant formatting with access controls.',
+                connections: 'Reads from all data stores (Cosmos DB for sensor data, PostgreSQL for clinical records, Pinecone for AI-generated content). Outputs to Staff Dashboard (embedded), email distribution, regulatory submission systems.',
+                whyChosen: 'Azure Functions (serverless) for reporting because it\'s a batch job that runs on schedule — no need for always-on compute. Cost-efficient for periodic workloads. Separate from K8s cluster to avoid impacting real-time processing resources.'
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const nodes = document.querySelectorAll('.arch-node');
+            const panel = document.getElementById('detailPanel');
+            const title = document.getElementById('detailTitle');
+            const grid = document.getElementById('detailGrid');
+            const closeBtn = document.getElementById('detailClose');
+            let activeNode = null;
+
+            nodes.forEach(node => {
+                node.addEventListener('click', function() {
+                    const id = this.dataset.id;
+                    const data = componentData[id];
+                    if (!data) return;
+
+                    // Toggle same node
+                    if (activeNode === this) {
+                        closePanel();
+                        return;
+                    }
+
+                    // Deactivate previous
+                    if (activeNode) activeNode.classList.remove('active');
+
+                    // Activate new
+                    this.classList.add('active');
+                    activeNode = this;
+
+                    // Populate panel
+                    title.textContent = data.title;
+                    grid.innerHTML = `
+                        <div class="detail-item">
+                            <div class="detail-item-label">What It Is</div>
+                            <p>${data.whatItIs}</p>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">How It Operates</div>
+                            <p>${data.howItOperates}</p>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Connections</div>
+                            <p>${data.connections}</p>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-item-label">Why This Was Chosen</div>
+                            <p>${data.whyChosen}</p>
+                        </div>
+                    `;
+                    panel.classList.add('open');
+
+                    // Scroll panel into view
+                    setTimeout(() => {
+                        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 100);
+                });
+            });
+
+            closeBtn.addEventListener('click', closePanel);
+
+            function closePanel() {
+                panel.classList.remove('open');
+                if (activeNode) {
+                    activeNode.classList.remove('active');
+                    activeNode = null;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

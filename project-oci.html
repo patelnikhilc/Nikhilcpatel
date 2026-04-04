@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCI National Security Region — Nikhil Patel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+    <style>
+        .interactive-arch { max-width: 900px; margin: 2rem auto; padding: 2.5rem; background: var(--bg-secondary); border-radius: 16px; border: 1px solid var(--border); }
+        .arch-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .arch-row-label { font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; min-width: 110px; flex-shrink: 0; }
+        .arch-node { padding: 0.7rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease; user-select: none; }
+        .arch-node:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(76,201,164,0.15); }
+        .arch-node.active { border-color: var(--accent); color: var(--accent); background: rgba(76,201,164,0.08); box-shadow: 0 0 20px rgba(76,201,164,0.2); }
+        .arch-node.highlight-red { border-color: #ef4444; color: #ef4444; }
+        .arch-node.highlight-red:hover { box-shadow: 0 4px 15px rgba(239,68,68,0.15); }
+        .arch-flow { text-align: center; color: var(--text-muted); font-size: 1rem; margin: 0.4rem 0; opacity: 0.5; }
+        .arch-hint { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 1.5rem; font-style: italic; }
+        .detail-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease, margin 0.4s ease; background: var(--bg-card); border: 1px solid transparent; border-radius: 8px; margin-top: 0; }
+        .detail-panel.open { max-height: 800px; padding: 2rem; margin-top: 1.5rem; border-color: var(--accent); }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .detail-title { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--accent); }
+        .detail-close { width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .detail-close:hover { border-color: var(--accent); color: var(--accent); }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .detail-item { padding: 1rem; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border); }
+        .detail-item-label { font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .detail-item p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7; margin: 0; }
+        @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr; } .arch-row { flex-direction: column; align-items: flex-start; } }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+    <a href="index.html" class="nav-name">Nikhil <span>Patel</span></a>
+    <button class="nav-hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+    </ul>
+</nav>
+
+<!-- ============================================
+     PAGE HEADER
+     ============================================ -->
+<header class="page-header container">
+    <div class="page-header-eyebrow">CASE STUDY — ORACLE CLOUD</div>
+    <h1>OCI National Security Region: Building a Cloud Where Even the Developers Can't Access the Internet</h1>
+    <p class="page-header-desc">
+        How I bootstrapped Oracle's sovereign cloud from zero features to $100M+ revenue — in an air-gapped environment where developers can't SSH into prod, stream logs, or access the internet. The bet that paid off: full feature parity in a classified setting.
+    </p>
+</header>
+
+<!-- ============================================
+     METRICS GRID
+     ============================================ -->
+<section class="section container metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">$100M+</div>
+        <div class="metric-label">Revenue Generated</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">90%</div>
+        <div class="metric-label">POC-to-Deal Conversion</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">3 yrs</div>
+        <div class="metric-label">Zero to Competitive</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">500+</div>
+        <div class="metric-label">Fortune 500 Clients</div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE PROBLEM
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Problem</h2>
+    <p>
+        Picture this: A Pentagon agency needs cloud compute. Classified data. Billions in defense contracts. Top-secret research. But the data can never touch a public network. Not even routed through a government proxy. Not even a fiber connection to commercial cloud.
+    </p>
+    <p>
+        They can use AWS GovCloud or Azure Government. But Oracle had zero presence. We needed to build a sovereign cloud—feature-complete, government-grade, operating in an air-gapped environment where developers literally cannot access the internet.
+    </p>
+    <p>
+        The constraint wasn't just technical. It was tribal. Imagine shipping software without SSH access to production. No real-time log streaming. No remote debugging. Every code change requires cleared personnel and cryptographic audit trails. Updates arrive via sneakernet—physically carried in on approved drives. Every feature must pass security review that looks for phone-home calls, external dependencies, anything that could leak classified data.
+    </p>
+    <p>
+        The ask: Build commercial cloud velocity in a classified environment. In three years. Starting from zero.
+    </p>
+</section>
+
+<!-- ============================================
+     THE BET I MADE
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Bet I Made</h2>
+    <p>
+        Competitors offered "GovCloud lite"—a stripped-down cloud with basic compute and storage. Our bet was different: customers didn't want lite. They wanted the real thing.
+    </p>
+    <p>
+        We built full OCI feature parity in an air-gap. Autonomous Database that updates its ML models offline. Kubernetes with an internal container registry. Managed services for streaming, functions, API gateways. Compliance automation (OSCAL machine-readable controls, not PDF audits). Bare metal servers for customers who needed physical isolation. All of it operating where no internet cable goes.
+    </p>
+    <p>
+        The engineering was brutal. The payoff was undeniable. That bet drove the company strategy, unlocked $100M+ in revenue, and became Oracle's beachhead in classified government cloud.
+    </p>
+</section>
+
+<!-- ============================================
+     HOW IT WORKS (High-Level Architecture)
+     ============================================ -->
+<section class="content-section container">
+    <h2>How It Works</h2>
+    <p style="margin-bottom: 32px;">
+        The sovereign cloud architecture operates as five core layers—each solving a specific constraint while maintaining full feature parity.
+    </p>
+
+    <div class="interactive-arch" id="archDiagram">
+        <div class="arch-row">
+            <div class="arch-row-label">Security</div>
+            <div class="arch-node highlight-red" data-id="airgap">Air-Gapped Network</div>
+            <div class="arch-node highlight-red" data-id="hsm">Hardware Security Modules</div>
+            <div class="arch-node highlight-red" data-id="cleared">Cleared Personnel</div>
+            <div class="arch-node highlight-red" data-id="tpm">TPM 2.0 Hardware</div>
+        </div>
+        <div class="arch-flow">↓ Physical Isolation ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Infrastructure</div>
+            <div class="arch-node" data-id="bare-metal">Bare Metal Compute</div>
+            <div class="arch-node" data-id="vm-compute">KVM Virtual Machines</div>
+            <div class="arch-node" data-id="block-storage">Block Storage</div>
+            <div class="arch-node" data-id="object-storage">Object Storage</div>
+            <div class="arch-node" data-id="vcn">Virtual Cloud Network</div>
+        </div>
+        <div class="arch-flow">↓ Managed Services ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Platform</div>
+            <div class="arch-node" data-id="autonomous-db">Autonomous Database</div>
+            <div class="arch-node" data-id="oke">Container Engine (K8s)</div>
+            <div class="arch-node" data-id="functions">OCI Functions</div>
+            <div class="arch-node" data-id="streaming">Streaming (Kafka)</div>
+            <div class="arch-node" data-id="api-gw">API Gateway</div>
+        </div>
+        <div class="arch-flow">↓ Governance ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Compliance</div>
+            <div class="arch-node" data-id="fedramp">FedRAMP High Controls</div>
+            <div class="arch-node" data-id="audit">Immutable Audit Logs</div>
+            <div class="arch-node" data-id="cloudguard">Cloud Guard</div>
+            <div class="arch-node" data-id="iam">IAM + DoD PKI</div>
+        </div>
+        <div class="arch-flow">↓ Classified Workloads ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Customers</div>
+            <div class="arch-node" data-id="intel">Intelligence Agencies</div>
+            <div class="arch-node" data-id="defense">Defense Contractors</div>
+            <div class="arch-node" data-id="fed-health">Federal Health</div>
+            <div class="arch-node" data-id="nat-labs">National Labs</div>
+        </div>
+        <p class="arch-hint">Click any component to explore its role, connections, and why it was chosen</p>
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-header">
+                <div class="detail-title" id="detailTitle"></div>
+                <button class="detail-close" id="detailClose">&times;</button>
+            </div>
+            <div class="detail-grid" id="detailGrid"></div>
+        </div>
+    </div>
+
+    <p style="margin-top: 32px;">
+        <a href="project-oci-deep-dive.html">Explore the full 7-layer sovereign architecture →</a>
+    </p>
+</section>
+
+<!-- ============================================
+     THE HARD CHOICES
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Hard Choices</h2>
+    <p style="margin-bottom: 40px;">
+        Every major decision came down to: speed vs. security, features vs. compliance, cost vs. isolation. These four choices shaped the entire product.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <div class="card card-accent">
+            <h3 style="margin-bottom: 12px; font-size: 16px;">Why Full Air-Gap, Not Connected Gov Cloud</h3>
+            <p style="font-size: 14px; color: var(--text-secondary);">
+                Intelligence Community customers won't accept any internet connectivity. TS/SCI data never touches a cable with external connectivity. Every software update arrives via sneakernet on approved media with cryptographic signatures.
+            </p>
+            <p style="font-size: 13px; margin-top: 16px;">
+                <a href="project-oci-deep-dive.html">See the offline update pipeline →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-bottom: 12px; font-size: 16px;">Why Bare Metal First</h3>
+            <p style="font-size: 14px; color: var(--text-secondary);">
+                Government licensing is tied to physical cores. TOP SECRET workloads need hardware-level isolation—their own physical CPU, not shared cache with another customer's SECRET data. Customers pay $10M+ deals for that trust.
+            </p>
+            <p style="font-size: 13px; margin-top: 16px;">
+                <a href="project-oci-deep-dive.html">See deployment architecture →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-bottom: 12px; font-size: 16px;">Why Autonomous DB in Air-Gap</h3>
+            <p style="font-size: 14px; color: var(--text-secondary);">
+                Commercial Autonomous DB updates ML models by phoning home. For sovereign cloud, we built offline model updates: pre-train, validate extensively, transfer via cross-domain guard on approved media. Most ambitious technical challenge.
+            </p>
+            <p style="font-size: 13px; margin-top: 16px;">
+                <a href="project-oci-deep-dive.html">See the architecture →</a>
+            </p>
+        </div>
+
+        <div class="card card-accent">
+            <h3 style="margin-bottom: 12px; font-size: 16px;">Why White-Glove Sales, Not Self-Service</h3>
+            <p style="font-size: 14px; color: var(--text-secondary);">
+                At $10M+ deal sizes with 90% POC-to-deal conversion, white-glove sales math works. We hire security-cleared engineers to co-architect each customer's deployment. That's the moat.
+            </p>
+            <p style="font-size: 13px; margin-top: 16px;">
+                <a href="project-oci-deep-dive.html">See the full business model →</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE IMPACT
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Impact</h2>
+
+    <div style="margin-top: 32px;">
+        <h3 style="font-size: 18px; margin-bottom: 12px;">Revenue: $100M+ in 3 Years</h3>
+        <p>
+            Oracle's first government cloud deal closed in Year 1. By Year 3, we had 20+ intelligence agencies, defense contractors (Lockheed, Raytheon, General Dynamics), federal health systems (VA, DoD), and national laboratories (Oak Ridge, Sandia) on the platform.
+        </p>
+    </div>
+
+    <div style="margin-top: 32px;">
+        <h3 style="font-size: 18px; margin-bottom: 12px;">Strategic: Beachhead in Classified Government</h3>
+        <p>
+            AWS and Azure owned GovCloud. Oracle had zero presence. Sovereign cloud became the Trojan horse for enterprise databases in classified environments. Once in, database stickiness = decades of revenue.
+        </p>
+    </div>
+
+    <div style="margin-top: 32px;">
+        <h3 style="font-size: 18px; margin-bottom: 12px;">Competitive: Feature Parity Became Our Strongest Weapon</h3>
+        <p>
+            Competitors cut features to ship faster. We shipped full OCI in a classified setting. That earned customer trust and became impossible for competitors to replicate without years of investment.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     WHAT I'D TELL AN INTERVIEWER
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>What I'd Tell an Interviewer</h2>
+
+    <div class="card card-accent" style="margin-top: 24px;">
+        <h3 style="font-size: 16px; margin-bottom: 16px;">Constraints Drive Innovation</h3>
+        <p>
+            "Can't access the internet" sounds like a blocker. It was a lens. The constraint forced us to think differently about deployment, monitoring, scaling, and updates. That constraint is what made our product unique.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-top: 24px;">
+        <h3 style="font-size: 16px; margin-bottom: 16px;">Compliance Is a Feature, Not a Hurdle</h3>
+        <p>
+            FedRAMP, OSCAL, continuous monitoring—these aren't boxes to check. They're the foundation customers build on. Companies that treat compliance as an afterthought can't sell to government. Companies that build it in from day one own the market.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-top: 24px;">
+        <h3 style="font-size: 16px; margin-bottom: 16px;">Trust > Speed in Classified Environments</h3>
+        <p>
+            Shipping fast matters in B2B SaaS. In national security? Trust is the currency. We moved slower, but every feature was bulletproof. Every update was audited. That earned us customer loyalty that competitors couldn't buy.
+        </p>
+    </div>
+
+    <div class="card card-accent" style="margin-top: 24px;">
+        <h3 style="font-size: 16px; margin-bottom: 16px;">High-Touch Sales Math Works at $M+ Deal Sizes</h3>
+        <p>
+            Enterprise SaaS thinks unit economics. Government cloud thinks relationship value. A 90% POC-to-deal conversion with white-glove sales is profit-maximizing. That became our go-to-market strategy and competitive moat.
+        </p>
+    </div>
+</section>
+
+<!-- ============================================
+     CTA SECTION
+     ============================================ -->
+<section class="cta-banner container-narrow">
+    <h2>Ready for the Technical Deep-Dive?</h2>
+    <p>
+        Explore the full 7-layer architecture, deployment patterns, design decisions, and the engineering behind sovereign cloud.
+    </p>
+    <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="project-oci-deep-dive.html" class="btn btn-primary">Full Technical Architecture</a>
+        <a href="index.html#projects" class="btn btn-secondary">Back to All Projects</a>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer container">
+    <div class="footer-name">Nikhil Patel</div>
+    <div class="footer-links">
+        <a href="index.html#projects">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-copy">© 2024 Nikhil Patel. All rights reserved.</div>
+</footer>
+
+<!-- Navigation Toggle Script -->
+<script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburgerBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+        });
+    });
+</script>
+
+<!-- Interactive Architecture Diagram Script -->
+<script>
+    const archComponentData = {
+        airgap: {
+            title: "Air-Gapped Network",
+            whatItIs: "A physically isolated network with zero internet connectivity, implementing SCIF (Sensitive Compartmented Information Facility) grade isolation. No external cables, no wireless, no peering with commercial internet infrastructure.",
+            howItOperates: "All software updates and patches arrive via sneakernet—physically carried on approved USB drives with cryptographic signatures. Every network packet stays within the air-gap; no routing to public networks. Facility is Faraday-shielded to prevent RF emission.",
+            connections: "Foundation layer—all other infrastructure (compute, storage, services) operates exclusively within the air-gap. All compliance controls and audit trails depend on this isolation.",
+            whyChosen: "Intelligence Community (TS/SCI) customers will not accept any internet connectivity pathway. Air-gap is non-negotiable for classified government contracts. This constraint became our competitive advantage—customers trust that data cannot leak via misconfigured NAT or rogue cloud egress.",
+        },
+        hsm: {
+            title: "Hardware Security Modules (HSM)",
+            whatItIs: "Thales Luna HSM (FIPS 140-2 Level 3 certified), managing encryption keys for all data at rest, TLS termination, and customer-managed keys. Customers can load their own key material and never allow Oracle to touch their keys.",
+            howItOperates: "HSM is network-attached via secure iSCSI tunnel within the air-gap. Encryption keys never leave the HSM in plaintext. Multi-party control enforces that no single person can export a key—requires 2+ cleared personnel with hardware tokens.",
+            connections: "All block storage, object storage, database encryption, and TLS keys flow through HSM. Every data encryption operation requires HSM validation.",
+            whyChosen: "Defense contractors (ITAR) and intelligence agencies require key management that they control, not the cloud provider. HSM is the only way to deliver that trust. Customers see Thales HSM as a gold standard—they can audit it, trust it.",
+        },
+        cleared: {
+            title: "Cleared Personnel Only",
+            whatItIs: "Every developer, operator, and engineer with access to the sovereign cloud must hold at minimum Secret (TS/SCI preferred) security clearance from DoD. Background investigations, polygraphs, and continuous reinvestigation are required.",
+            howItOperates: "Code review requires cleared personnel. Every commit message is logged. Production access is limited to cleared staff. No contractors without clearance. On-site work only—no remote access to production infrastructure.",
+            connections: "Foundational control across all operations: patch management, incident response, configuration changes, and customer support. Every critical operation is gated by cleared personnel.",
+            whyChosen: "Classified data handling requires trust at the personnel level. Customers need assurance that every person with access has passed background investigation and is subject to counterintelligence protocols. This is non-delegable.",
+        },
+        tpm: {
+            title: "TPM 2.0 Hardware",
+            whatItIs: "Trusted Platform Module 2.0 on every physical server (Oracle X9-2), providing measured boot, secure storage of cryptographic keys, and attestation capabilities. Prevents rootkits and firmware tampering at the hardware level.",
+            howItOperates: "TPM validates firmware and bootloader integrity before kernel load (measured boot). Any unauthorized change to BIOS or firmware is detected. TPM stores sealing keys that unlock only if firmware is in expected state. Attestation reports can be verified by customer auditors.",
+            connections: "Protects the foundation of the infrastructure stack. If TPM attestation fails, the server cannot boot. Works in tandem with cleared personnel to detect physical tampering.",
+            whyChosen: "TOP SECRET workloads require hardware-level supply chain assurance. TPM 2.0 is mandated by DoD IL5 and is a requirement for National Security information systems. Customers demand remote attestation to verify firmware hasn't been backdoored.",
+        },
+        "bare-metal": {
+            title: "Bare Metal Compute (Oracle X9-2)",
+            whatItIs: "Full physical server (no hypervisor), customer-dedicated, with their own physical CPU cores, memory, and I/O. Pricing is per core; customer licensing (e.g., Oracle Database) is tied to physical cores, not virtual cores.",
+            howItOperates: "Customer receives full machine ownership—no shared cache, no shared memory hierarchy. They control the entire OS, kernel tuning, and hardware configuration. TPM and measured boot run natively on the server.",
+            connections: "Feeds customer workloads directly (Autonomous Database, high-performance compute jobs). Premium offering for TOP SECRET isolation—customers pay 2-3x for bare metal vs. shared VMs.",
+            whyChosen: "Government licensing and TOP SECRET isolation both require physical separation. Customers won't accept shared hardware—even shared CPU cache can be attacked via speculative execution (e.g., Spectre). Bare metal is the trust model.",
+        },
+        "vm-compute": {
+            title: "KVM Virtual Machines",
+            whatItIs: "Hypervisor-managed VMs on Oracle Linux with kernel hardening (SELinux, AppArmor). Shared servers (multi-tenant) with strong compartment isolation—different customers' VMs never share physical cores.",
+            howItOperates: "KVM isolates each VM's address space and device I/O. Compartment-based isolation ensures customers cannot cross-access storage or network traffic. DISA STIG hardening applied to the kernel and hypervisor.",
+            connections: "Lower-cost alternative to bare metal. Suitable for non-TOP-SECRET workloads (e.g., web APIs, microservices). Integrates with Autonomous Database, Functions, and Container Engine.",
+            whyChosen: "Cost-efficiency for SECRET and below workloads. Customers get cloud elasticity without the bare-metal premium. KVM is open-source, auditable, and well-understood in government security reviews.",
+        },
+        "block-storage": {
+            title: "Block Storage (iSCSI)",
+            whatItIs: "Network-attached storage volumes (SAN) delivered via iSCSI protocol within the air-gap. Encrypted at rest with AES-256, decryption keys held by HSM. Replicated across fault domains for availability.",
+            howItOperates: "Block storage volumes are provisioned to compute instances (bare metal or VM). Data is encrypted before leaving the compute node. Replication ensures 99.9% uptime without leaving the classified facility.",
+            connections: "Stores persistent data for Autonomous Database, customer applications, and audit logs. HSM provides encryption keys. Networking via VCN.",
+            whyChosen: "Customers need fast, reliable storage that they trust won't be sniffed (even by Oracle insiders). Encryption is mandatory. Replication prevents data loss from hardware failure—critical for classified data.",
+        },
+        "object-storage": {
+            title: "Object Storage (S3-Compatible)",
+            whatItIs: "S3-compatible API with WORM (Write-Once-Read-Many) enforcement for compliance and audit data. Immutable buckets ensure compliance logs cannot be altered retroactively. AES-256 encryption with customer-controlled key material.",
+            howItOperates: "Customers upload objects via S3 API. WORM enforcement means once written, objects cannot be deleted or modified for their retention period (e.g., 7 years for audit logs). Compliance buckets are automatically locked.",
+            connections: "Primary store for immutable audit logs, backup data, and compliance artifacts. Feeds into compliance workflows and customer archival needs.",
+            whyChosen: "FedRAMP and OSCAL require immutable audit logs. WORM enforcement prevents insider threats (an admin cannot delete evidence of their own access). S3 compatibility allows customers to use familiar tooling.",
+        },
+        vcn: {
+            title: "Virtual Cloud Network (VCN)",
+            whatItIs: "Software-defined network using VXLAN overlay. Replaces traditional physical firewalls with security lists (stateful firewall rules per subnet) and network security groups (per instance). No internet gateway—all traffic stays internal.",
+            howItOperates: "VCN carves the air-gap into logical subnets. Security lists enforce allow/deny rules. No egress rules default to deny—zero-trust network model. NSGs provide fine-grained per-instance controls.",
+            connections: "Routes all network traffic: compute-to-storage, application-to-database, customer-to-customer (compartmentalized). No internet gateway means no path to external networks.",
+            whyChosen: "Air-gap requires absolute control over network egress. VCN ensures applications cannot accidentally call external APIs or exfiltrate data. No misconfigurations can create internet pathways.",
+        },
+        "autonomous-db": {
+            title: "Autonomous Database (Offline ML)",
+            whatItIs: "Oracle Autonomous Database with offline machine learning updates. Commercial Autonomous DB updates ML models by phoning home; sovereign version pre-trains models, validates extensively, then transfers via cross-domain guard on approved media.",
+            howItOperates: "ML models are trained outside the air-gap using production workload samples. Models are cryptographically signed, tested in staging, then physically transferred to production. In-air-gap deployment validates model signature and integrates into query optimizer.",
+            connections: "Database engine for customer applications, data warehousing, and analytics. Ingests training data from staging environment. Updates require cleared personnel validation.",
+            whyChosen: "Most technically ambitious feature. Autonomous DB is Oracle's flagship product. Building offline ML updates proves full feature parity in classified setting. Customers see this as proof that they don't sacrifice capability for security.",
+        },
+        oke: {
+            title: "Container Engine (Kubernetes)",
+            whatItIs: "Managed Kubernetes (OKE) with internal-only container registry, DISA STIG-hardened images, and no DockerHub access. Every container image is scanned for vulnerabilities before deployment.",
+            howItOperates: "Container images are built in staging (outside air-gap), scanned by security scanners, signed, and physically transferred to production registry. Registry validates signatures before allowing pulls. No external image pulls—every image is pre-approved.",
+            connections: "Runs microservices, application containers, and customer workloads. Integrates with API Gateway for routing, Functions for event triggers, and Autonomous Database for data.",
+            whyChosen: "Kubernetes is the modern compute substrate; government customers expect it. Building a secured, air-gapped Kubernetes proves we're not a legacy cloud. Pre-signed images enforce supply chain security.",
+        },
+        functions: {
+            title: "OCI Functions (Serverless)",
+            whatItIs: "Managed serverless compute (Functions on top of Kubernetes). Developers upload function code; platform handles scaling, isolation, and execution. Internal triggers only—functions cannot call external APIs.",
+            howItOperates: "Functions are packaged as container images, signed, and stored in the internal registry. Execution environment is isolated per function. Triggers come from Object Storage, Streaming, or API Gateway—all internal to the air-gap.",
+            connections: "Integrates with Streaming for event-driven workflows, API Gateway for HTTP triggers, and Autonomous Database for data access. No external webhooks.",
+            whyChosen: "Event-driven architecture is essential for modern apps. Functions allow customers to build reactive systems without leaving the air-gap. Serverless scales without requiring bare-metal provisioning.",
+        },
+        streaming: {
+            title: "Streaming (Kafka-Compatible)",
+            whatItIs: "Managed Kafka-compatible streaming service for event-driven workloads. Applications publish and consume messages within the classified environment. No external connectors (e.g., Kafka Connect to public cloud).",
+            howItOperates: "Topics are partitioned across brokers for high availability. Producers and consumers communicate over internal Kafka protocol. Messages are encrypted in flight via mTLS. Retention policies enforce data lifecycle within the air-gap.",
+            connections: "Feeds events to Functions, Autonomous Database pipelines, and customer applications. No egress to external Kafka clusters. All producers/consumers are internal.",
+            whyChosen: "Customers expect event-driven, real-time architectures. Managed Streaming removes operational burden of running Kafka. Isolation (no external connectors) ensures data doesn't leak via misconfigured Kafka Connect.",
+        },
+        "api-gw": {
+            title: "API Gateway",
+            whatItIs: "Managed gateway for REST APIs. Provides rate limiting, authentication (OAuth 2.0, SAML), WAF (Web Application Firewall), and request/response transformations. Internal-only routing.",
+            howItOperates: "Customer APIs are registered with the gateway. Authentication policies are enforced (e.g., require DoD PKI certificates). Rate limiting prevents resource exhaustion. WAF blocks SQL injection, XSS, and other attacks.",
+            connections: "Routes external API requests (from customer apps or users) to backend services (Functions, Container Engine, Autonomous Database). No internet routing.",
+            whyChosen: "Government applications need strong authentication and attack defense. WAF is a compliance requirement. Rate limiting prevents denial-of-service attacks from consuming classified infrastructure resources.",
+        },
+        fedramp: {
+            title: "FedRAMP High Controls",
+            whatItIs: "325+ security controls mapped to FedRAMP High baseline. Continuous monitoring validates that controls are in place. OSCAL (machine-readable control framework) is used instead of PDF audits.",
+            howItOperates: "Controls are automated where possible (e.g., Cloud Guard scans for misconfigurations). Evidence is collected continuously from audit logs, system configurations, and runtime observations. OSCAL reports can be generated on-demand for auditors.",
+            connections: "FedRAMP assessment covers all infrastructure, services, and operations. Feeds into customer compliance workflows and government audits.",
+            whyChosen: "FedRAMP High is the gold standard for government cloud. 325+ controls is comprehensive. OSCAL (vs. PDF) is faster, more accurate, and more audit-friendly. Continuous monitoring proves controls are enforced, not just claimed.",
+        },
+        audit: {
+            title: "Immutable Audit Logs",
+            whatItIs: "All activity logged: API calls, access attempts, configuration changes, data access, and user actions. Logs are written to WORM object storage, making them tamper-proof. 365+ day retention, no deletion allowed.",
+            howItOperates: "Applications and infrastructure components emit audit events (syslog, structured logs). Events are cryptographically signed and appended to immutable storage. Log integrity is validated via hash chains—any tampering breaks the chain.",
+            connections: "Feeds compliance reporting, incident investigation, and customer audits. Cloud Guard consumes logs to detect anomalies.",
+            whyChosen: "Classified data handling requires non-repudiation. Auditors and inspectors must trust that logs are complete and unaltered. Immutable storage + signing ensures logs cannot be deleted to cover up insider threats.",
+        },
+        cloudguard: {
+            title: "Cloud Guard",
+            whatItIs: "Automated threat detection and remediation engine. Scans infrastructure for misconfigurations (overly permissive security groups, unencrypted data, exposed keys). Issues are auto-remediated when possible or escalated for human review.",
+            howItOperates: "Cloud Guard runs continuous scans of infrastructure state. Uses pattern matching and ML to detect anomalies. Generates alerts for security teams. For low-risk issues (e.g., block storage without encryption tag), auto-remediates.",
+            connections: "Monitors all infrastructure and services. Integrates with audit logs for anomaly detection. Feeds alerts to security operations center (SOC).",
+            whyChosen: "Classified environments have zero tolerance for misconfigurations. Cloud Guard provides 24/7 monitoring without relying on manual security reviews. Customers can trust that no misconfigured storage bucket will accidentally expose data.",
+        },
+        iam: {
+            title: "IAM + DoD PKI",
+            whatItIs: "Identity and Access Management with DoD Public Key Infrastructure (PKI) integration. Users authenticate with CAC (Common Access Card) or PIV (Personal Identity Verification) cards. SAML 2.0 federated identity.",
+            howItOperates: "Users insert CAC/PIV card, authenticate locally via hardware token. IAM maps DoD identity to role-based access controls (RBAC). Compartment-based isolation ensures Secret users cannot see Top Secret data.",
+            connections: "Controls access to all services: Autonomous Database, Container Engine, API Gateway, audit logs. Every action is attributed to a specific DoD identity.",
+            whyChosen: "DoD customers expect CAC/PIV authentication—they already carry the cards. Hardware token authentication is more secure than passwords. Compartment isolation maps to government classification levels (Secret, Top Secret, etc.).",
+        },
+        intel: {
+            title: "Intelligence Agencies",
+            whatItIs: "Primary customer segment: CIA, NSA, DIA, etc. Hosting classified intelligence data, signals intelligence (SIGINT) pipelines, and counterintelligence analysis workloads. Highest security clearance requirements.",
+            howItOperates: "Agencies run dedicated tenants on the sovereign cloud. Autonomous Database stores intelligence corpora. Container Engine runs analysis algorithms. Streaming processes real-time intelligence feeds.",
+            connections: "Leverage all infrastructure layers: air-gap for isolation, HSM for key management, cleared personnel for operations, FedRAMP for compliance.",
+            whyChosen: "Intelligence Community is the beachhead for classified government cloud. Winning IC contracts validates the entire product. These workloads drive feature development (e.g., offline Autonomous DB ML).",
+        },
+        defense: {
+            title: "Defense Contractors",
+            whatItIs: "ITAR-regulated contractors: Lockheed Martin, Raytheon, General Dynamics, Boeing. Hosting classified research, weapons system designs, and supply chain data. Export control compliance is mandatory.",
+            howItOperates: "Contractors run classified workloads on bare metal for hardware isolation. Streaming pipelines handle supply chain events. Autonomous Database manages weapons system specifications. All data is encrypted with contractor-controlled keys (HSM).",
+            connections: "Leverage bare metal for TOP SECRET, HSM for key control, FedRAMP for compliance audits.",
+            whyChosen: "Defense contractors pay the highest per-deal value ($10M+ contracts). Their ITAR requirements drove the design of key management (HSM). Winning major defense contractors (Lockheed, Raytheon) validates market product-market fit.",
+        },
+        "fed-health": {
+            title: "Federal Health Systems",
+            whatItIs: "VA (Veterans Affairs), DoD medical systems. Hosting classified health data (e.g., bioweapon exposure studies), military medical records, and genetic research. HIPAA + classified data overlay.",
+            howItOperates: "Health systems run Autonomous Database for EHR workloads. Streaming handles real-time clinical data. Container Engine runs analytics pipelines. Data is classified (Secret/Top Secret) and encrypted with agency-controlled keys.",
+            connections: "Leverage Autonomous Database for HIPAA compliance, IAM for access control (healthcare role mappings), audit logs for medical records compliance.",
+            whyChosen: "Federal health is a growing market within classified government. These workloads validate healthcare feature maturity (compliance frameworks, data privacy, audit trails).",
+        },
+        "nat-labs": {
+            title: "National Labs (Oak Ridge, Sandia, LANL)",
+            whatItIs: "National laboratories: Oak Ridge, Sandia, Lawrence Livermore. Hosting scientific research compute, simulation workloads, and weapons stockpile stewardship programs. Extreme performance requirements (HPC).",
+            howItOperates: "Labs provision bare-metal clusters for HPC workloads. Autonomous Database processes scientific data. Functions trigger long-running simulations. Results are stored in Object Storage with compliance controls.",
+            connections: "Leverage bare metal for performance, Kubernetes for job orchestration, Streaming for scientific data pipelines.",
+            whyChosen: "National labs drive government R&D spending. Winning national labs as customers validates HPC performance and scientific workload support. These deals are strategic for Oracle's position in classified government science.",
+        },
+    };
+
+    let currentActive = null;
+
+    document.querySelectorAll('.arch-node').forEach(node => {
+        node.addEventListener('click', () => {
+            const nodeId = node.getAttribute('data-id');
+            const data = archComponentData[nodeId];
+
+            if (!data) {
+                console.warn('No data for node:', nodeId);
+                return;
+            }
+
+            // If clicking the same node, toggle closed
+            if (currentActive === nodeId) {
+                node.classList.remove('active');
+                document.getElementById('detailPanel').classList.remove('open');
+                currentActive = null;
+                return;
+            }
+
+            // Remove active state from previous node
+            if (currentActive) {
+                document.querySelector(`[data-id="${currentActive}"]`)?.classList.remove('active');
+            }
+
+            // Set new active node
+            node.classList.add('active');
+            currentActive = nodeId;
+
+            // Populate detail panel
+            document.getElementById('detailTitle').textContent = data.title;
+
+            const detailGrid = document.getElementById('detailGrid');
+            detailGrid.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-item-label">What It Is</div>
+                    <p>${data.whatItIs}</p>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-item-label">How It Operates</div>
+                    <p>${data.howItOperates}</p>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-item-label">Connections</div>
+                    <p>${data.connections}</p>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-item-label">Why Chosen</div>
+                    <p>${data.whyChosen}</p>
+                </div>
+            `;
+
+            // Open panel
+            document.getElementById('detailPanel').classList.add('open');
+        });
+    });
+
+    // Close button handler
+    document.getElementById('detailClose').addEventListener('click', () => {
+        if (currentActive) {
+            document.querySelector(`[data-id="${currentActive}"]`)?.classList.remove('active');
+            currentActive = null;
+        }
+        document.getElementById('detailPanel').classList.remove('open');
+    });
+</script>
+
+</body>
+</html>

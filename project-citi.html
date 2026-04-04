@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citi Mortgage Platform — Nikhil Patel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:wght@400&display=swap" rel="stylesheet">
+    <style>
+        /* Interactive Architecture Diagram */
+        .interactive-arch {
+            position: relative;
+            margin: 32px 0;
+            padding: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        .arch-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+
+        .arch-row-label {
+            min-width: 120px;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .arch-node {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .arch-node:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 201, 164, 0.15);
+        }
+
+        .arch-flow {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 8px 0;
+            margin: 8px 0;
+        }
+
+        .arch-hint {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 24px;
+            padding: 12px;
+            background: rgba(76, 201, 164, 0.05);
+            border-radius: 4px;
+        }
+
+        .detail-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .detail-panel.active {
+            display: flex;
+        }
+
+        .detail-panel > div {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg-card);
+        }
+
+        .detail-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .detail-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .detail-close:hover {
+            color: var(--accent);
+        }
+
+        .detail-grid {
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .detail-item-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-item p {
+            font-size: 13px;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .arch-row {
+                flex-direction: column;
+            }
+
+            .arch-row-label {
+                min-width: 100%;
+            }
+
+            .arch-node {
+                width: 100%;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-panel > div {
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav">
+    <a href="index.html" class="nav-name">Nikhil <span>Patel</span></a>
+    <button class="nav-hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#projects">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+    </ul>
+</nav>
+
+<!-- ============================================
+     PAGE HEADER
+     ============================================ -->
+<header class="page-header container">
+    <div class="page-header-eyebrow">CASE STUDY — CITI GROUP</div>
+    <h1>Re-Architecting Citi's Mortgage Platform: How Do You Modernize a System That Can't Go Down?</h1>
+    <p class="page-header-desc">
+        From 10-hour batch processing to real-time origination, saving $200M annually — without disrupting billions in active mortgage transactions.
+    </p>
+</header>
+
+<!-- ============================================
+     METRICS GRID
+     ============================================ -->
+<section class="section container metrics-grid">
+    <div class="metric-card">
+        <div class="metric-value">$200M</div>
+        <div class="metric-label">Annual Savings</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">25%</div>
+        <div class="metric-label">Faster Closings</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">&lt;1hr</div>
+        <div class="metric-label">Processing (was 10+)</div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-value">$45M+</div>
+        <div class="metric-label">Budget / 60+ Team</div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE CHALLENGE
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Challenge</h2>
+    <p>
+        Citi's mortgage system wasn't just old—it was fragile. A monolithic application drowning under the weight of volume, regulatory pressure, and relentless competition. Every night, the system ground through millions of loan applications in 10+ hour batch windows. Loan closings stretched to 40+ days, making Citi uncompetitive in a market where speed meant market share. The CFPB's TILA-RESPA deadlines were looming, and the infrastructure couldn't scale to meet them.
+    </p>
+    <p>
+        But here's the real problem: Citi processes billions in mortgages every month. You can't just shut it down. You can't do a big-bang rewrite. If the system goes down, millions of customers are frozen mid-transaction, regulators show up, lawsuits follow. The fundamental challenge wasn't just to modernize—it was to transform a mission-critical system without disrupting a single transaction. How do you rebuild the plane while it's flying? And how do you do it with a $45M budget while managing a 60+ person cross-functional team against CFPB compliance deadlines?
+    </p>
+</section>
+
+<!-- ============================================
+     THE STRATEGY
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Strategy</h2>
+    <p>
+        The answer: the strangler fig pattern. Don't replace the legacy system—wrap it. Deploy an Enterprise Service Bus (ESB) between the old system and the outside world. Gradually redirect traffic, service by service, to new microservices. Each migration is atomic and reversible. If something breaks, you flip a switch and traffic goes back to the legacy system. Citi never stops processing.
+    </p>
+    <p>
+        But the real innovation was regulatory agility. We externalized business rules into a COTS rules engine (ILOG JRules). Every CFPB regulation change—and there were dozens—could now be updated by business analysts in hours, not weeks of development cycles. No new code deployments. No regression testing cycles. Just updated rules. In an industry where regulatory violations carry $100M+ penalties, that flexibility was worth the entire platform cost.
+    </p>
+    <p>
+        We also replaced the overnight batch windows with event-driven asynchronous processing. When a loan application arrives, it triggers a cascade of parallel events—credit checks, compliance scans, underwriting workflows—all happening simultaneously. What took 10+ hours overnight now happens in under 1 hour, in real-time, during business hours. Loan officers see results within minutes.
+    </p>
+</section>
+
+<!-- ============================================
+     HOW IT WORKS
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>How It Works</h2>
+    <p style="margin-bottom: 32px;">
+        At a high level, the platform operates in five layers: Channels (web, mobile, partner APIs) feed into Orchestration (ESB + BPM + Rules Engine), which coordinates calls to Core Services (origination, underwriting, compliance). All services write to a Compliance Data Layer that ensures regulatory audit trails. The architecture ensures that no single point of failure brings down the system, and every transaction is logged for CFPB audits.
+    </p>
+
+    <div class="interactive-arch" id="archDiagram">
+        <div class="arch-row">
+            <div class="arch-row-label">Channels</div>
+            <div class="arch-node" data-id="branch">Branch POS</div>
+            <div class="arch-node" data-id="online">Online Portal</div>
+            <div class="arch-node" data-id="call-center">Call Center</div>
+            <div class="arch-node" data-id="tpo">Third-Party Originators</div>
+            <div class="arch-node" data-id="mobile">Mobile</div>
+        </div>
+        <div class="arch-flow">↓ HTTPS / SOAP / EDI ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Orchestration</div>
+            <div class="arch-node" data-id="esb">Tibco ESB</div>
+            <div class="arch-node" data-id="bpm">Tibco iProcess BPM</div>
+            <div class="arch-node" data-id="rules">JRules Engine</div>
+            <div class="arch-node" data-id="ems">Tibco EMS (JMS)</div>
+        </div>
+        <div class="arch-flow">↓ Canonical XML (MISMO) ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Services</div>
+            <div class="arch-node" data-id="origination">Loan Origination</div>
+            <div class="arch-node" data-id="credit">Credit Decision</div>
+            <div class="arch-node" data-id="docs">Document Mgmt</div>
+            <div class="arch-node" data-id="pricing">Pricing Engine</div>
+            <div class="arch-node" data-id="disclosure">Disclosure Gen</div>
+        </div>
+        <div class="arch-flow">↓ Events + Transactions ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Compliance</div>
+            <div class="arch-node" data-id="cfpb">CFPB/TILA-RESPA</div>
+            <div class="arch-node" data-id="audit-trail">Audit Trail</div>
+            <div class="arch-node" data-id="hmda">HMDA Reporting</div>
+            <div class="arch-node" data-id="ofac">OFAC Screening</div>
+        </div>
+        <div class="arch-flow">↓ Persistence ↓</div>
+        <div class="arch-row">
+            <div class="arch-row-label">Data Layer</div>
+            <div class="arch-node" data-id="oracle-rac">Oracle RAC</div>
+            <div class="arch-node" data-id="exadata">Oracle Exadata</div>
+            <div class="arch-node" data-id="filenet">FileNet P8</div>
+            <div class="arch-node" data-id="teradata">Teradata DW</div>
+            <div class="arch-node" data-id="informatica">Informatica ETL</div>
+        </div>
+        <p class="arch-hint">Click any component to explore its role, connections, and why it was chosen</p>
+        <div class="detail-panel" id="detailPanel">
+            <div>
+                <div class="detail-header">
+                    <div class="detail-title" id="detailTitle"></div>
+                    <button class="detail-close" id="detailClose">&times;</button>
+                </div>
+                <div class="detail-grid" id="detailGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <p style="margin-top: 32px; text-align: center;">
+        <a href="project-citi-deep-dive.html" style="color: #4cc9a4; text-decoration: none; font-size: 14px;">Explore the full 6-layer SOA architecture →</a>
+    </p>
+</section>
+
+<!-- ============================================
+     THE HARD CHOICES
+     ============================================ -->
+<section class="content-section container">
+    <h2>The Hard Choices</h2>
+    <p style="margin-bottom: 40px; color: #aaa; font-size: 14px;">
+        Every platform has critical architectural decisions. Here are the ones that made the difference.
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+        <div class="card">
+            <h3 style="color: #4cc9a4; font-size: 16px; margin-bottom: 12px;">Why Strangler Fig, Not Big-Bang</h3>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 16px;">
+                Citi processes billions monthly. You can't shut it down for a rewrite. Strangler pattern lets us retire legacy code incrementally—each service migration is independent and reversible.
+            </p>
+            <a href="project-citi-deep-dive.html" style="font-size: 12px; color: #4cc9a4; text-decoration: none;">Learn more →</a>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #4cc9a4; font-size: 16px; margin-bottom: 12px;">Why COTS Rules Engine, Not Custom</h3>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 16px;">
+                CFPB rules change monthly. A custom rules system means weeks of development per change. JRules: business analysts update same-day, zero code deploys.
+            </p>
+            <a href="project-citi-deep-dive.html" style="font-size: 12px; color: #4cc9a4; text-decoration: none;">Learn more →</a>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #4cc9a4; font-size: 16px; margin-bottom: 12px;">Why Event-Driven, Not Batch</h3>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 16px;">
+                10-hour batch windows killed competitiveness. Event-driven async processing: loan applications trigger parallel workflows that complete in under 1 hour, real-time.
+            </p>
+            <a href="project-citi-deep-dive.html" style="font-size: 12px; color: #4cc9a4; text-decoration: none;">Learn more →</a>
+        </div>
+
+        <div class="card">
+            <h3 style="color: #4cc9a4; font-size: 16px; margin-bottom: 12px;">Why Canonical Data Model</h3>
+            <p style="font-size: 14px; color: #aaa; margin-bottom: 16px;">
+                15+ systems, each with different data formats. MISMO-based canonical model: N×1 integrations instead of N×N. Easier to add new services, easier to audit.
+            </p>
+            <a href="project-citi-deep-dive.html" style="font-size: 12px; color: #4cc9a4; text-decoration: none;">Learn more →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     THE IMPACT
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>The Impact</h2>
+    <p>
+        <strong>$200M in combined annual savings:</strong> Operational efficiency, reduced compliance risk, lower infrastructure costs. <strong>Processing: 10+ hours → &lt;1 hour.</strong> Loan applications now process in real-time during business hours instead of overnight batch windows. <strong>Closings: 40+ days → 30 days.</strong> Faster closings mean better customer experience and higher market competitiveness. <strong>CFPB compliance achieved</strong> while peers paid $100M+ in penalties. ROI: 4.4x.
+    </p>
+</section>
+
+<!-- ============================================
+     LESSONS FOR AN INTERVIEWER
+     ============================================ -->
+<section class="content-section container-narrow">
+    <h2>What I'd Tell an Interviewer</h2>
+    <p>
+        <strong>Strangler fig beats big-bang for mission-critical systems.</strong> You can't afford downtime. Incremental, reversible migrations let you reduce risk and prove value along the way. <strong>Rules engines are worth the licensing cost when regulations change monthly.</strong> Decoupling business logic from code allows non-technical stakeholders to drive compliance without engineering cycles. <strong>Circuit breakers save pipelines.</strong> When a downstream service fails, circuit breakers stop the cascade and let the system degrade gracefully. <strong>Build-vs-buy requires pragmatic allocation.</strong> COTS rules engine instead of custom, open-source ESB instead of proprietary—pick your battles. You can't build everything in-house when the market is moving this fast.
+    </p>
+</section>
+
+<!-- ============================================
+     CTA SECTION
+     ============================================ -->
+<section class="cta-banner container">
+    <div style="max-width: 600px;">
+        <h2 style="font-size: 24px; margin-bottom: 16px;">Ready for the technical deep-dive?</h2>
+        <p style="color: #aaa; margin-bottom: 24px;">
+            Explore the full 6-layer SOA architecture, integration patterns, data modeling, and deployment strategy.
+        </p>
+        <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <a href="project-citi-deep-dive.html" class="btn btn-primary">Full Technical Architecture →</a>
+            <a href="index.html#projects" class="btn" style="border: 1px solid rgba(76, 201, 164, 0.3); background: transparent;">Back to All Projects →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================
+     FOOTER
+     ============================================ -->
+<footer class="footer">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 32px;">
+            <div class="footer-name">Nikhil Patel</div>
+            <ul class="footer-links">
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <p class="footer-copy">
+            © 2025 Nikhil Patel. All rights reserved.
+        </p>
+    </div>
+</footer>
+
+<!-- ============================================
+     MOBILE MENU TOGGLE
+     ============================================ -->
+<script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburgerBtn.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.style.display = 'none';
+        });
+    });
+</script>
+
+<!-- ============================================
+     INTERACTIVE ARCHITECTURE DIAGRAM
+     ============================================ -->
+<script>
+    const architectureData = {
+        branch: {
+            title: 'Branch POS',
+            whatItIs: 'Branch point-of-sale systems integrated with Encompass LOS',
+            howItOperates: 'Loan officers enter application data directly. Connected to ESB via SOAP web services.',
+            connections: 'Feeds into Tibco ESB; part of Channels layer',
+            whyChosen: 'Represents 60% of origination volume. Direct officer workflow integration critical for legacy adoption.'
+        },
+        online: {
+            title: 'Online Portal',
+            whatItIs: 'J2EE web application on WebSphere for self-service',
+            howItOperates: 'Customers check application status, upload documents, check rates. Connected via REST API to ESB.',
+            connections: 'REST API to ESB; shared data model with Mobile',
+            whyChosen: 'Growing channel — 25% of volume. Self-service reduces operational costs and improves customer experience.'
+        },
+        'call-center': {
+            title: 'Call Center',
+            whatItIs: 'CTI integration with Avaya telephony system',
+            howItOperates: 'Agents use screen-pop for incoming calls. Connected to ESB for real-time loan lookup.',
+            connections: 'Avaya CTI → ESB lookup service',
+            whyChosen: 'Handles complex cases escalated from online. Personal touch for high-value customers.'
+        },
+        tpo: {
+            title: 'Third-Party Originators',
+            whatItIs: 'B2B gateway for mortgage brokers',
+            howItOperates: 'TPOs submit applications via EDI/XML format. Validated at gateway, normalized to MISMO canonical schema.',
+            connections: 'B2B Gateway → ESB with schema translation',
+            whyChosen: 'Partners generate significant volume. Standardization prevents data quality issues across diverse systems.'
+        },
+        mobile: {
+            title: 'Mobile',
+            whatItIs: 'Responsive web application for mobile devices',
+            howItOperates: 'Rate calculators, application status, document upload via camera. Same backend as Online Portal via shared API.',
+            connections: 'Shared API layer with Online Portal',
+            whyChosen: 'Pre-native app era decision. Web-based allows rapid updates without app store reviews.'
+        },
+        esb: {
+            title: 'Tibco ESB',
+            whatItIs: 'Enterprise Service Bus — the central orchestration hub',
+            howItOperates: 'Mediates ALL service communication. Protocol transformation (SOAP↔REST↔MQ), content-based routing, MISMO XML enforcement.',
+            connections: 'Connects Channels to Orchestration to Services to Data Layer',
+            whyChosen: 'The "strangler fig" wrap point. Legacy system sits behind ESB. Enables incremental service migration without disrupting production.'
+        },
+        bpm: {
+            title: 'Tibco iProcess BPM',
+            whatItIs: 'Business Process Management engine',
+            howItOperates: 'Models full loan lifecycle as BPMN workflow: Application → Processing → Underwriting → Approval → Closing → Funding → Post-Close.',
+            connections: 'Orchestrates service calls; receives events from EMS',
+            whyChosen: 'Visual workflow modeling. Business stakeholders can see and modify process without code. SLA tracking per stage.'
+        },
+        rules: {
+            title: 'JRules Engine',
+            whatItIs: 'IBM ILOG Rules engine with 2000+ business rules',
+            howItOperates: 'Evaluates eligibility, pricing, compliance, fraud detection. Rules maintained by business analysts via authoring UI, not developers.',
+            connections: 'Called by BPM; external rule updates at runtime',
+            whyChosen: 'Regulatory agility. CFPB rule changes deploy in hours, not weeks. No code deployment cycles.'
+        },
+        ems: {
+            title: 'Tibco EMS (JMS)',
+            whatItIs: 'Message-oriented middleware for async processing',
+            howItOperates: 'Topics for pub/sub events (loan.submitted, underwriting.complete). Queues for guaranteed delivery.',
+            connections: 'Subscribers: Credit, Docs, Compliance; Publishers: BPM, Services',
+            whyChosen: 'Enables event-driven processing. Replaced 10-hour batch windows with real-time async workflows.'
+        },
+        origination: {
+            title: 'Loan Origination',
+            whatItIs: 'Core loan origination service managing lifecycle state machine',
+            howItOperates: 'SOAP/WSDL web service on WebSphere. Handles application creation, status transitions, lock management.',
+            connections: 'Central hub — receives requests from BPM, channels data to Credit, Pricing, Docs',
+            whyChosen: 'The heart of the platform. Manages state transitions atomically. Every change triggers audit trail.'
+        },
+        credit: {
+            title: 'Credit Decision',
+            whatItIs: 'Integrates with 3 credit bureaus (Experian, TransUnion, Equifax)',
+            howItOperates: 'XML gateway for bureau calls. Aggregates scores, applies credit overlays, calculates debt-to-income ratios.',
+            connections: 'Called by BPM; circuit breaker pattern protects against bureau outages',
+            whyChosen: 'Mission-critical. Must be extremely reliable. Circuit breaker prevents cascade failures when bureaus are down.'
+        },
+        docs: {
+            title: 'Document Mgmt',
+            whatItIs: 'IBM FileNet P8 for document storage and retrieval',
+            howItOperates: 'Automated document classification. OCR for scanned documents. Manages all loan documents through lifecycle.',
+            connections: 'Receives documents from all channels and services',
+            whyChosen: 'Compliance requirement: every document stored and retrievable for 7+ years. Built-in audit trail and version control.'
+        },
+        pricing: {
+            title: 'Pricing Engine',
+            whatItIs: 'Real-time rate lock engine with hedging desk integration',
+            howItOperates: 'Calculates margin, matches investor eligibility, applies pricing exceptions. Time-sensitive — rate locks have expiration windows.',
+            connections: 'Called by origination; fed by trading desk, investor feeds',
+            whyChosen: 'Time-sensitive business logic. Rate locks prevent losses. Pricing exceptions require audit trail for compliance.'
+        },
+        disclosure: {
+            title: 'Disclosure Gen',
+            whatItIs: 'Automated TILA-RESPA Integrated Disclosure generation',
+            howItOperates: 'Produces Loan Estimate (LE) and Closing Disclosure (CD) documents. CFPB-mandated format and timing rules.',
+            connections: 'Triggered by origination service; stores in FileNet',
+            whyChosen: 'Critical compliance function. Wrong disclosure = regulatory penalty. Automation prevents human error on CFPB deadlines.'
+        },
+        cfpb: {
+            title: 'CFPB/TILA-RESPA',
+            whatItIs: 'CFPB compliance engine implementing TRID rules',
+            howItOperates: 'Validates timing windows (3-day LE delivery, 3-day CD delivery before closing). Automated compliance checking prevents human error.',
+            connections: 'Validates rules from JRules; updates Audit Trail',
+            whyChosen: 'Regulatory risk management. CFPB violations: $100M+ penalties. Automation prevents drift from rules.'
+        },
+        'audit-trail': {
+            title: 'Audit Trail',
+            whatItIs: 'Complete audit log of every loan action',
+            howItOperates: 'Who did what, when, why. Immutable log in Oracle database. Every state transition logged.',
+            connections: 'Updated by all services; queried by regulatory examiners, litigation discovery',
+            whyChosen: 'Regulatory requirement for examination and litigation support. SOX compliance. Chain of custody for every decision.'
+        },
+        hmda: {
+            title: 'HMDA Reporting',
+            whatItIs: 'Home Mortgage Disclosure Act reporting module',
+            howItOperates: 'Aggregates loan data for annual CFPB submission. Demographic data collection, geocoding, rate spread calculation.',
+            connections: 'Reads from Data Layer; outputs to CFPB',
+            whyChosen: 'Non-compliance penalties are severe. HMDA data collected at origination, compiled once annually.'
+        },
+        ofac: {
+            title: 'OFAC Screening',
+            whatItIs: 'Office of Foreign Assets Control sanctions screening',
+            howItOperates: 'Every applicant and co-applicant screened against SDN (Specially Designated Nationals) list. Real-time screening at application and closing.',
+            connections: 'Called by origination; false positive resolution workflow in BPM',
+            whyChosen: 'Anti-money laundering compliance. False positives resolved manually with audit trail.'
+        },
+        'oracle-rac': {
+            title: 'Oracle RAC',
+            whatItIs: 'Oracle Real Application Clusters 12c — primary OLTP database',
+            howItOperates: '2-node active-active for high availability. Data Guard for disaster recovery (RPO: 0, RTO: 4 hours). Partitioned by origination date (monthly).',
+            connections: 'Stores all operational data; feeds Teradata DW',
+            whyChosen: 'Handles millions of concurrent transactions. No single point of failure. Partitioning enables efficient queries on large datasets.'
+        },
+        exadata: {
+            title: 'Oracle Exadata',
+            whatItIs: 'Oracle Exadata Smart Scan for batch processing',
+            howItOperates: 'Parallel query execution. Replaced 10-hour batch windows — processing reduced to under 45 minutes. Used for month-end processing, regulatory reporting.',
+            connections: 'Reads from RAC in parallel; supports analytics queries',
+            whyChosen: 'Massive performance improvement. Smart Scan technology filters data at storage layer, not network.'
+        },
+        filenet: {
+            title: 'FileNet P8',
+            whatItIs: 'IBM FileNet P8 document management system',
+            howItOperates: 'Stores and manages all loan documents (applications, appraisals, disclosures, closing packages). Version control, access control, retention policies.',
+            connections: 'Receives from Disclosure Gen, origination; integrates with imaging',
+            whyChosen: 'Enterprise document platform. Integration with imaging scanners. Retention policies automated (destroy after 7 years).'
+        },
+        teradata: {
+            title: 'Teradata DW',
+            whatItIs: 'Enterprise data warehouse for analytics',
+            howItOperates: 'Fed by Informatica ETL from operational databases. Powers executive dashboards, trend analysis, regulatory submissions.',
+            connections: 'Receives data via Informatica; serves analytics layer',
+            whyChosen: 'Decouples analytics from production OLTP. Enables complex aggregations without impacting transaction processing.'
+        },
+        informatica: {
+            title: 'Informatica ETL',
+            whatItIs: 'Informatica PowerCenter for data integration',
+            howItOperates: 'Moves data between operational systems (Oracle RAC) and analytical stores (Teradata, reporting databases). Scheduled and event-triggered flows.',
+            connections: 'Reads from RAC; writes to Teradata and reporting systems',
+            whyChosen: 'Data quality and deduplication rules. Scheduled flows for batch reporting; event-triggered for real-time analytics.'
+        }
+    };
+
+    // Detail panel HTML template
+    function renderDetail(id) {
+        const data = architectureData[id];
+        if (!data) return;
+
+        const detailTitle = document.getElementById('detailTitle');
+        const detailGrid = document.getElementById('detailGrid');
+
+        detailTitle.textContent = data.title;
+
+        detailGrid.innerHTML = `
+            <div class="detail-item">
+                <div class="detail-item-label">What It Is</div>
+                <p>${data.whatItIs}</p>
+            </div>
+            <div class="detail-item">
+                <div class="detail-item-label">How It Operates</div>
+                <p>${data.howItOperates}</p>
+            </div>
+            <div class="detail-item">
+                <div class="detail-item-label">Connections</div>
+                <p>${data.connections}</p>
+            </div>
+            <div class="detail-item">
+                <div class="detail-item-label">Why Chosen</div>
+                <p>${data.whyChosen}</p>
+            </div>
+        `;
+
+        const detailPanel = document.getElementById('detailPanel');
+        detailPanel.classList.add('active');
+    }
+
+    // Click handlers
+    document.querySelectorAll('.arch-node').forEach(node => {
+        node.addEventListener('click', () => {
+            const id = node.getAttribute('data-id');
+            renderDetail(id);
+        });
+    });
+
+    // Close detail panel
+    document.getElementById('detailClose').addEventListener('click', () => {
+        document.getElementById('detailPanel').classList.remove('active');
+    });
+
+    document.getElementById('detailPanel').addEventListener('click', (e) => {
+        if (e.target.id === 'detailPanel') {
+            document.getElementById('detailPanel').classList.remove('active');
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.getElementById('detailPanel').classList.remove('active');
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVA: Agentic AI for Senior Care — Nikhil Patel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-primary: #08090d;
+            --bg-secondary: #131419;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #00d9ff;
+            --accent-dark: #0099cc;
+            --border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-cta {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-cta:hover {
+            background-color: var(--accent-dark);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: var(--bg-secondary);
+                padding: 1.5rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-cta {
+                width: fit-content;
+            }
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(0, 217, 255, 0) 100%);
+        }
+
+        .eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+        }
+
+        .page-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            background-color: rgba(0, 217, 255, 0.1);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 217, 255, 0.3);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .metric-card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .metric-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .section h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* Architecture Diagram */
+        .arch-diagram {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .arch-layer {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .arch-layer-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .arch-block-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .arch-block {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%);
+            border: 1px solid var(--accent);
+            border-radius: 6px;
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            min-width: 140px;
+            transition: all 0.3s;
+        }
+
+        .arch-block:hover {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.25) 0%, rgba(0, 217, 255, 0.1) 100%);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+        }
+
+        .arch-connector {
+            text-align: center;
+            margin: 1.5rem 0;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        /* Technical Details */
+        .tech-subsection {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .tech-subsection h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-subsection ul {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .tech-subsection li {
+            margin-bottom: 0.75rem;
+        }
+
+        .tech-subsection strong {
+            color: var(--text-primary);
+        }
+
+        .code-inline {
+            background-color: var(--bg-primary);
+            color: var(--accent);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Design Patterns */
+        .patterns-list {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pattern {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .pattern h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .pattern-why {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pattern-why strong {
+            color: var(--accent);
+        }
+
+        .pattern-tradeoff {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pattern-tradeoff strong {
+            color: #ffaa00;
+        }
+
+        /* Trade-offs Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: rgba(0, 217, 255, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover {
+            background-color: rgba(0, 217, 255, 0.03);
+        }
+
+        /* Cost-Benefit */
+        .cost-benefit {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .cost-item, .savings-item {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .cost-item {
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .savings-item {
+            border-left: 4px solid #51cf66;
+        }
+
+        .cost-item h3, .savings-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .cost-item h3 {
+            color: #ff6b6b;
+        }
+
+        .savings-item h3 {
+            color: #51cf66;
+        }
+
+        .cost-item p, .savings-item p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .roi {
+            background-color: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--accent);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .roi h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .roi p {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .cost-benefit {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .arch-block-container {
+                flex-direction: column;
+            }
+
+            .arch-block {
+                width: 100%;
+            }
+        }
+
+        /* Value Proposition */
+        .value-prop {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .value-item {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .value-item:hover {
+            border-color: var(--accent);
+            background-color: rgba(0, 217, 255, 0.05);
+        }
+
+        .value-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .value-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* CTA and Back Link */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-dark);
+        }
+
+        .back-link::before {
+            content: "← ";
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--accent-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="nav-brand">Nikhil Patel</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="eyebrow">Case Study — NextGen Technologies</div>
+        <h1>EVA: Building an Agentic AI Platform for Predictive Senior Care</h1>
+        <p>From concept to 5-community pilot — designing the architecture for an ML-powered care platform that predicts falls, automates documentation, and keeps families connected. A technical deep-dive into production-grade agentic systems, real-time event streaming, and HIPAA-compliant healthcare AI.</p>
+        <div class="tags">
+            <span class="tag">AI/ML</span>
+            <span class="tag">IoT Integration</span>
+            <span class="tag">Agentic AI</span>
+            <span class="tag">Healthcare</span>
+            <span class="tag">Python</span>
+            <span class="tag">Cloud Infrastructure</span>
+            <span class="tag">Real-time Streaming</span>
+            <span class="tag">LangGraph</span>
+            <span class="tag">Kubernetes</span>
+            <span class="tag">HIPAA Compliance</span>
+        </div>
+    </header>
+
+    <!-- Metrics Grid -->
+    <section class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-value">5</div>
+            <div class="metric-label">Communities Piloted</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">30%</div>
+            <div class="metric-label">Faster Response Times</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">70%</div>
+            <div class="metric-label">Early Detection Rate</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">45%</div>
+            <div class="metric-label">Reduction in Reporting Time</div>
+        </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="section">
+        <h2>The Problem</h2>
+        <p>Senior living facilities operate in a state of perpetual reactivity. Staff responds to incidents after they occur — falls, the #1 cause of injury in seniors, are rarely predicted. Documentation is manual and time-consuming, pulling caregivers away from direct care. Families struggle to stay informed about their loved ones' day-to-day well-being. Meanwhile, care teams are stretched thin, managing multiple residents with limited visibility into emerging health risks.</p>
+        <p>The opportunity is clear: build an intelligent platform that shifts care from reactive to predictive. With real-time sensor data, behavioral analysis, and AI-powered automation, facilities can prevent incidents before they happen, reduce administrative burden, and give families the transparency they deserve.</p>
+    </section>
+
+    <!-- Architecture Section 1: Technical Architecture & Design -->
+    <section class="section">
+        <h2>Technical Architecture & Design</h2>
+        <p>EVA is built on a layered, event-driven architecture designed for real-time processing, predictive analytics, and autonomous decision-making. The system processes terabytes of sensor data monthly while maintaining sub-second latency for critical alerts. Each layer handles a distinct responsibility while maintaining loose coupling and high throughput.</p>
+
+        <div class="arch-diagram">
+            <!-- Layer 1: Data Ingestion -->
+            <div class="arch-layer">
+                <div class="arch-layer-title">Layer 1 — Data Ingestion</div>
+                <div class="arch-block-container">
+                    <div class="arch-block">IoT Wearables (BLE 5.0)</div>
+                    <div class="arch-block">Environmental Sensors (Zigbee)</div>
+                    <div class="arch-block">EHR Integration (HL7 FHIR)</div>
+                    <div class="arch-block">Staff Inputs (React Native)</div>
+                </div>
+            </div>
+
+            <div class="arch-connector">↓</div>
+
+            <!-- Layer 2: Streaming -->
+            <div class="arch-layer">
+                <div class="arch-layer-title">Layer 2 — Event Streaming & Processing</div>
+                <div class="arch-block-container">
+                    <div class="arch-block">Apache Kafka (3-broker)</div>
+                    <div class="arch-block">Apache Flink (CEP)</div>
+                    <div class="arch-block">Schema Registry (Avro)</div>
+                    <div class="arch-block">Dead Letter Queue</div>
+                </div>
+            </div>
+
+            <div class="arch-connector">↓</div>
+
+            <!-- Layer 3: AI/ML Engine -->
+            <div class="arch-layer">
+                <div class="arch-layer-title">Layer 3 — AI/ML Engine</div>
+                <div class="arch-block-container">
+                    <div class="arch-block">Fall Risk (XGBoost)</div>
+                    <div class="arch-block">Anomaly Detection (IF)</div>
+                    <div class="arch-block">NLP (BioClinicalBERT)</div>
+                    <div class="arch-block">RAG Pipeline</div>
+                </div>
+            </div>
+
+            <div class="arch-connector">↓</div>
+
+            <!-- Layer 4: Agentic Layer -->
+            <div class="arch-layer">
+                <div class="arch-layer-title">Layer 4 — Agentic Orchestration</div>
+                <div class="arch-block-container">
+                    <div class="arch-block">LangGraph (Supervisor)</div>
+                    <div class="arch-block">SOAP Note Agent</div>
+                    <div class="arch-block">Alert Routing Agent</div>
+                    <div class="arch-block">Family Comms Agent</div>
+                </div>
+            </div>
+
+            <div class="arch-connector">↓</div>
+
+            <!-- Layer 5: Presentation -->
+            <div class="arch-layer">
+                <div class="arch-layer-title">Layer 5 — Presentation</div>
+                <div class="arch-block-container">
+                    <div class="arch-block">React Dashboard (Next.js)</div>
+                    <div class="arch-block">WebSocket (Socket.io)</div>
+                    <div class="arch-block">PWA (Family Portal)</div>
+                    <div class="arch-block">Role-Based Access</div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Layer 1: Data Ingestion</h3>
+        <p>The ingestion layer handles heterogeneous data streams from multiple sources, normalizing and timestamping each event for downstream processing.</p>
+        <div class="tech-subsection">
+            <h4>IoT Wearables (BLE 5.0 Sensors)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> Bluetooth Low Energy 5.0 with extended range (~240m), used for wearable accelerometers and heart-rate monitors</li>
+                <li><strong>Frequency:</strong> 50 Hz sampling rate for motion data, enabling gait analysis and fall detection within 200ms latency windows</li>
+                <li><strong>Ingestion:</strong> Local BLE gateways aggregate and forward to MQTT broker; each gateway handles up to 50 concurrent wearables</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Environmental Sensors (Zigbee Mesh)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> Zigbee 3.0 mesh networking for motion detectors, door/window contacts, and temperature/humidity sensors. Mesh topology provides reliability in buildings with radio interference</li>
+                <li><strong>Coverage:</strong> Deployed in high-risk areas (bathrooms, hallways). Motion sensor events trigger contextual enrichment (time-of-day, facility occupancy)</li>
+                <li><strong>Frequency:</strong> 1 Hz for environmental data (sufficient for behavioral pattern matching)</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>EHR Integration (HL7 FHIR R4 API)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> SMART on FHIR (OAuth 2.0) for secure, standards-based clinical data exchange. Supports both pull (scheduled queries) and push (event subscriptions) models</li>
+                <li><strong>Data Streams:</strong> Medication lists, lab results, care plans, vital signs from hospital EMRs (Epic, Cerner)</li>
+                <li><strong>Reconciliation:</strong> Medication interaction checking against clinical notes before alert generation; prevents erroneous fall-risk alerts for residents on benign prescriptions</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Staff Mobile Inputs (React Native → REST API)</h4>
+            <ul>
+                <li><strong>Technology:</strong> React Native mobile app for caregivers to log incidents (falls, near-falls, medication changes) in real-time</li>
+                <li><strong>Integration:</strong> POST to REST API with JWT authentication; responses include server-side validation and conflict resolution if submitted offline</li>
+                <li><strong>Metadata:</strong> Captures reporter ID, timestamp, free-text notes (fed to NLP pipeline for enrichment)</li>
+            </ul>
+        </div>
+
+        <h3>Layer 2: Event Streaming & Processing</h3>
+        <p>High-throughput event streaming backbone handles ingestion scaling. Apache Kafka provides durability, ordering guarantees, and multi-consumer support. Flink applies complex event processing (CEP) rules in real-time.</p>
+        <div class="tech-subsession">
+            <h4>Apache Kafka (3-Broker Cluster)</h4>
+            <ul>
+                <li><strong>Topics:</strong> <span class="code-inline">vitals.raw</span> (heart rate, SpO2), <span class="code-inline">motion.raw</span> (accelerometer events), <span class="code-inline">alerts.generated</span> (AI model outputs), <span class="code-inline">care-plans.updated</span> (clinical changes)</li>
+                <li><strong>Partitioning:</strong> By <span class="code-inline">facility_id</span> to maintain per-facility ordering and enable isolated scaling</li>
+                <li><strong>QoS:</strong> MQTT v5 to Kafka bridge: QoS 1 (at-least-once) for vitals (acceptable loss), QoS 2 (exactly-once) for alerts and medication events</li>
+                <li><strong>Retention:</strong> 7 days hot storage, archived to cloud object storage for batch retraining</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Apache Flink (Complex Event Processing)</h4>
+            <ul>
+                <li><strong>Processing Model:</strong> Stateful stream processing with session windows (10-second windows for fall detection, 24-hour windows for behavioral anomalies)</li>
+                <li><strong>Patterns Detected:</strong> Rapid acceleration + deceleration (fall signature), prolonged immobility (person down), irregular heart rate + sudden movement (syncope risk)</li>
+                <li><strong>State Management:</strong> RocksDB-backed state backend for fault tolerance; 99.95% uptime SLA with checkpoint every 5 seconds</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Schema Registry (Avro Schemas)</h4>
+            <ul>
+                <li><strong>Purpose:</strong> Enforces typed schema evolution for sensor data, preventing silent data corruption from schema mismatches</li>
+                <li><strong>Example:</strong> <span class="code-inline">vitals_event.avsc</span> includes timestamp, resident_id, facility_id, heart_rate, spo2, quality_flags for multi-step validation</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Dead Letter Queue (DLQ)</h4>
+            <ul>
+                <li><strong>Purpose:</strong> Captures malformed events (validation failures, schema mismatches, upstream errors) for asynchronous analysis</li>
+                <li><strong>Monitoring:</strong> DLQ depth triggers operational alerts; periodic audits investigate root causes and feed back to ingestion systems</li>
+            </ul>
+        </div>
+
+        <h3>Layer 3: AI/ML Engine</h3>
+        <p>Polyglot ML stack with specialized models for different prediction tasks, deployed as containerized microservices with versioning and A/B testing support.</p>
+        <div class="tech-subsection">
+            <h4>Fall Risk Prediction (XGBoost Ensemble)</h4>
+            <ul>
+                <li><strong>Model:</strong> Gradient-boosted trees trained on 18 months of historical fall data from 120 residents (847 documented falls)</li>
+                <li><strong>Features:</strong> Gait velocity (derived from accelerometer), sleep fragmentation patterns (motion sensor nighttime data), medication interaction risk score, time-of-day (falls peak 6-10am and 6-8pm), recent lab changes (creatinine, hemoglobin)</li>
+                <li><strong>Output:</strong> Risk score (0-100) with 5-minute rolling window predictions; P1 alert (red) if score > 80, P2 alert (yellow) if 60-80</li>
+                <li><strong>Deployment:</strong> TorchServe on FastAPI with sub-50ms latency; model versioned in MLflow, auto-serving new candidates after retraining pipeline validates on holdout test set</li>
+                <li><strong>Calibration:</strong> Platt scaling to match predicted probabilities to observed fall rates; evaluated against Framingham Fall Risk Index for comparison</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Behavioral Anomaly Detection (Isolation Forest)</h4>
+            <ul>
+                <li><strong>Model:</strong> Unsupervised learning on daily activity pattern vectors (e.g., steps/hour, sleep duration, bathroom visits)</li>
+                <li><strong>Baseline:</strong> 14-day rolling average per resident; deviations > 2 standard deviations flag anomalies</li>
+                <li><strong>Use Case:</strong> Detects UTI onset (increased bathroom visits), depression (reduced activity), or cognitive decline (irregular sleep)</li>
+                <li><strong>Output:</strong> Anomaly flag + contextual summary ("Activity 40% below baseline") routed to nursing staff review queue</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>NLP for Clinical Notes (Fine-Tuned BioClinicalBERT)</h4>
+            <ul>
+                <li><strong>Foundation Model:</strong> BioClinicalBERT (pre-trained on PubMed and clinical notes), fine-tuned on 5,000 annotated facility notes</li>
+                <li><strong>Task:</strong> Named Entity Recognition (NER) to extract symptoms, medications, vitals from free-text caregiver notes (e.g., "Resident complained of dizziness after morning meds")</li>
+                <li><strong>Deployment:</strong> Sidecar service (FastAPI + Transformers library); 200ms latency acceptable for batch processing overnight</li>
+                <li><strong>Output:</strong> Structured JSON entities fed to RAG pipeline for context-aware response generation</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>RAG Pipeline (Retrieval-Augmented Generation)</h4>
+            <ul>
+                <li><strong>Components:</strong> LangChain orchestration → Pinecone vector database (768-dimensional embeddings from <span class="code-inline">all-MiniLM-L6-v2</span>) → LLM (Claude/GPT-4)</li>
+                <li><strong>Knowledge Base:</strong> Embeddings of care protocols, resident care plans, clinical guidelines, and 90-day historical notes</li>
+                <li><strong>Retrieval:</strong> Semantic search with BM25 hybrid ranking; top-3 documents provided as grounding context</li>
+                <li><strong>Generation:</strong> Claude API instructed to generate SOAP (Subjective, Objective, Assessment, Plan) notes based on structured event data + retrieved context</li>
+                <li><strong>Quality Assurance:</strong> Nurse review before submission; model confidence scores (via LLM logits) flag notes for human review if below 0.75 threshold</li>
+            </ul>
+        </div>
+
+        <h3>Layer 4: Agentic Orchestration (The Differentiator)</h3>
+        <p>Multi-agent framework built on LangGraph enables autonomous, context-aware decision-making with human-in-the-loop oversight. Each agent has specialized tools and reasoning patterns.</p>
+        <div class="tech-subsection">
+            <h4>LangGraph Architecture</h4>
+            <ul>
+                <li><strong>Framework:</strong> LangGraph provides stateful, directed acyclic graph (DAG) execution for multi-turn agent workflows</li>
+                <li><strong>State Graph:</strong> Shared state object persisted in Redis; each agent reads/writes to relevant state fields without side effects on unrelated agents</li>
+                <li><strong>Advantage over AutoGen:</strong> LangGraph's graph-first approach is more interpretable and production-hardened; supports human-in-the-loop checkpoints where nurse must approve P1 alerts before escalation</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Supervisor Agent (Router)</h4>
+            <ul>
+                <li><strong>Role:</strong> Receives event streams, classifies event type (fall_alert, medication_change, behavioral_anomaly), routes to appropriate specialist agents</li>
+                <li><strong>Logic:</strong> Rule-based classification with LLM fallback for ambiguous events</li>
+                <li><strong>State Update:</strong> Appends to <span class="code-inline">event_log</span> in Redis state; broadcasts to listening agents via pub/sub</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>SOAP Note Agent (Documentation Automation)</h4>
+            <ul>
+                <li><strong>Trigger:</strong> Receives behavioral anomaly or incident event</li>
+                <li><strong>Tools:</strong> Retrieval (query Pinecone for resident context), Template rendering (structured forms for SOAP sections), Validation (flag missing required fields)</li>
+                <li><strong>Process:</strong> (1) Query RAG for resident care history, (2) Extract entities from incident notes via NLP, (3) Generate SOAP using Claude, (4) Validate against facility documentation standards, (5) Route for nurse review if confidence < threshold</li>
+                <li><strong>Output:</strong> SOAP note ready for EHR submission or queued for nurse revision</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Alert Routing Agent (Severity-Based Distribution)</h4>
+            <ul>
+                <li><strong>Trigger:</strong> Receives ML model alert (fall risk, anomaly, etc.)</li>
+                <li><strong>Classification:</strong> P1 (Critical) — immediate page to on-call nurse, P2 (High) — task queue for current shift, P3 (Medium) — end-of-shift summary, P4 (Info) — dashboard only</li>
+                <li><strong>Distribution:</strong> Multi-channel (SMS for P1, in-app notification for P2-3, web dashboard for P4); respects do-not-disturb schedules</li>
+                <li><strong>Acknowledgment:</strong> P1 alerts require explicit nurse confirmation before closing; system escalates unacknowledged P1s after 5 minutes</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Family Communication Agent (HIPAA-Safe Summaries)</h4>
+            <ul>
+                <li><strong>Trigger:</strong> Daily scheduled job + ad-hoc behavioral anomalies marked "family-visible"</li>
+                <li><strong>Process:</strong> Reads resident events, applies de-identification rules (remove medical jargon, convert clinical scores to plain language), generates natural-language summary</li>
+                <li><strong>Output:</strong> Family portal message ("Your mother had a good week — she participated in 4 activities and moved around as usual")</li>
+                <li><strong>Tool:</strong> LLM constrained by system prompt to avoid medical terminology and specific vital values without family consent</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Care Plan Agent (Proactive Recommendations)</h4>
+            <ul>
+                <li><strong>Trigger:</strong> Weekly trend analysis or escalation of recurring anomalies</li>
+                <li><strong>Process:</strong> Analyzes fall risk trend (rising over 2 weeks?), medication interactions, behavioral patterns; queries care protocols for evidence-based interventions</li>
+                <li><strong>Output:</strong> Structured recommendation ("Suggest physical therapy assessment — gait velocity down 15% this month") with supporting evidence and EHR doc reference</li>
+                <li><strong>Clinical Review:</strong> All recommendations reviewed by facility care director before suggestion to attending physician</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Agent Communication & State Management</h4>
+            <ul>
+                <li><strong>Message Protocol:</strong> LangGraph message-passing with typed Python dataclasses (event_id, timestamp, agent_id, message_type, payload)</li>
+                <li><strong>State Persistence:</strong> Redis-backed state store persists across agent invocations; agents query state to avoid redundant processing</li>
+                <li><strong>Idempotency:</strong> Event IDs prevent duplicate alert generation if a message is retried; each agent checks event_log before execution</li>
+                <li><strong>Scalability:</strong> Horizontal scaling via Kubernetes; each agent type runs in separate deployment with independent scaling rules (Alert Routing scales with alert volume, SOAP Note scales with batch jobs)</li>
+            </ul>
+        </div>
+
+        <h3>Layer 5: Presentation & User Interfaces</h3>
+        <div class="tech-subsection">
+            <h4>Staff Dashboard (React + Next.js 14)</h4>
+            <ul>
+                <li><strong>Framework:</strong> Next.js 14 with App Router for server-side rendering and streaming</li>
+                <li><strong>State Management:</strong> TanStack Query (React Query) for caching API responses; real-time updates via WebSocket subscriptions</li>
+                <li><strong>Charts:</strong> Chart.js for vitals visualization (heart rate, SpO2 over 24 hours); Recharts for trend analysis</li>
+                <li><strong>Role-Based Views:</strong> Nurses see priority-sorted alerts + resident detail pages, Admins see operational dashboards (system health, model drift metrics), Care Directors see weekly trend reports</li>
+                <li><strong>Accessibility:</strong> WCAG 2.1 AA compliant; keyboard navigation, screen reader support for clinical workflows</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>WebSocket Communication (Socket.io + Redis Pub/Sub)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> Socket.io for real-time bidirectional communication; falls back to polling if WebSocket unavailable</li>
+                <li><strong>Scaling:</strong> Redis Adapter for Socket.io enables multi-instance deployments; all instances subscribe to topic <span class="code-inline">alerts:*</span></li>
+                <li><strong>Latency:</strong> Sub-500ms delivery for P1 alerts from ML model to nurse's browser</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Family Portal (PWA)</h4>
+            <ul>
+                <li><strong>Technology:</strong> Progressive Web App (installable, offline-capable) for low-friction adoption</li>
+                <li><strong>Features:</strong> Daily activity summary, upcoming care activities, simple messaging interface with caregivers, care plan visibility (summary level)</li>
+                <li><strong>Design:</strong> Mobile-first; families typically access from smartphones during commutes</li>
+            </ul>
+        </div>
+
+        <h3>Communication Protocols</h3>
+        <div class="tech-subsection">
+            <h4>Sensor to Platform (MQTT v5 over TLS 1.3)</h4>
+            <ul>
+                <li><strong>Protocol:</strong> MQTT v5.0 for lightweight IoT communication; TLS 1.3 for encryption in transit</li>
+                <li><strong>Authentication:</strong> Mutual TLS with certificate pinning for each facility gateway</li>
+                <li><strong>Topic Structure:</strong> <span class="code-inline">facility/{facility_id}/device/{device_id}/vitals</span> enables facility-level isolation and topic-based filtering</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Service-to-Service (gRPC + REST)</h4>
+            <ul>
+                <li><strong>Internal:</strong> gRPC with Protocol Buffers for high-performance internal service calls (Kafka consumer to ML model inference, Agent to Database)</li>
+                <li><strong>External:</strong> REST/JSON for third-party integrations (EHR APIs, family portal frontend)</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Agent-to-Agent (LangGraph Message Graph)</h4>
+            <ul>
+                <li><strong>Model:</strong> Directed acyclic graph (DAG) of agent nodes; messages flow through predefined edges with type checking</li>
+                <li><strong>Benefits:</strong> Prevents cycles, enables visualization of agent workflows, supports dynamic agent addition without orchestration changes</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>EHR Integration (HL7 FHIR R4 over HTTPS + OAuth 2.0)</h4>
+            <ul>
+                <li><strong>Standard:</strong> SMART on FHIR (Substitutable Medical Applications, Reusable Technology on FHIR)</li>
+                <li><strong>Authentication:</strong> OAuth 2.0 client credentials flow for backend-to-backend; Authorization Code flow for user-initiated queries</li>
+                <li><strong>Endpoints:</strong> RESTful FHIR endpoints for Patient, Medication, Condition, Procedure resources</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Deployment Architecture Section -->
+    <section class="section">
+        <h2>Deployment Architecture</h2>
+        <p>EVA runs on cloud infrastructure optimized for healthcare workloads, combining managed services (reduced ops burden) with containerization (portability and scaling). The deployment strategy prioritizes HIPAA compliance, high availability, and cost efficiency across the pilot's 5 facilities.</p>
+
+        <h3>Infrastructure: Azure Kubernetes Service (AKS)</h3>
+        <div class="tech-subsection">
+            <h4>Why AKS Over EKS / GKE</h4>
+            <ul>
+                <li><strong>HIPAA Compliance:</strong> Azure has explicit Business Associate Agreement (BAA) coverage; EKS/GKE require third-party partnerships</li>
+                <li><strong>Healthcare Integration:</strong> Native Azure IoT Hub integration for sensor device management and provisioning</li>
+                <li><strong>Cost:</strong> 15-20% cheaper for healthcare workloads than GKE; commitment discounts available</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Cluster Configuration</h4>
+            <ul>
+                <li><strong>Topology:</strong> 3-node cluster per facility region (primary, backup, compute); auto-scaling 3-12 nodes based on load</li>
+                <li><strong>Node Sizing:</strong> Standard_D4s_v3 (4 vCPU, 16 GB RAM) for general workloads; Standard_NC6s_v3 (6 vCPU, 56 GB RAM, T4 GPU) for ML inference</li>
+                <li><strong>Networking:</strong> Azure Virtual Network (VNet) with NSGs (Network Security Groups) limiting ingress; Azure Private Link for PaaS service access (no internet-exposed endpoints)</li>
+                <li><strong>Availability:</strong> Multi-zone deployment; 99.95% uptime SLA via Azure-managed control plane</li>
+            </ul>
+        </div>
+
+        <h3>Containerization & Orchestration</h3>
+        <div class="tech-subsection">
+            <h4>Docker Container Strategy</h4>
+            <ul>
+                <li><strong>Principle:</strong> One responsibility per container; each agent, ML model, and service runs in its own container</li>
+                <li><strong>Base Images:</strong> Python 3.11 slim for agents/ML services, Node.js Alpine for frontend build, nginx for reverse proxy</li>
+                <li><strong>Registry:</strong> Azure Container Registry (ACR) with image scanning for vulnerabilities; immutable tags for production releases</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Sidecar Pattern (Logging & Mesh)</h4>
+            <ul>
+                <li><strong>Logging Sidecar:</strong> Fluentd container in every pod sends logs to Azure Monitor; centralizes troubleshooting across the fleet</li>
+                <li><strong>Service Mesh:</strong> Istio for mTLS (mutual TLS) between pods, traffic splitting (canary deployments of new models), and observability (Jaeger tracing)</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Helm Charts for Deployment</h4>
+            <ul>
+                <li><strong>Templating:</strong> Helm charts define Kubernetes manifests for each service (Eva-streaming, eva-ml-inference, eva-agents, eva-web)</li>
+                <li><strong>Customization:</strong> Per-facility values files override defaults (facility_id, alert_email, model_versions)</li>
+                <li><strong>Release Management:</strong> Semantic versioning; helm upgrade supports zero-downtime deployments</li>
+            </ul>
+        </div>
+
+        <h3>ML Model Serving</h3>
+        <div class="tech-subsection">
+            <h4>TorchServe on GPU Nodes</h4>
+            <ul>
+                <li><strong>Framework:</strong> PyTorch model server (TorchServe) for reproducible model deployment</li>
+                <li><strong>Compute:</strong> GPU-enabled nodes (Standard_NC6s_v3 with Tesla T4 GPU) for fall risk inference; 50ms per inference supports 20 predictions/second throughput</li>
+                <li><strong>Auto-scaling:</strong> Kubernetes HPA (Horizontal Pod Autoscaler) based on inference latency; scales to 10 replicas if P95 latency > 75ms</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Model Registry & Versioning (Azure ML)</h4>
+            <ul>
+                <li><strong>Storage:</strong> Azure ML Model Registry tracks all trained model versions with metadata (training date, validation metrics, feature versions)</li>
+                <li><strong>Deployment:</strong> Automated promotion: dev environment runs latest model, staging validates against holdout test set, production deploys after 2-week validation period</li>
+                <li><strong>Rollback:</strong> All model versions retained; can revert to previous version in < 5 minutes if new model degrades performance</li>
+            </ul>
+        </div>
+
+        <h3>Data Layer Architecture</h3>
+        <div class="tech-subsection">
+            <h4>Time-Series Database: Azure Cosmos DB (Time-Series Mode)</h4>
+            <ul>
+                <li><strong>Why Cosmos over InfluxDB:</strong> Managed scaling eliminates ops overhead; built-in replication for disaster recovery; same-day setup vs. weeks for self-hosted InfluxDB</li>
+                <li><strong>Data Model:</strong> Time-series containers with partition key <span class="code-inline">/facility_id/resident_id</span>; automatic TTL deletes data > 1 year old</li>
+                <li><strong>Throughput:</strong> ~50,000 RU/s (Request Units) during peak hours, scales down to 5,000 RU/s nights; <$800/month for 5 facilities</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsession">
+            <h4>Structured Clinical Data: PostgreSQL (Azure Database)</h4>
+            <ul>
+                <li><strong>Purpose:</strong> ACID transactions for clinical records (care plans, medication lists, provider notes)</li>
+                <li><strong>Configuration:</strong> Azure Database for PostgreSQL with High Availability replica in secondary region; automatic failover < 30 seconds</li>
+                <li><strong>Security:</strong> Encryption at rest (AES-256) and in transit (TLS 1.3); audit logging captures all DDL/DML for compliance</li>
+                <li><strong>Backup:</strong> Automated daily backups retained 35 days; weekly point-in-time restore tests verify recoverability</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Vector Embeddings: Pinecone (Managed SaaS)</h4>
+            <ul>
+                <li><strong>Why Managed:</strong> At pilot scale (5 facilities, ~1K residents), Pinecone's operational overhead is lower than self-hosted Weaviate. Reevaluate pgvector when scaling to 50+ facilities (cost benefit analysis favors pgvector at scale)</li>
+                <li><strong>Index:</strong> 768-dimensional embeddings (from all-MiniLM-L6-v2) of care protocols, resident care plans, and 90-day historical notes</li>
+                <li><strong>Indexing:</strong> Hybrid BM25 + semantic search; 200ms query latency for RAG retrieval</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Agent State & Caching: Redis Enterprise</h4>
+            <ul>
+                <li><strong>Purpose:</strong> High-speed state persistence for agent workflows; cache for frequently-accessed resident profiles</li>
+                <li><strong>Configuration:</strong> Redis Enterprise (managed) with replication across 3 availability zones</li>
+                <li><strong>Data:</strong> Serialized LangGraph state (event_log, agent_results, pending_approvals) with 24-hour TTL</li>
+            </ul>
+        </div>
+
+        <h3>Message Broker Strategy</h3>
+        <div class="tech-subsection">
+            <h4>Azure Event Hubs (Kafka-Compatible API)</h4>
+            <ul>
+                <li><strong>Advantage:</strong> Eliminates Kafka cluster ops burden while maintaining Kafka producer/consumer API compatibility</li>
+                <li><strong>Configuration:</strong> Standard tier (20 partitions, 1TB/day throughput) covers 5 facilities at pilot scale</li>
+                <li><strong>Cost:</strong> ~$150/month vs. $800+/month for self-managed Kafka cluster (compute, networking, backups)</li>
+                <li><strong>Scaling:</strong> Automatic partition scaling; no cluster rebalancing operations</li>
+            </ul>
+        </div>
+
+        <h3>Edge Computing Layer</h3>
+        <div class="tech-subsection">
+            <h4>Azure IoT Edge Runtime (Facility-Local Gateway)</h4>
+            <ul>
+                <li><strong>Hardware:</strong> Intel NUC (Gen 11) per facility; runs containerized IoT Edge runtime</li>
+                <li><strong>Function:</strong> Local aggregation of sensor data (BLE, Zigbee), reducing cloud round-trips. Run local anomaly detection models (Isolation Forest) before sending to cloud, detecting behavioral changes within 10 seconds</li>
+                <li><strong>Offline Resilience:</strong> Local queueing if cloud connectivity lost; automatic sync when restored</li>
+            </ul>
+        </div>
+
+        <h3>Storage & Archival</h3>
+        <div class="tech-subsection">
+            <h4>Azure Blob Storage with Lifecycle Policies</h4>
+            <ul>
+                <li><strong>Purpose:</strong> Document archival (SOAP notes, care plans, family communications)</li>
+                <li><strong>Lifecycle:</strong> Hot tier (0-30 days, $0.0192/GB/month) → Cool tier (31-365 days, $0.01/GB/month) → Archive tier (>365 days, $0.004/GB/month)</li>
+                <li><strong>Encryption:</strong> Customer-managed keys (CMK) via Azure Key Vault; automatic rotation yearly</li>
+            </ul>
+        </div>
+
+        <h3>Network Architecture</h3>
+        <div class="tech-subsection">
+            <h4>Virtual Network (VNet) & Private Endpoints</h4>
+            <ul>
+                <li><strong>Isolation:</strong> Separate VNet per facility region (e.g., VNet-us-east, VNet-us-west) with no internet-routable paths</li>
+                <li><strong>Private Endpoints:</strong> All PaaS services (Cosmos DB, PostgreSQL, Key Vault, Container Registry) accessed via private IP; no egress to public internet</li>
+                <li><strong>Facility Connectivity:</strong> Site-to-Site VPN or ExpressRoute connects facility on-premises network to VNet; on-premises EHR systems access Cosmos DB over encrypted tunnel</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Network Security Groups (NSG)</h4>
+            <ul>
+                <li><strong>Rules:</strong> Inbound: SSH (bastion host only), HTTPS (load balancer), MQTT (TLS from IoT gateways). Outbound: Restricted to Azure PaaS FQDN endpoints, no general internet access</li>
+                <li><strong>Logging:</strong> NSG flow logs sent to Azure Monitor for security monitoring</li>
+            </ul>
+        </div>
+
+        <h3>CI/CD Pipeline</h3>
+        <div class="tech-subsection">
+            <h4>GitHub Actions → Azure Container Registry → AKS</h4>
+            <ul>
+                <li><strong>Trigger:</strong> Merge to main branch triggers multi-stage pipeline</li>
+                <li><strong>Build:</strong> Docker build, image scan (Trivy), push to ACR</li>
+                <li><strong>Test:</strong> Integration tests in staging AKS cluster; helm dry-run validates manifests</li>
+                <li><strong>Deploy:</strong> Blue-green strategy; new deployment runs alongside old; traffic switches only after health checks pass</li>
+                <li><strong>Rollback:</strong> One-command helm rollback if issues detected post-deployment</li>
+            </ul>
+        </div>
+
+        <h3>Monitoring & Observability</h3>
+        <div class="tech-subsection">
+            <h4>Azure Monitor + Prometheus + Grafana</h4>
+            <ul>
+                <li><strong>Metrics:</strong> Prometheus scrapes Kubernetes metrics (CPU, memory, network) and custom app metrics (inference latency, alert latency, queue depth)</li>
+                <li><strong>Visualization:</strong> Grafana dashboards for on-call engineers; threshold-based alerts (e.g., P99 inference latency > 100ms triggers PagerDuty)</li>
+                <li><strong>Logging:</strong> Fluentd sidecars ship logs to Azure Log Analytics; KQL queries for troubleshooting</li>
+                <li><strong>Tracing:</strong> Jaeger traces requests through service call chains; helps identify bottlenecks in agent workflows</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Model Drift Detection (Evidently AI)</h4>
+            <ul>
+                <li><strong>Monitoring:</strong> Weekly comparison of model predictions against actual outcomes (did the fall risk model correctly predict residents who fell?)</li>
+                <li><strong>Drift Metrics:</strong> AUC, precision, recall, and calibration error; alerts if any metric drops > 5% from baseline</li>
+                <li><strong>Action:</strong> Triggers retraining pipeline if drift detected; automatically deploys if new model validates on holdout set</li>
+            </ul>
+        </div>
+
+        <h3>HIPAA Compliance Architecture</h3>
+        <div class="tech-subsection">
+            <h4>Data Encryption</h4>
+            <ul>
+                <li><strong>At Rest:</strong> AES-256 encryption for Cosmos DB, PostgreSQL, Blob Storage; managed by Azure Storage Service Encryption</li>
+                <li><strong>In Transit:</strong> TLS 1.3 for all network traffic (MQTT, HTTPS, gRPC); mTLS for Kubernetes pod-to-pod communication</li>
+                <li><strong>Key Management:</strong> Azure Key Vault stores all encryption keys; automatic key rotation yearly</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Access Control & Authentication</h4>
+            <ul>
+                <li><strong>Azure AD:</strong> Multi-factor authentication (MFA) for all staff portal access; role-based access control (RBAC) for API endpoints</li>
+                <li><strong>Service Principals:</strong> Kubernetes service accounts with least-privilege IAM roles; agents can only read/write specific resources (e.g., SOAP Note Agent can only write to care_notes table)</li>
+                <li><strong>FHIR Integration:</strong> OAuth 2.0 for EHR access; staff credentials never stored locally, tokens expire after 1 hour</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>Audit Logging</h4>
+            <ul>
+                <li><strong>Events Logged:</strong> All user logins, data access (resident records), alerts generated, SOAP notes created/modified</li>
+                <li><strong>Immutability:</strong> Logs written to Blob Storage with append-only access; 7-year retention for legal compliance</li>
+                <li><strong>Monitoring:</strong> Monthly audit reports identify suspicious access patterns (e.g., staff reviewing non-assigned residents)</li>
+            </ul>
+        </div>
+
+        <div class="tech-subsection">
+            <h4>De-Identification & Privacy</h4>
+            <ul>
+                <li><strong>Family Portal:</strong> LLM-constrained outputs remove specific vitals, medication names, clinical terminology</li>
+                <li><strong>Model Training:</strong> Fall risk model trained on synthetic/aggregated data after de-identification; no identifiable information in feature vectors</li>
+                <li><strong>Data Retention:</strong> Resident records deleted 90 days after discharge; backups follow same retention policy</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Design Patterns & Trade-offs -->
+    <section class="section">
+        <h2>Design Patterns & Architectural Decisions</h2>
+        <p>The architecture relies on four core patterns, each chosen to solve a specific problem in real-time health monitoring.</p>
+
+        <div class="patterns-list">
+            <div class="pattern">
+                <h3>Event-Driven Architecture</h3>
+                <p class="pattern-why"><strong>Why:</strong> Real-time sensor data can't wait for batch processing. A resident's motion sensor spike indicating a fall needs immediate action — milliseconds matter. Event-driven decouples producers (sensors) from consumers (alerts, dashboards), enabling independent scaling.</p>
+                <p class="pattern-tradeoff"><strong>Trade-off:</strong> Higher infrastructure complexity (message broker, distributed tracing) vs. sub-second alert latency and responsiveness. Requires operational expertise in Kafka/Event Hubs monitoring.</p>
+            </div>
+
+            <div class="pattern">
+                <h3>CQRS (Command Query Responsibility Segregation)</h3>
+                <p class="pattern-why"><strong>Why:</strong> Read-heavy dashboards (family portal, staff views) need different optimization than write-heavy ingestion (sensor data flowing in constantly). Separate data models prevent lock contention and enable read replicas.</p>
+                <p class="pattern-tradeoff"><strong>Trade-off:</strong> Dual data stores and eventual consistency challenges vs. query performance and independent scaling of reads and writes. Family portal may show data 1-2 seconds stale.</p>
+            </div>
+
+            <div class="pattern">
+                <h3>Agent-Based Architecture (Multi-Agent Orchestration)</h3>
+                <p class="pattern-why"><strong>Why:</strong> Documentation (SOAP notes), alerting (severity-based routing), and family communication each need autonomous decision-making. Agents decouple responsibilities and enable parallel processing. Agents can specialize in specific tasks (clinical notes, alert routing) without cross-contamination.</p>
+                <p class="pattern-tradeoff"><strong>Trade-off:</strong> More complex orchestration and state management vs. modularity, extensibility, and the ability to swap agents without touching core logic. Requires careful monitoring to prevent agent deadlocks.</p>
+            </div>
+
+            <div class="pattern">
+                <h3>Pub/Sub for Alert Routing</h3>
+                <p class="pattern-why"><strong>Why:</strong> Different alert severities need different handlers. A critical fall alert pages the on-call nurse immediately. A warning about gait changes might be included in the daily shift summary. Pub/Sub decouples alert producers from consumers.</p>
+                <p class="pattern-tradeoff"><strong>Trade-off:</strong> Eventual consistency and harder debugging vs. flexible, scalable routing without hard-coded logic. Requires idempotency guarantees to prevent duplicate alerts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trade-offs Table -->
+    <section class="section">
+        <h2>Technical Trade-offs Made</h2>
+        <p>Every architectural decision involved careful trade-offs. Here are the key choices and their reasoning:</p>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Decision</th>
+                        <th>Option A</th>
+                        <th>Option B (Chosen)</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Vector Database</td>
+                        <td>Weaviate (self-hosted)</td>
+                        <td>Pinecone (managed)</td>
+                        <td>At 5-facility pilot scale, managed service reduces ops overhead. Will re-evaluate pgvector at 50+ facilities for cost efficiency at scale.</td>
+                    </tr>
+                    <tr>
+                        <td>Agent Framework</td>
+                        <td>AutoGen / CrewAI</td>
+                        <td>LangGraph</td>
+                        <td>LangGraph's stateful graph execution, built-in human-in-the-loop checkpoints, and production-readiness superior for healthcare workflows. AutoGen better for research, LangGraph better for production.</td>
+                    </tr>
+                    <tr>
+                        <td>LLM Provider</td>
+                        <td>GPT-4 exclusive</td>
+                        <td>Claude API (primary) + Llama 3 8B (fallback)</td>
+                        <td>Claude excels at clinical reasoning for SOAP notes. Local Llama 3 8B as fallback for availability during outages. GPT-4 slightly lower clinical accuracy on our validation set.</td>
+                    </tr>
+                    <tr>
+                        <td>ML Inference Compute</td>
+                        <td>CPU-only (Xeon)</td>
+                        <td>GPU (T4) for fall prediction, CPU for NLP</td>
+                        <td>Fall risk model requires < 50ms latency for P1 alerts; GPU reduces to 40ms. NLP tasks (BioBERT) have 200ms latency window, acceptable on CPU.</td>
+                    </tr>
+                    <tr>
+                        <td>Orchestration</td>
+                        <td>Serverless (Azure Functions)</td>
+                        <td>Kubernetes (AKS)</td>
+                        <td>Stateful agents require persistent connections and shared state graphs. Functions poor fit for agent workflows. K8s gives us containers, auto-scaling, and control plane stability.</td>
+                    </tr>
+                    <tr>
+                        <td>Streaming Platform</td>
+                        <td>Self-managed Kafka</td>
+                        <td>Azure Event Hubs (Kafka API)</td>
+                        <td>Event Hubs eliminates cluster ops (monitoring, scaling, patching). Kafka API ensures no vendor lock-in. Cost savings ~85% vs. self-managed.</td>
+                    </tr>
+                    <tr>
+                        <td>Sensor Protocol</td>
+                        <td>Bluetooth Mesh</td>
+                        <td>WiFi + MQTT + Zigbee for env sensors</td>
+                        <td>WiFi leverages facility infrastructure. MQTT v5 supports QoS semantics. Zigbee mesh for environmental sensors (no WiFi overhead). Multi-protocol reduces single-point failure.</td>
+                    </tr>
+                    <tr>
+                        <td>Data Storage Model</td>
+                        <td>Single relational DB</td>
+                        <td>Time-series (Cosmos DB) + Document (PostgreSQL) + Vector (Pinecone)</td>
+                        <td>Sensor data has temporal access patterns (query last 24 hours); time-series DB optimized for this. Clinical records need ACID; PostgreSQL better. Embeddings need semantic search; Pinecone better.</td>
+                    </tr>
+                    <tr>
+                        <td>Family Notifications</td>
+                        <td>Email / SMS only</td>
+                        <td>Push notifications (PWA) + in-app inbox</td>
+                        <td>Families check portal multiple times daily; push drives engagement. Email still supported but lower open rates. PWA lowers friction (no app store installation).</td>
+                    </tr>
+                    <tr>
+                        <td>Alert Distribution</td>
+                        <td>Fixed rules (all alerts to all nurses)</td>
+                        <td>Intelligent routing agent + on-call schedule integration</td>
+                        <td>Fixed routing causes alert fatigue. Agent classifies severity, respects schedules, escalates unacknowledged alerts. 30% reduction in alert noise on pilot.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Cost-Benefit Analysis -->
+    <section class="section">
+        <h2>Cost-Benefit Analysis</h2>
+        <p>The financial case for EVA is compelling, with ROI realized within the first year of deployment. Costs scale linearly with facility size, while benefits exceed linear growth due to network effects and staff efficiency improvements.</p>
+
+        <div class="cost-benefit">
+            <div class="cost-item">
+                <h3>Platform Cost</h3>
+                <p>~$50/resident/month</p>
+                <p style="font-size: 0.85rem; margin-top: 1rem;">Covers cloud infrastructure (compute, storage, databases), ML model training, agent orchestration, monitoring, and dedicated support. At 150-resident facility: $7,500/month or $90,000/year.</p>
+            </div>
+            <div class="savings-item">
+                <h3>Estimated Annual Savings</h3>
+                <p>$150K—$400K per facility</p>
+                <p style="font-size: 0.85rem; margin-top: 1rem;">Driven by 30% reduction in fall incidents (each prevented fall saves $15K-$30K in treatment/litigation), 45% faster documentation (frees 10-15 caregiver hours/week), lower liability from proactive risk management, and reduced staff turnover.</p>
+            </div>
+        </div>
+
+        <div class="roi">
+            <h3>Return on Investment</h3>
+            <p>3–5x in Year One</p>
+        </div>
+
+        <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--text-secondary);">
+            <strong>For a 150-bed facility with 150 residents:</strong>
+        </p>
+        <ul style="margin-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary); font-size: 0.95rem;">
+            <li><strong>Year 1 Platform Cost:</strong> ~$90,000 (setup + monthly recurring)</li>
+            <li><strong>Year 1 Savings (conservative):</strong> $225K (prevented falls) + $120K (documentation time) = $345K</li>
+            <li><strong>Year 1 Net Benefit:</strong> $255K (2.8x ROI)</strong></li>
+            <li><strong>Year 2+:</strong> $300K-$500K annual net benefit (no setup costs, familiarity improves adoption)</li>
+        </ul>
+
+        <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--text-secondary);">
+            <strong>Break-even timeline:</strong> 4-5 months. Typical pilot facilities see positive ROI by month 6, covering year 1 investment by year 1 end.
+        </p>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="section">
+        <h2>Value Proposition</h2>
+        <p>EVA creates measurable value across the entire senior living ecosystem:</p>
+
+        <div class="value-prop">
+            <div class="value-item">
+                <h3>For Facility Operators</h3>
+                <p>Reduce falls by 30%+, cut documentation time by 45%, improve family satisfaction scores by leveraging transparent data sharing, and lower liability exposure through predictive risk management and audit-logged decision trails.</p>
+            </div>
+            <div class="value-item">
+                <h3>For Caregivers</h3>
+                <p>Less paperwork (automated SOAP notes), smarter alerts that prioritize actual emergencies (severity-based routing), and proactive workflows that help them prevent incidents rather than respond to them. Staff autonomy increases when freed from paperwork.</p>
+            </div>
+            <div class="value-item">
+                <h3>For Families</h3>
+                <p>Real-time transparency into their loved one's daily care via plain-language summaries, early warnings of health changes (anomaly alerts), and peace of mind from knowing professional eyes and AI systems are always watching. De-identified family portal respects privacy while building trust.</p>
+            </div>
+            <div class="value-item">
+                <h3>For Residents</h3>
+                <p>Predictive fall prevention lets residents maintain independence and stay active, knowing the system will catch and prevent incidents. Less reactive, more preventive care improves quality of life.</p>
+            </div>
+            <div class="value-item">
+                <h3>For the Market</h3>
+                <p>The first production agentic AI platform purpose-built for senior living — combining predictive health monitoring, automated clinical documentation (SOAP), intelligent alert routing, and family engagement in a single integrated system. Agentic AI enables autonomous workflows at the speed of human expertise.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Projects -->
+    <section class="section">
+        <a href="index.html#projects" class="back-link">Back to Projects</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Nikhil Patel. All rights reserved.</p>
+        <p>
+            <a href="contact.html">Get in touch</a> |
+            <a href="about.html">Learn more</a>
+        </p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
