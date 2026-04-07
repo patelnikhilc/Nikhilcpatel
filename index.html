@@ -314,6 +314,20 @@
             margin: 0;
         }
 
+        /* The Lab Section */
+        .lab-section {
+            border-top: 1px solid rgba(245, 200, 120, 0.1);
+        }
+
+        .lab-grid {
+            max-width: 600px;
+        }
+
+        .lab-card:hover {
+            border-color: #F5C878 !important;
+            box-shadow: 0 20px 50px rgba(245, 200, 120, 0.15) !important;
+        }
+
         /* Projects Section */
         .projects-section {
             padding: 6rem 3rem;
@@ -713,6 +727,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#competencies">Expertise</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#the-lab">The Lab</a></li>
             <li><a href="contact.html">Contact</a></li>
             <li><a href="Nikhil_Resume.pdf" class="nav-cta">Resume</a></li>
         </ul>
@@ -915,6 +930,47 @@
         </div>
     </section>
 
+    <!-- The Lab Section -->
+    <section class="projects-section lab-section" id="the-lab">
+        <div class="section-label" style="color: #F5C878;">THE LAB</div>
+        <h2 class="section-heading">AI Product Case Studies</h2>
+        <p class="projects-subtitle">Hands-on explorations in data science, machine learning, and product analytics. Each case study takes a real-world dataset, applies rigorous analysis, and delivers actionable strategy.</p>
+
+        <div class="projects-grid lab-grid">
+            <!-- FoodHub Project -->
+            <a href="project-foodhub.html" class="project-card lab-card">
+                <div class="project-header" style="background: linear-gradient(135deg, rgba(245, 200, 120, 0.08) 0%, transparent 100%); border-bottom-color: rgba(245, 200, 120, 0.15);">
+                    <div class="project-company" style="color: #F5C878;">AI PRODUCT CASE STUDY &middot; MARKET ANALYTICS</div>
+                    <div class="project-title">FoodHub: NYC Delivery Revenue Playbook</div>
+                </div>
+                <div class="project-body">
+                    <p class="project-story" style="color: #F5C878;">A food delivery platform was leaving money on the table. What do 1,898 orders reveal about demand, delivery bottlenecks, and untapped growth?</p>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <div class="metric-value">1,898</div>
+                            <div class="metric-label">orders analyzed</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">71.2%</div>
+                            <div class="metric-label">weekend demand</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">6</div>
+                            <div class="metric-label">recommendations</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                        <span style="font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 12px; border: 1px solid rgba(245, 200, 120, 0.3); color: #F5C878;">Python</span>
+                        <span style="font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 12px; border: 1px solid rgba(245, 200, 120, 0.3); color: #F5C878;">Pandas</span>
+                        <span style="font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 12px; border: 1px solid rgba(245, 200, 120, 0.3); color: #F5C878;">EDA</span>
+                        <span style="font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 12px; border: 1px solid rgba(245, 200, 120, 0.3); color: #F5C878;">Revenue Modeling</span>
+                    </div>
+                    <span class="project-cta" style="color: #F5C878;">Read the case study →</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
     <!-- CTA Banner -->
     <section class="cta-banner">
         <h2>Looking for an AI Platform PM who ships?</h2>
@@ -932,6 +988,7 @@
             <div class="footer-links">
                 <a href="#competencies">Expertise</a>
                 <a href="#projects">Projects</a>
+                <a href="#the-lab">The Lab</a>
                 <a href="contact.html">Contact</a>
                 <a href="Nikhil_Resume.pdf">Resume</a>
             </div>

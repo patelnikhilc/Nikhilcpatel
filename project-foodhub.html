@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodHub: Turning 1,898 Orders Into a Revenue Growth Playbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a1128;
+            --bg-secondary: #0d1635;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent: #00d9ff;
+            --accent-dark: #0099cc;
+            --gold: #F5C878;
+            --teal: #4CC9A4;
+            --border: #2a2a2a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            background-color: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .nav-cta {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+
+        .nav-cta:hover { background-color: var(--accent-dark); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            border-radius: 2px;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header-eyebrow {
+            font-size: 0.85rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .page-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.2rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .page-header-desc {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .tag-row {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+            letter-spacing: 0.5px;
+        }
+
+        .tag.highlight {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 3rem 2rem;
+        }
+
+        .metric-card { text-align: center; }
+
+        .metric-value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .content-section h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .content-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Insight Cards */
+        .card {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            background-color: rgba(0, 217, 255, 0.03);
+        }
+
+        .card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+
+        .card .stat {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+            margin: 2rem 0;
+        }
+
+        .two-col p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Recommendation Cards */
+        .rec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .rec-card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .rec-card:hover {
+            border-color: var(--teal);
+        }
+
+        .rec-number {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--teal);
+            opacity: 0.5;
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-card h4 {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.25s;
+        }
+
+        .tech-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Impact Numbers */
+        .impact-numbers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .impact-box {
+            background-color: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .impact-box .label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .impact-box .value {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            color: var(--gold);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-box .desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Visualization Placeholder */
+        .viz-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .viz-card .viz-title {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .viz-bar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .viz-bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .viz-bar-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .viz-bar-track {
+            flex: 1;
+            height: 20px;
+            background: var(--bg-primary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .viz-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .viz-bar-val {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 40px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.6rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover { background-color: var(--accent-dark); }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .btn-secondary:hover { background-color: rgba(0, 217, 255, 0.1); }
+
+        .cta-banner {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin: 3rem 2rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cta-banner h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .cta-banner .buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-name {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        .footer-copy {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 { font-size: 2rem; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; margin: 2rem 0; }
+            .two-col { grid-template-columns: 1fr; }
+            .rec-grid { grid-template-columns: 1fr; }
+            .impact-numbers { grid-template-columns: 1fr; }
+            .viz-grid { grid-template-columns: 1fr; }
+            .cta-banner .buttons { flex-direction: column; }
+            .cta-banner .buttons .btn { width: 100%; text-align: center; }
+            .hamburger { display: flex; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="nav-brand">Nikhil Patel</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf" class="nav-cta">Download Resume</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="page-header-eyebrow">AI-ML Exploration &middot; Market Analytics</div>
+        <h1>Turning 1,898 Orders Into a Revenue Growth Playbook</h1>
+        <p class="page-header-desc">A NYC food delivery platform was leaving money on the table. Weekend demand was 2.5x weekday volume, weekday deliveries were 26% slower, and 39% of customers never left a rating. I dug into the data and built a strategic playbook with 6 actionable recommendations.</p>
+        <div class="tag-row">
+            <span class="tag highlight">Python</span>
+            <span class="tag highlight">Pandas</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Matplotlib</span>
+            <span class="tag">Seaborn</span>
+            <span class="tag">Jupyter</span>
+        </div>
+    </header>
+
+    <!-- Metrics Grid -->
+    <section class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-value">1,898</div>
+            <div class="metric-label">Orders Analyzed</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">$6.2K</div>
+            <div class="metric-label">Net Commission Revenue</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">71.2%</div>
+            <div class="metric-label">Weekend Order Share</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">4.34&#9733;</div>
+            <div class="metric-label">Avg Customer Rating</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">38.8%</div>
+            <div class="metric-label">Unrated Orders</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-value">29.2%</div>
+            <div class="metric-label">High-Value Orders (>$20)</div>
+        </div>
+    </section>
+
+    <!-- The Question -->
+    <section class="content-section">
+        <h2>The Question</h2>
+        <p>FoodHub is a food aggregator connecting NYC customers with hundreds of restaurants through a single app. Revenue comes from a tiered commission model: 25% on orders above $20, 15% on orders above $5. The business was growing but leadership needed data-driven answers to critical questions: Where is demand concentrated? Why are deliveries slower on certain days? Which cuisines drive revenue vs. ratings? And where are the untapped growth pockets?</p>
+        <p>I set out to answer 17 specific business questions using exploratory data analysis, then translate the findings into a strategic playbook that leadership could act on immediately.</p>
+    </section>
+
+    <!-- Key Findings -->
+    <section class="content-section">
+        <h2>What the Data Revealed</h2>
+
+        <div class="card">
+            <div class="stat">55.6%</div>
+            <h3>Two Cuisines Dominate Revenue</h3>
+            <p>American and Japanese cuisines account for more than half of all orders and $3,439 in combined commission. Shake Shack alone drives 11.5% of total volume (219 orders). But dominance creates fragility — the platform's revenue is concentrated in two cuisine categories.</p>
+        </div>
+
+        <div class="card">
+            <div class="stat">2.5x</div>
+            <h3>Weekend Demand Dwarfs Weekday</h3>
+            <p>71.2% of all orders happen on Saturday and Sunday. Weekday volume is anemic by comparison. This isn't just a demand pattern — it's an operations problem. Weekend surge means driver shortages, longer prep queues, and capacity planning headaches. But it also means weekday is an untapped growth channel.</p>
+        </div>
+
+        <div class="card">
+            <div class="stat">26% Slower</div>
+            <h3>Weekday Deliveries Are Broken</h3>
+            <p>Average weekday delivery takes 28.3 minutes vs. 22.5 minutes on weekends — a 26% gap. Counter-intuitive: you'd expect weekends to be slower due to higher volume. The data suggests weekday driver allocation is insufficient. Fewer orders doesn't mean faster — it means fewer drivers on the road.</p>
+        </div>
+
+        <div class="card">
+            <div class="stat">4.5-4.8&#9733;</div>
+            <h3>Hidden Gems in the Long Tail</h3>
+            <p>Spanish, Thai, and Indian cuisines have the highest average ratings (4.5-4.8 stars) despite low order volume. These aren't underperforming cuisines — they're under-promoted cuisines. Customers who find them love them. The opportunity: targeted marketing to shift volume toward high-satisfaction categories.</p>
+        </div>
+    </section>
+
+    <!-- Revenue Analysis -->
+    <section class="content-section">
+        <h2>Revenue Deep Dive</h2>
+
+        <div class="two-col">
+            <div>
+                <p>The commission model creates a clear revenue lever: orders above $20 generate 25% commission vs. 15% for smaller orders. Only 29.2% of orders cross the $20 threshold — but they contribute 60% of total commission revenue.</p>
+                <p>The math is straightforward. Moving just 5% of orders from the $15-20 range above $20 (through bundling, upsells, or minimum-order promotions) would increase commission revenue by an estimated 12-15% with zero new customer acquisition.</p>
+                <p>Meanwhile, the top 3 customers (by order frequency) represent disproportionate lifetime value. A 20% loyalty discount for these power users would cost pennies compared to the retention value.</p>
+            </div>
+            <div>
+                <div class="impact-numbers">
+                    <div class="impact-box">
+                        <div class="label">Total Commission</div>
+                        <div class="value">$6,166</div>
+                        <div class="desc">Across 1,898 orders</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">High-Tier Share</div>
+                        <div class="value">60%</div>
+                        <div class="desc">From 29.2% of orders</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">Avg Order Value</div>
+                        <div class="value">$16.50</div>
+                        <div class="desc">Median: $14.14</div>
+                    </div>
+                    <div class="impact-box">
+                        <div class="label">Fulfillment Time</div>
+                        <div class="value">51.5 min</div>
+                        <div class="desc">Prep + delivery avg</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visualizations Summary -->
+    <section class="content-section">
+        <h2>Analysis Approach</h2>
+        <p>The analysis followed a structured EDA methodology: data inspection and cleaning, univariate distributions, multivariate cross-analysis, and then business question-driven deep dives. Every finding was backed by statistical evidence and visualized for executive consumption.</p>
+
+        <div class="viz-grid">
+            <div class="viz-card">
+                <div class="viz-title">Orders by Cuisine</div>
+                <div class="viz-bar-group">
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">American</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:100%; background: var(--accent);"></div></div>
+                        <span class="viz-bar-val">584</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Japanese</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:73%; background: var(--accent);"></div></div>
+                        <span class="viz-bar-val">472</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Italian</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:40%; background: var(--teal);"></div></div>
+                        <span class="viz-bar-val">311</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Chinese</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:30%; background: var(--teal);"></div></div>
+                        <span class="viz-bar-val">241</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Mexican</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:26%; background: var(--gold);"></div></div>
+                        <span class="viz-bar-val">176</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="viz-card">
+                <div class="viz-title">Delivery Speed</div>
+                <div class="viz-bar-group">
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Weekday</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:100%; background: #e74c3c;"></div></div>
+                        <span class="viz-bar-val">28.3m</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Weekend</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:79%; background: var(--teal);"></div></div>
+                        <span class="viz-bar-val">22.5m</span>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <div class="viz-title" style="margin-bottom: 0.75rem;">Demand Split</div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Weekend</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:71.2%; background: var(--gold);"></div></div>
+                        <span class="viz-bar-val">71.2%</span>
+                    </div>
+                    <div class="viz-bar-row">
+                        <span class="viz-bar-label">Weekday</span>
+                        <div class="viz-bar-track"><div class="viz-bar-fill" style="width:28.8%; background: var(--border);"></div></div>
+                        <span class="viz-bar-val">28.8%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <span class="tech-badge">Python 3</span>
+            <span class="tech-badge">Pandas</span>
+            <span class="tech-badge">NumPy</span>
+            <span class="tech-badge">Matplotlib</span>
+            <span class="tech-badge">Seaborn</span>
+            <span class="tech-badge">Jupyter Notebook</span>
+            <span class="tech-badge">Statistical EDA</span>
+            <span class="tech-badge">Revenue Modeling</span>
+        </div>
+    </section>
+
+    <!-- Strategic Recommendations -->
+    <section class="content-section">
+        <h2>The Playbook: 6 Strategic Recommendations</h2>
+        <p>Each recommendation is tied directly to a data finding. No gut feelings, no hand-waving — every action item traces back to the numbers.</p>
+
+        <div class="rec-grid">
+            <div class="rec-card">
+                <div class="rec-number">01</div>
+                <h4>Scale Weekend Operations</h4>
+                <p>Increase delivery capacity on Saturday and Sunday to capture unmet demand. 71.2% of orders concentrated in 2 days means driver allocation must match.</p>
+            </div>
+            <div class="rec-card">
+                <div class="rec-number">02</div>
+                <h4>Fix Weekday Delivery Speed</h4>
+                <p>Audit driver routing, add weekday incentives, coordinate restaurant pickup windows. 26% slower delivery on lower-volume days signals a resource allocation gap.</p>
+            </div>
+            <div class="rec-card">
+                <div class="rec-number">03</div>
+                <h4>Close the Ratings Gap</h4>
+                <p>38.8% of orders go unrated — a blind spot for quality monitoring. Implement post-delivery push notifications with loyalty point incentives for rating completion.</p>
+            </div>
+            <div class="rec-card">
+                <div class="rec-number">04</div>
+                <h4>Grow High-Satisfaction Cuisines</h4>
+                <p>Spanish, Thai, and Indian restaurants score 4.5-4.8 stars but have low volume. Targeted in-app campaigns could shift 5-10% of orders toward these categories.</p>
+            </div>
+            <div class="rec-card">
+                <div class="rec-number">05</div>
+                <h4>Accelerate High-Value Orders</h4>
+                <p>Promote premium bundles and minimum-order incentives to push more orders above the $20 threshold. Moving 5% of mid-range orders up yields 12-15% revenue lift.</p>
+            </div>
+            <div class="rec-card">
+                <div class="rec-number">06</div>
+                <h4>Activate Loyalty Programs</h4>
+                <p>Top 3 customers by frequency represent outsized LTV. 20% vouchers for power users plus featured restaurant placements for high-rated partners creates a flywheel.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lessons Learned -->
+    <section class="content-section">
+        <h2>Lessons Learned</h2>
+
+        <p><strong>On data storytelling:</strong> The most important analysis isn't the most complex. The weekend-vs-weekday delivery speed finding is a simple group-by comparison, but it unlocks a multi-million dollar operational insight. Complexity for its own sake is noise.</p>
+
+        <p><strong>On revenue modeling:</strong> Understanding the commission tier structure before running EDA changed every question I asked. The 25%/$20 threshold made "average order value" the single most actionable metric in the dataset. Always understand the business model before touching the data.</p>
+
+        <p><strong>On the ratings gap:</strong> 38.8% unrated orders isn't a data quality issue — it's a product design issue. The delivery app's rating flow is optional and buried. A nudge at the right moment (post-delivery, while the food is being eaten) would close this gap. The data pointed to a UX problem, not a data problem.</p>
+
+        <p><strong>On communicating to leadership:</strong> I built an executive presentation alongside the notebook because the audience for analysis isn't other analysts — it's decision-makers with 5 minutes. Six numbered recommendations, each tied to a specific data point, is the format that gets budgets approved.</p>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <h3>Explore the full analysis</h3>
+        <div class="buttons">
+            <a href="https://github.com/patelnikhilc/The-Lab/tree/main/foodhub-order-analysis" class="btn btn-primary" target="_blank">View on GitHub &rarr;</a>
+            <a href="index.html#projects" class="btn btn-secondary">Back to All Projects &rarr;</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-name">Nikhil Patel</div>
+        <ul class="footer-links">
+            <li><a href="index.html#projects">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="Nikhil_Resume.pdf">Resume</a></li>
+        </ul>
+        <p class="footer-copy">&copy; 2026 Nikhil Patel. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('hamburger').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
