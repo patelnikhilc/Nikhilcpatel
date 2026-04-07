@@ -406,7 +406,7 @@
         <p class="page-header-desc">Analysts spend 2-4 hours per earnings call manually extracting metrics, reading tone, and writing briefs. I built a multi-agent AI system that does it in under a minute — and catches signals humans miss.</p>
         <div class="tag-row">
             <span class="tag gold">LangGraph</span>
-            <span class="tag gold">Claude API</span>
+            <span class="tag gold">OpenAI GPT-4o</span>
             <span class="tag highlight">Python</span>
             <span class="tag">pdfplumber</span>
             <span class="tag">matplotlib</span>
@@ -541,14 +541,14 @@
         <div class="two-col">
             <div>
                 <p><strong>Orchestration:</strong> LangGraph state machine — typed state flows through a directed acyclic graph of agent nodes. Each node enriches the shared state before passing to the next.</p>
-                <p><strong>LLM:</strong> Claude API (Sonnet) — chosen for structured JSON extraction accuracy, low hallucination rate on financial data, and strong reasoning on sentiment nuance.</p>
+                <p><strong>LLM:</strong> OpenAI GPT-4o — chosen for structured JSON extraction accuracy, low hallucination rate on financial data, and strong reasoning on sentiment nuance.</p>
                 <p><strong>Ingestion:</strong> pdfplumber for PDF transcript parsing with automatic section detection (prepared remarks vs. Q&A) using regex pattern matching.</p>
             </div>
             <div>
                 <div class="tech-stack">
                     <span class="tech-badge">Python 3</span>
                     <span class="tech-badge">LangGraph</span>
-                    <span class="tech-badge">Claude API</span>
+                    <span class="tech-badge">OpenAI GPT-4o</span>
                     <span class="tech-badge">LangChain Core</span>
                     <span class="tech-badge">pdfplumber</span>
                     <span class="tech-badge">pandas</span>
@@ -575,10 +575,10 @@
     </section>
 
     <section class="cta-banner">
-        <h3>Explore the full codebase</h3>
+        <h3>Try it live or explore the code</h3>
         <div class="buttons">
-            <a href="https://github.com/patelnikhilc/The-Lab/tree/main/earnings-call-analyzer" class="btn btn-primary" target="_blank">View on GitHub &rarr;</a>
-            <a href="index.html#the-lab" class="btn btn-secondary">Back to The Lab &rarr;</a>
+            <a href="https://earnings-analyzer.streamlit.app" class="btn btn-primary" target="_blank">Try Live Demo &rarr;</a>
+            <a href="https://github.com/patelnikhilc/The-Lab/tree/main/earnings-call-analyzer" class="btn btn-secondary" target="_blank">View on GitHub &rarr;</a>
         </div>
     </section>
 
